@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kubernetes Deep-Dive — DevOps Mastery Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .ans-hero{background:linear-gradient(135deg,#6c63ff18,#a855f718);border-left:4px solid #6c63ff;border-radius:0 10px 10px 0;padding:.7rem 1.1rem;font-weight:700;font-size:1rem;color:#2d2b5e;margin-bottom:1rem;}
+    .ans-list{list-style:none;padding:0;margin:.5rem 0 1rem;}
+    .ans-list li{display:flex;align-items:flex-start;gap:.5rem;padding:.38rem .65rem;margin-bottom:.28rem;border-radius:8px;font-size:.93rem;background:#f7f8fc;border-left:3px solid #6c63ff;}
+    .ans-list.green li{border-left-color:#059669;background:#f0fdf4;}
+    .ans-list.amber li{border-left-color:#d97706;background:#fffbeb;}
+    .ans-list.red li{border-left-color:#dc2626;background:#fff5f5;}
+    .ans-list.blue li{border-left-color:#2563eb;background:#eff6ff;}
+    .ans-list.purple li{border-left-color:#7c3aed;background:#f5f3ff;}
+    .ans-label{display:inline-flex;align-items:center;gap:.3rem;font-size:.76rem;font-weight:800;text-transform:uppercase;padding:.18rem .6rem;border-radius:20px;margin-bottom:.4rem;}
+    .ans-label.def{background:#eef2ff;color:#4f46e5;}
+    .ans-label.key{background:#f0fdf4;color:#059669;}
+    .ans-label.ex{background:#fffbeb;color:#d97706;}
+    .ans-label.tip{background:#fff5f5;color:#dc2626;}
+    .hl{font-weight:700;padding:.05rem .38rem;border-radius:5px;font-size:.88em;}
+    .hl.green{background:#d1fae5;color:#065f46;}
+    .hl.blue{background:#dbeafe;color:#1e40af;}
+    .hl.purple{background:#ede9fe;color:#5b21b6;}
+    .hl.amber{background:#fef3c7;color:#92400e;}
+    .hl.red{background:#fee2e2;color:#991b1b;}
+    .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin:.6rem 0 1rem;}
+    .compare-card{border-radius:10px;padding:.75rem 1rem;}
+    .compare-card.green{background:#f0fdf4;border:1.5px solid #6ee7b7;}
+    .compare-card.blue{background:#eff6ff;border:1.5px solid #93c5fd;}
+    .compare-card.amber{background:#fffbeb;border:1.5px solid #fcd34d;}
+    .compare-card.red{background:#fff5f5;border:1.5px solid #fca5a5;}
+    .kv-table{width:100%;border-collapse:collapse;margin:.6rem 0 1rem;}
+    .kv-table th{background:#6c63ff;color:#fff;padding:.4rem .7rem;font-weight:700;}
+    .kv-table td{padding:.4rem .7rem;border-bottom:1px solid #e2e5f0;}
+    .icon-row{display:flex;flex-wrap:wrap;gap:.7rem;margin:.6rem 0 1rem;}
+    .icon-chip{display:flex;align-items:center;gap:.4rem;background:#f7f8fc;border:1px solid #e2e5f0;border-radius:10px;padding:.35rem .75rem;font-size:.88rem;font-weight:600;}
+    .icon-chip.blue{background:#eff6ff;border-color:#93c5fd;color:#1e40af;}
+    .icon-chip.green{background:#f0fdf4;border-color:#6ee7b7;color:#065f46;}
+    .icon-chip.amber{background:#fffbeb;border-color:#fcd34d;color:#92400e;}
+    .icon-chip.purple{background:#f5f3ff;border-color:#c4b5fd;color:#5b21b6;}
+    @media(max-width:600px){.compare-grid{grid-template-columns:1fr;}}
+
+    /* Step list for numbered flows */
+    .step-list{list-style:none;padding:0;margin:.5rem 0 1rem;counter-reset:step-counter;}
+    .step-list li{display:flex;align-items:flex-start;gap:.75rem;padding:.5rem .75rem;margin-bottom:.4rem;border-radius:8px;font-size:.93rem;background:#eff6ff;border-left:3px solid #2563eb;counter-increment:step-counter;}
+    .step-list li::before{content:counter(step-counter);display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#6c63ff,#a855f7);color:#fff;font-size:.75rem;font-weight:800;flex-shrink:0;}
+
+    .compare-card h6{font-weight:800;font-size:.88rem;margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.03em;}
+    .compare-card.green h6{color:#065f46;}
+    .compare-card.red h6{color:#991b1b;}
+    .compare-card.amber h6{color:#92400e;}
+    .compare-card.blue h6{color:#1e40af;}
+    .compare-card ul{font-size:.86rem;padding-left:1.1rem;margin-bottom:0;}
+    .compare-card.green ul{color:#065f46;}
+    .compare-card.red ul{color:#991b1b;}
+    .compare-card.amber ul{color:#92400e;}
+    .compare-card.blue ul{color:#1e40af;}
+
+    .kv-table th{font-size:.82rem;text-align:left;}
+    .kv-table td{font-size:.88rem;vertical-align:top;}
+    .kv-table tbody tr:nth-child(even){background:#f7f8fc;}
+    .kv-table tbody tr:hover{background:#eef2ff;}
+    .kv-table code{background:#eef2ff;color:#4f46e5;padding:.1em .3em;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:.82em;}
+
+    /* Note callout */
+    .note-callout{background:#fffbeb;border-left:4px solid #d97706;border-radius:0 8px 8px 0;padding:.6rem 1rem;font-size:.9rem;color:#92400e;margin:.5rem 0 1rem;}
+    .note-callout strong{color:#78350f;}
+  </style>
+</head>
+<body>
+
+<!-- ── NAVBAR ──────────────────────────────────────────────── -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container-main d-flex w-100 align-items-center justify-content-between">
+    <a class="navbar-brand" href="devops-index.html">
+      <span class="brand-badge">DevOps</span> DevOps Mastery Hub
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navMenu" aria-controls="navMenu"
+            aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse flex-grow-0" id="navMenu">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="devops-index.html"><i class="bi bi-house-door me-1"></i>Overview</a></li>
+        <li class="nav-item"><a class="nav-link" href="docker.html"><i class="bi bi-box-seam me-1"></i>Docker</a></li>
+        <li class="nav-item"><a class="nav-link active" href="kubernetes.html"><i class="bi bi-diagram-3 me-1"></i>Kubernetes</a></li>
+        <li class="nav-item"><a class="nav-link" href="jenkins.html"><i class="bi bi-gear me-1"></i>Jenkins</a></li>
+        <li class="nav-item"><a class="nav-link" href="aws.html"><i class="bi bi-cloud me-1"></i>AWS</a></li>
+        <li class="nav-item"><a class="nav-link" href="devops-questions.html"><i class="bi bi-chat-left-text me-1"></i>Q&amp;A</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ─────────────────────────────────────────────────── -->
+<header class="hero">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <h1><i class="bi bi-diagram-3 me-2"></i>Kubernetes Deep Dive</h1>
+  <p class="lead">Orchestrate containers at scale — self-healing deployments, auto-scaling, zero-downtime updates explained from first principles</p>
+  <div class="d-flex gap-3 justify-content-center flex-wrap position-relative" style="z-index:2;">
+    <a href="#why-kubernetes" class="btn btn-light btn-lg fw-bold px-4"><i class="bi bi-play-fill me-1"></i>Start Learning</a>
+    <a href="devops-index.html" class="btn btn-outline-light btn-lg fw-bold px-4"><i class="bi bi-arrow-left me-1"></i>Back to Overview</a>
+  </div>
+</header>
+
+<!-- ── STATS BAR ─────────────────────────────────────────────── -->
+<div class="stats-bar">
+  <div class="stat-card">
+    <div class="stat-num">10+</div>
+    <div class="stat-label">Core Objects</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num">25+</div>
+    <div class="stat-label">kubectl Commands</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num">Auto-Scaling</div>
+    <div class="stat-label">HPA Built-In</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num">Zero-Downtime</div>
+    <div class="stat-label">Rolling Deploys</div>
+  </div>
+</div>
+
+<!-- ── MAIN CONTENT ───────────────────────────────────────────── -->
+<div class="container-main">
+
+  <!-- TOC PILLS -->
+  <div class="toc-pills">
+    <a href="#why-kubernetes"><i class="bi bi-question-circle me-1"></i>Why Kubernetes?</a>
+    <a href="#architecture"><i class="bi bi-diagram-3 me-1"></i>Architecture</a>
+    <a href="#core-objects"><i class="bi bi-layers me-1"></i>Core Objects</a>
+    <a href="#kubectl"><i class="bi bi-terminal me-1"></i>kubectl Commands</a>
+    <a href="#autoscaling"><i class="bi bi-arrows-expand me-1"></i>Auto-Scaling</a>
+    <a href="#storage"><i class="bi bi-database me-1"></i>Storage</a>
+    <a href="#full-deploy"><i class="bi bi-rocket me-1"></i>Full Deploy</a>
+    <a href="#debugging"><i class="bi bi-bug me-1"></i>Debugging</a>
+    <a href="#rbac"><i class="bi bi-shield-lock me-1"></i>RBAC</a>
+    <a href="#helm"><i class="bi bi-box me-1"></i>Helm</a>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 1: Why Kubernetes? -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="content-section" id="why-kubernetes">
+    <h2 class="section-heading">1. What is Kubernetes? Why Do We Need It?</h2>
+    <div class="section-divider"></div>
+    <p class="section-sub">Understanding the production-scale container orchestration problem that Kubernetes was built to solve.</p>
+
+    <h3 class="sub-heading">The Problem With Just Docker</h3>
+    <div class="card-light">
+      <div class="ans-hero">
+        <i class="bi bi-exclamation-triangle me-2"></i>Docker runs ONE container. But in production you have 100+ containers across 10 servers — who restarts a crashed container? Who load balances? Who scales up at 9am traffic spike? That's Kubernetes.
+      </div>
+      <div class="compare-grid">
+        <div class="compare-card red">
+          <h6><i class="bi bi-x-circle me-1"></i>Just Docker in Prod</h6>
+          <ul>
+            <li>Container crashes → stays dead until someone manually restarts</li>
+            <li>Traffic spike → manually add containers on each server</li>
+            <li>Server dies → manually move containers</li>
+            <li>Deploy update → manually stop + start each container</li>
+            <li>No load balancing across multiple containers</li>
+            <li>You become the babysitter</li>
+          </ul>
+        </div>
+        <div class="compare-card green">
+          <h6><i class="bi bi-check-circle me-1"></i>Kubernetes</h6>
+          <ul>
+            <li>Container crashes → K8s restarts it automatically (self-healing)</li>
+            <li>Traffic spike → HPA scales pods up automatically</li>
+            <li>Node fails → pods reschedule to healthy nodes</li>
+            <li>Deploy → rolling update, zero downtime</li>
+            <li>Built-in load balancing via Services</li>
+            <li>You just declare desired state</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="sub-heading">What Kubernetes Does</h3>
+    <div class="card-light">
+      <table class="kv-table">
+        <thead><tr><th>Problem</th><th>K8s Solution</th></tr></thead>
+        <tbody>
+          <tr><td>Container crashed</td><td>Auto-restarts via liveness probes</td></tr>
+          <tr><td>Too much traffic</td><td>HorizontalPodAutoscaler adds replicas</td></tr>
+          <tr><td>Server died</td><td>Reschedules pods to healthy nodes</td></tr>
+          <tr><td>New version to deploy</td><td>Rolling update with zero downtime</td></tr>
+          <tr><td>Need to find service IP</td><td>DNS-based service discovery</td></tr>
+          <tr><td>Store config/secrets</td><td>ConfigMaps + Secrets</td></tr>
+          <tr><td>Persist data</td><td>PersistentVolumes</td></tr>
+          <tr><td>Route external traffic</td><td>Ingress controller</td></tr>
+        </tbody>
+      </table>
+      <div class="icon-row">
+        <span class="icon-chip green"><i class="bi bi-arrow-repeat"></i> Self-Healing</span>
+        <span class="icon-chip blue"><i class="bi bi-arrows-expand"></i> Auto-Scaling</span>
+        <span class="icon-chip purple"><i class="bi bi-shield-check"></i> Desired State</span>
+        <span class="icon-chip amber"><i class="bi bi-hdd-network"></i> Service Discovery</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 2: Architecture -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="content-section" id="architecture">
+    <h2 class="section-heading">2. Kubernetes Architecture</h2>
+    <div class="section-divider"></div>
+    <p class="section-sub">The Control Plane manages the cluster; Worker Nodes run your workloads. Together they form a Kubernetes cluster.</p>
+
+    <h3 class="sub-heading">Control Plane Components</h3>
+    <div class="card-grid">
+      <div class="type-card">
+        <h5><i class="bi bi-server me-1" style="color:#6c63ff;"></i> API Server</h5>
+        <p>The front door to Kubernetes. Every <code>kubectl</code> command, every CI/CD pipeline interaction, every internal component communication goes through the API Server. It validates requests and persists state to etcd.</p>
+        <div class="type-meta"><strong>Role:</strong> REST API gateway for all cluster operations<br><strong>Process:</strong> <code>kube-apiserver</code></div>
+      </div>
+      <div class="type-card">
+        <h5><i class="bi bi-database me-1" style="color:#a855f7;"></i> etcd</h5>
+        <p>A distributed, highly-available key-value store that holds ALL cluster state — every pod, service, configmap, secret, node. It is the brain of Kubernetes. If etcd is lost, the cluster is lost. Must be backed up regularly.</p>
+        <div class="type-meta"><strong>Role:</strong> Single source of truth for cluster state<br><strong>Critical:</strong> Back this up! It is the cluster.</div>
+      </div>
+      <div class="type-card">
+        <h5><i class="bi bi-calendar3-event me-1" style="color:#059669;"></i> Scheduler</h5>
+        <p>Watches for newly created pods with no assigned node. Decides which node a pod should run on based on resource availability, affinity/anti-affinity rules, taints and tolerations, and topology constraints.</p>
+        <div class="type-meta"><strong>Role:</strong> Assign pods to nodes<br><strong>Process:</strong> <code>kube-scheduler</code></div>
+      </div>
+      <div class="type-card">
+        <h5><i class="bi bi-gear-wide-connected me-1" style="color:#2563eb;"></i> Controller Manager</h5>
+        <p>Runs multiple controller loops in one process. Each controller watches the state of the cluster and works to move the current state toward the desired state. Includes the ReplicaSet, Deployment, Node, and Job controllers.</p>
+        <div class="type-meta"><strong>Role:</strong> Reconcile desired vs actual state<br><strong>Process:</strong> <code>kube-controller-manager</code></div>
+      </div>
+    </div>
+
+    <h3 class="sub-heading">Worker Node Components</h3>
+    <div class="card-grid">
+      <div class="type-card">
+        <h5><i class="bi bi-person-gear me-1" style="color:#6c63ff;"></i> kubelet</h5>
+        <p>An agent running on every worker node. It watches the API server for pods assigned to its node, then pulls the container image and starts the container. It also reports pod status back to the API server.</p>
+        <div class="type-meta"><strong>Role:</strong> Ensure containers are running on this node<br><strong>Talks to:</strong> API Server + Container Runtime</div>
+      </div>
+      <div class="type-card">
+        <h5><i class="bi bi-hdd-network me-1" style="color:#a855f7;"></i> kube-proxy</h5>
+        <p>Handles all network routing on the node. Maintains iptables (or IPVS) rules to implement Kubernetes Services — forwarding traffic to the correct pod based on Service selectors.</p>
+        <div class="type-meta"><strong>Role:</strong> Network proxy + load balancing<br><strong>Implements:</strong> Service networking rules</div>
+      </div>
+      <div class="type-card">
+        <h5><i class="bi bi-box-seam me-1" style="color:#059669;"></i> Container Runtime</h5>
+        <p>The software that actually runs the containers. Kubernetes uses the Container Runtime Interface (CRI) to talk to the runtime. Docker was replaced by <code>containerd</code> as the default since Kubernetes 1.24.</p>
+        <div class="type-meta"><strong>Modern default:</strong> <code>containerd</code><br><strong>Alternatives:</strong> CRI-O, Docker (via shim)</div>
+      </div>
+    </div>
+
+    <h3 class="sub-heading">How kubectl Works — Step by Step</h3>
+    <div class="card-light">
+      <ol class="step-list">
+        <li>You run <code>kubectl apply -f deployment.yaml</code> on your machine</li>
+        <li>kubectl sends an authenticated HTTPS request to the <strong>API Server</strong></li>
+        <li>API Server validates the manifest and stores the desired state in <strong>etcd</strong></li>
+        <li><strong>Controller Manager</strong> notices pods are missing → creates a ReplicaSet → tells Scheduler</li>
+        <li><strong>Scheduler</strong> selects the best node based on resources and constraints → updates pod spec in etcd</li>
+        <li><strong>kubelet</strong> on that node watches etcd via API Server → pulls the container image → starts container via container runtime</li>
+        <li><strong>kube-proxy</strong> updates iptables rules → pod is reachable via Service</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 3: Core Kubernetes Objects -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="content-section" id="core-objects">
+    <h2 class="section-heading">3. Core Kubernetes Objects</h2>
+    <div class="section-divider"></div>
+    <p class="section-sub">The fundamental building blocks you declare to describe your desired application state.</p>
+
+    <!-- POD -->
+    <h3 class="sub-heading">Pod</h3>
+    <div class="card-light">
+      <div class="ans-hero">
+        <i class="bi bi-circle-fill me-2" style="font-size:.65rem;"></i>A Pod is the smallest deployable unit in K8s — it wraps one or more containers that share the same network namespace and storage. Pods are <span class="hl red">ephemeral</span> — they die and get replaced. Never manually restart pods; let Deployments handle that.
+      </div>
+      <div class="icon-row">
+        <span class="icon-chip blue"><i class="bi bi-share-fill"></i> Shared Network (same IP)</span>
+        <span class="icon-chip green"><i class="bi bi-hdd-fill"></i> Shared Volumes</span>
+        <span class="icon-chip amber"><i class="bi bi-trash3"></i> Ephemeral — can die</span>
+        <span class="icon-chip purple"><i class="bi bi-tag-fill"></i> Identified by Labels</span>
+      </div>
+      <pre class="code-block"><code>apiVersion: v1
+kind: Pod
+metadata:
+  name: my-app
+  labels:
+    app: my-app
+    version: "1.0"
+spec:
+  containers:
+  - name: app
+    image: myorg/spring-app:1.0
+    ports:
+    - containerPort: 8080
+    env:
+    - name: SPRING_PROFILES_ACTIVE
+      value: "prod"
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "250m"
+      limits:
+        memory: "512Mi"
+        cpu: "500m"
+    readinessProbe:
+      httpGet:
+        path: /actuator/health
+        port: 8080
+      initialDelaySeconds: 30
+      periodSeconds: 10
+    livenessProbe:
+      httpGet:
+        path: /actuator/health
+        port: 8080
+      initialDelaySeconds: 60
+      periodSeconds: 20</code></pre>
+    </div>
+
+    <!-- DEPLOYMENT -->
+    <h3 class="sub-heading">Deployment</h3>
+    <div class="card-light">
+      <div class="ans-hero">
+        <i class="bi bi-layers me-2"></i>A Deployment manages a set of identical Pods (replicas). It maintains the desired replica count, handles <span class="hl green">rolling updates</span> with zero downtime, and enables instant <span class="hl blue">rollback</span> to any previous version.
+      </div>
+      <div class="compare-grid">
+        <div class="compare-card blue">
+          <h6><i class="bi bi-info-circle me-1"></i>Rolling Update Strategy</h6>
+          <ul>
+            <li><strong>maxUnavailable: 1</strong> — at most 1 pod down during update</li>
+            <li><strong>maxSurge: 1</strong> — at most 1 extra pod spun up</li>
+            <li>Old pods terminate only after new ones are Ready</li>
+            <li>Zero downtime guaranteed</li>
+          </ul>
+        </div>
+        <div class="compare-card green">
+          <h6><i class="bi bi-check-circle me-1"></i>Deployment Manages</h6>
+          <ul>
+            <li>ReplicaSet (which manages individual Pods)</li>
+            <li>Rollout history (kubectl rollout history)</li>
+            <li>Rollback to any previous revision</li>
+            <li>Pause / resume rollouts</li>
+          </ul>
+        </div>
+      </div>
+      <pre class="code-block"><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-app
+  namespace: production
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: spring-app
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: spring-app
+        version: "2.0"
+    spec:
+      containers:
+      - name: app
+        image: myorg/spring-app:2.0
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: app-config
+        - secretRef:
+            name: app-secrets
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 20</code></pre>
+    </div>
+
+    <!-- SERVICE -->
+    <h3 class="sub-heading">Service</h3>
+    <div class="card-light">
+      <div class="ans-hero">
+        <i class="bi bi-hdd-network me-2"></i>A Service gives Pods a stable IP address and DNS name. Pods are ephemeral — they get new IPs when restarted. The Service stays fixed and load-balances traffic across all matching pods via label selectors.
+      </div>
+      <table class="kv-table">
+        <thead><tr><th>Type</th><th>Accessible From</th><th>Use Case</th></tr></thead>
+        <tbody>
+          <tr><td><code>ClusterIP</code> (default)</td><td>Inside cluster only</td><td>Internal microservice-to-microservice communication</td></tr>
+          <tr><td><code>NodePort</code></td><td>External via NodeIP:Port (30000–32767)</td><td>Dev/testing environments, on-premises clusters</td></tr>
+          <tr><td><code>LoadBalancer</code></td><td>External via cloud Load Balancer IP</td><td>Production on AWS/GCP/Azure — provisions cloud LB automatically</td></tr>
+          <tr><td><code>ExternalName</code></td><td>Maps to an external DNS name</td><td>Call external services by an internal Kubernetes name</td></tr>
+        </tbody>
+      </table>
+      <pre class="code-block"><code>apiVersion: v1
+kind: Service
+metadata:
+  name: spring-app-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: spring-app       # matches Deployment pods by label
+  ports:
+  - port: 80              # Service port (what callers use)
+    targetPort: 8080      # Container port (where app listens)</code></pre>
+    </div>
+
+    <!-- CONFIGMAP + SECRET -->
+    <h3 class="sub-heading">ConfigMap and Secret</h3>
+    <div class="card-light">
+      <div class="compare-grid">
+        <div class="compare-card blue">
+          <h6><i class="bi bi-sliders me-1"></i>ConfigMap</h6>
+          <ul>
+            <li>Non-sensitive configuration data</li>
+            <li>Environment variables, command args, config files</li>
+            <li>Stored in plain text in etcd</li>
+            <li>Changes can be applied without rebuilding images</li>
+          </ul>
+        </div>
+        <div class="compare-card amber">
+          <h6><i class="bi bi-lock me-1"></i>Secret</h6>
+          <ul>
+            <li>Sensitive data — passwords, tokens, keys</li>
+            <li>Stored base64-encoded (not encrypted by default!)</li>
+            <li>Enable etcd encryption + RBAC in production</li>
+            <li>Better: use external secrets manager (AWS SSM, Vault)</li>
+          </ul>
+        </div>
+      </div>
+      <pre class="code-block"><code># ConfigMap — non-sensitive config
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  SPRING_PROFILES_ACTIVE: "prod"
+  LOG_LEVEL: "INFO"
+  DB_HOST: "postgres-svc"
+  DB_PORT: "5432"
+---
+# Secret — sensitive data (base64 encoded)
+apiVersion: v1
+kind: Secret
+metadata:
+  name: app-secrets
+type: Opaque
+data:
+  DB_PASSWORD: cGFzc3dvcmQxMjM=   # base64 of "password123"
+  JWT_SECRET: bXlzZWNyZXRrZXk=    # base64 of "mysecretkey"</code></pre>
+      <div class="note-callout">
+        <strong><i class="bi bi-lightbulb me-1"></i>Tip:</strong> Create secrets via CLI to avoid committing base64 values to git: <code>kubectl create secret generic app-secrets --from-literal=DB_PASSWORD=password123</code>
+      </div>
+    </div>
+
+    <!-- INGRESS -->
+    <h3 class="sub-heading">Ingress</h3>
+    <div class="card-light">
+      <div class="ans-hero">
+        <i class="bi bi-signpost-split me-2"></i>Ingress is a reverse proxy / API gateway for Kubernetes. It routes external HTTP/HTTPS traffic to the correct internal Service based on hostname and URL path — one entry point for your whole cluster.
+      </div>
+      <div class="icon-row">
+        <span class="icon-chip blue"><i class="bi bi-globe"></i> Host-based routing</span>
+        <span class="icon-chip green"><i class="bi bi-link-45deg"></i> Path-based routing</span>
+        <span class="icon-chip purple"><i class="bi bi-shield-lock"></i> TLS termination</span>
+        <span class="icon-chip amber"><i class="bi bi-controller"></i> Needs Ingress Controller (nginx, traefik)</span>
+      </div>
+      <pre class="code-block"><code>apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  tls:
+  - hosts:
+    - myapp.example.com
+    secretName: myapp-tls
+  rules:
+  - host: myapp.example.com
+    http:
+      paths:
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: spring-app-svc
+            port:
+              number: 80
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend-svc
+            port:
+              number: 80</code></pre>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 4: kubectl Commands -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="content-section" id="kubectl">
+    <h2 class="section-heading">4. Essential kubectl Commands</h2>
+    <div class="section-divider"></div>
+    <p class="section-sub">The complete command reference you'll use every day — from cluster inspection to rollbacks and debugging.</p>
+
+    <div class="card-light">
+      <div class="icon-row">
+        <span class="icon-chip blue"><i class="bi bi-terminal"></i> kubectl = K8s CLI</span>
+        <span class="icon-chip green"><i class="bi bi-check2-circle"></i> apply = create or update</span>
+        <span class="icon-chip amber"><i class="bi bi-eye"></i> get = list resources</span>
+        <span class="icon-chip purple"><i class="bi bi-card-list"></i> describe = full details + events</span>
+      </div>
+      <pre class="code-block"><code># ===== CLUSTER INFO =====
+kubectl cluster-info
+kubectl get nodes
+kubectl get nodes -o wide          # more detail: IP, OS, runtime version
+
+# ===== NAMESPACE =====
+kubectl get namespaces
+kubectl create namespace production
+kubectl config set-context --current --namespace=production
+
+# ===== PODS =====
+kubectl get pods                   # list pods in current namespace
+kubectl get pods -A                # all namespaces
+kubectl get pods -o wide           # with node name + pod IP
+kubectl describe pod &lt;name&gt;        # full details + Events section
+kubectl logs &lt;pod-name&gt;            # view container stdout logs
+kubectl logs -f &lt;pod-name&gt;         # follow / tail logs in real time
+kubectl logs &lt;pod-name&gt; --previous # logs from crashed container
+kubectl exec -it &lt;pod-name&gt; -- bash              # shell into running pod
+kubectl port-forward pod/&lt;name&gt; 8080:8080        # tunnel local port to pod
+
+# ===== DEPLOYMENTS =====
+kubectl apply -f deployment.yaml   # create or update (idempotent)
+kubectl get deployments
+kubectl describe deployment &lt;name&gt;
+kubectl set image deployment/&lt;name&gt; app=myimg:v2  # rolling image update
+kubectl rollout status deployment/&lt;name&gt;          # watch rollout progress
+kubectl rollout history deployment/&lt;name&gt;         # see past revisions
+kubectl rollout undo deployment/&lt;name&gt;            # rollback to previous
+kubectl rollout undo deployment/&lt;name&gt; --to-revision=3  # rollback to specific
+kubectl scale deployment &lt;name&gt; --replicas=5      # manual scale
+kubectl delete deployment &lt;name&gt;
+
+# ===== SERVICES =====
+kubectl get services
+kubectl get svc                    # short alias
+kubectl describe svc &lt;name&gt;
+
+# ===== CONFIG / SECRETS =====
+kubectl get configmaps
+kubectl get secrets
+kubectl describe configmap &lt;name&gt;
+kubectl create secret generic app-secrets \
+  --from-literal=DB_PASSWORD=mysecret
+
+# ===== EVENTS / DEBUG =====
+kubectl get events --sort-by=.metadata.creationTimestamp
+kubectl top pods                   # CPU + memory usage (needs metrics-server)
+kubectl top nodes
+
+# ===== GENERAL =====
+kubectl explain deployment.spec.strategy   # built-in API docs
+kubectl diff -f deployment.yaml            # preview changes before applying
+kubectl apply -f k8s/ --dry-run=client     # dry-run entire directory</code></pre>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 5: Auto-Scaling -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="content-section" id="autoscaling">
+    <h2 class="section-heading">5. Auto-Scaling</h2>
+    <div class="section-divider"></div>
+    <p class="section-sub">Kubernetes can automatically scale your workloads horizontally (more pods) or vertically (more CPU/memory) based on live metrics.</p>
+
+    <h3 class="sub-heading">HorizontalPodAutoscaler (HPA)</h3>
+    <div class="card-light">
+      <div class="ans-hero">
+        <i class="bi bi-arrows-expand me-2"></i>HPA automatically scales pods up when CPU or memory exceeds your target threshold, and scales back down when load drops. Scale from 2 to 20 pods in seconds without any manual intervention.
+      </div>
+      <div class="compare-grid">
+        <div class="compare-card green">
+          <h6><i class="bi bi-arrow-up-circle me-1"></i>Scale Up Trigger</h6>
+          <ul>
+            <li>Average CPU across pods exceeds 70%</li>
+            <li>Average memory exceeds 400Mi</li>
+            <li>Custom metrics (requests/sec via Prometheus adapter)</li>
+            <li>HPA checks metrics every 15 seconds</li>
+          </ul>
+        </div>
+        <div class="compare-card blue">
+          <h6><i class="bi bi-arrow-down-circle me-1"></i>Scale Down Behaviour</h6>
+          <ul>
+            <li>Waits 5 minutes (cooldown) before scaling down</li>
+            <li>Prevents flapping on short traffic spikes</li>
+            <li>Never scales below <code>minReplicas</code></li>
+            <li>Configurable with <code>stabilizationWindowSeconds</code></li>
+          </ul>
+        </div>
+      </div>
+      <pre class="code-block"><code>apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: spring-app-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: spring-app
+  minReplicas: 2
+  maxReplicas: 20
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70    # scale up if avg CPU &gt; 70%
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: AverageValue
+        averageValue: 400Mi</code></pre>
+      <pre class="code-block"><code># Apply and inspect HPA
+kubectl apply -f hpa.yaml
+kubectl get hpa
+kubectl describe hpa spring-app-hpa</code></pre>
+      <div class="note-callout">
+        <strong><i class="bi bi-info-circle me-1"></i>Prerequisite:</strong> HPA requires <code>metrics-server</code> to be installed in the cluster. On EKS/GKE it is included. For local clusters: <code>kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml</code>
+      </div>
+    </div>
+
+    <h3 class="sub-heading">Scaling Comparison</h3>
+    <div class="card-light">
+      <table class="kv-table">
+        <thead><tr><th>Type</th><th>What it does</th><th>Best for</th></tr></thead>
+        <tbody>
+          <tr><td><strong>HPA</strong> (Horizontal Pod Autoscaler)</td><td>Adds/removes pod replicas</td><td>Stateless apps — most common approach</td></tr>
+          <tr><td><strong>VPA</strong> (Vertical Pod Autoscaler)</td><td>Adjusts CPU/memory requests per pod</td><td>Stateful apps, right-sizing resources</td></tr>
+          <tr><td><strong>Cluster Autoscaler</strong></td><td>Adds/removes worker nodes</td><td>Cloud-managed clusters (EKS, GKE) — scales infrastructure</td></tr>
+          <tr><td><strong>KEDA</strong></td><td>Event-driven scaling (queue depth, HTTP RPS, etc.)</td><td>Scale to zero, queue-based workloads</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 6: Persistent Storage -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="content-section" id="storage">
+    <h2 class="section-heading">6. Persistent Storage</h2>
+    <div class="section-divider"></div>
+    <p class="section-sub">Pods are ephemeral — when they die, their data dies too. PersistentVolumes decouple storage from pods so data survives restarts.</p>
+
+    <h3 class="sub-heading">PV / PVC / StatefulSet</h3>
+    <div class="card-light">
+      <div class="ans-hero">
+        <i class="bi bi-database me-2"></i>Pods are ephemeral — data dies with them. <span class="hl purple">PV (PersistentVolume)</span> is the actual storage. <span class="hl blue">PVC (PersistentVolumeClaim)</span> is the pod's request for storage. Kubernetes binds the right PV to the PVC automatically.
+      </div>
+      <table class="kv-table">
+        <thead><tr><th>Object</th><th>Who Creates It</th><th>Role</th></tr></thead>
+        <tbody>
+          <tr><td><code>PersistentVolume (PV)</code></td><td>Admin or cloud provisioner</td><td>The actual storage resource (disk, NFS, EBS, etc.)</td></tr>
+          <tr><td><code>PersistentVolumeClaim (PVC)</code></td><td>Developer / app manifest</td><td>Request for a specific amount/type of storage</td></tr>
+          <tr><td><code>StorageClass</code></td><td>Admin</td><td>Template for dynamic PV provisioning (gp2, gp3, standard)</td></tr>
+          <tr><td><code>StatefulSet</code></td><td>Developer</td><td>Like Deployment but for stateful apps — stable pod names + storage</td></tr>
+        </tbody>
+      </table>
+      <pre class="code-block"><code># PersistentVolume (usually created by cloud provider or admin)
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: postgres-pv
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: standard
+  hostPath:
+    path: /data/postgres     # for local dev; use cloud storage in prod
+---
+# PersistentVolumeClaim — what the app requests
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: standard
+---
+# StatefulSet using PVC for Postgres
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+spec:
+  serviceName: postgres
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15-alpine
+        env:
+        - name: POSTGRES_DB
+          value: myapp
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: DB_PASSWORD
+        volumeMounts:
+        - name: postgres-storage
+          mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+  - metadata:
+      name: postgres-storage
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 10Gi</code></pre>
+      <div class="compare-grid">
+        <div class="compare-card blue">
+          <h6><i class="bi bi-info-circle me-1"></i>Access Modes</h6>
+          <ul>
+            <li><strong>ReadWriteOnce (RWO)</strong> — one node can mount read/write (most common)</li>
+            <li><strong>ReadOnlyMany (ROX)</strong> — many nodes can mount read-only</li>
+            <li><strong>ReadWriteMany (RWX)</strong> — many nodes can mount read/write (NFS, EFS)</li>
+          </ul>
+        </div>
+        <div class="compare-card green">
+          <h6><i class="bi bi-check-circle me-1"></i>Deployment vs StatefulSet</h6>
+          <ul>
+            <li>Deployment pods get random names (<code>app-xyz123</code>)</li>
+            <li>StatefulSet pods get stable names (<code>postgres-0</code>, <code>postgres-1</code>)</li>
+            <li>StatefulSet maintains ordered startup/shutdown</li>
+            <li>Each pod gets its own persistent volume</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 7: Full Deploy — Spring Boot + Postgres -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="content-section" id="full-deploy">
+    <h2 class="section-heading">7. The Full Deploy — Spring Boot App on Kubernetes</h2>
+    <div class="section-divider"></div>
+    <p class="section-sub">A complete, production-ready set of Kubernetes manifests to deploy a Spring Boot app with Postgres — from namespace to HPA.</p>
+
+    <div class="card-light">
+      <div class="icon-row">
+        <span class="icon-chip blue"><i class="bi bi-1-circle-fill"></i> Namespace</span>
+        <span class="icon-chip green"><i class="bi bi-2-circle-fill"></i> ConfigMap</span>
+        <span class="icon-chip amber"><i class="bi bi-3-circle-fill"></i> Secret</span>
+        <span class="icon-chip purple"><i class="bi bi-4-circle-fill"></i> Deployment</span>
+        <span class="icon-chip blue"><i class="bi bi-5-circle-fill"></i> Service</span>
+        <span class="icon-chip green"><i class="bi bi-6-circle-fill"></i> Ingress</span>
+        <span class="icon-chip amber"><i class="bi bi-7-circle-fill"></i> HPA</span>
+      </div>
+      <pre class="code-block"><code># 1. Namespace — isolate production workloads
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: production
+---
+# 2. ConfigMap — non-sensitive app configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: production
+data:
+  SPRING_PROFILES_ACTIVE: prod
+  DB_HOST: postgres-svc
+  DB_PORT: "5432"
+  DB_NAME: myapp
+---
+# 3. Secret — sensitive credentials
+apiVersion: v1
+kind: Secret
+metadata:
+  name: app-secrets
+  namespace: production
+type: Opaque
+stringData:
+  DB_PASSWORD: "supersecret"
+  JWT_SECRET: "jwtkey-prod"
+---
+# 4. Deployment — manages 3 replicas with rolling updates
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-app
+  namespace: production
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: spring-app
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: spring-app
+    spec:
+      containers:
+      - name: app
+        image: myorg/spring-app:1.0
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: app-config
+        - secretRef:
+            name: app-secrets
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 30
+        resources:
+          requests:
+            cpu: 250m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+---
+# 5. Service — stable endpoint for the app
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-app-svc
+  namespace: production
+spec:
+  selector:
+    app: spring-app
+  ports:
+  - port: 80
+    targetPort: 8080
+---
+# 6. Ingress — route external traffic
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: spring-app-ingress
+  namespace: production
+spec:
+  rules:
+  - host: myapp.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: spring-app-svc
+            port:
+              number: 80
+---
+# 7. HPA — auto-scale 2 to 10 pods on CPU
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: spring-app-hpa
+  namespace: production
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: spring-app
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70</code></pre>
+      <pre class="code-block"><code># Deploy everything from the k8s/ directory
+kubectl apply -f k8s/
+
+# Watch the rollout complete
+kubectl rollout status deployment/spring-app -n production
+
+# Verify all resources created
+kubectl get all -n production</code></pre>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 8: Debugging -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="content-section" id="debugging">
+    <h2 class="section-heading">8. Debugging Common Issues</h2>
+    <div class="section-divider"></div>
+    <p class="section-sub">The most frequent Kubernetes problems and exactly how to diagnose and fix them.</p>
+
+    <h3 class="sub-heading">CrashLoopBackOff</h3>
+    <div class="card-light">
+      <div class="ans-hero">
+        <i class="bi bi-exclamation-octagon me-2"></i>CrashLoopBackOff means the container starts, immediately crashes, and Kubernetes keeps restarting it with exponential backoff. The pod is trying — but the app inside keeps dying.
+      </div>
+      <span class="ans-label amber"><i class="bi bi-tools me-1"></i>Causes + Fixes</span>
+      <ul class="ans-list amber">
+        <li><i class="bi bi-chevron-right"></i><div><strong>Bad CMD/ENTRYPOINT in Dockerfile</strong> — test with <code>docker run</code> locally first before pushing to K8s</div></li>
+        <li><i class="bi bi-chevron-right"></i><div><strong>App crashes on startup</strong> — run <code>kubectl logs pod-name --previous</code> to see the last crash's output</div></li>
+        <li><i class="bi bi-chevron-right"></i><div><strong>Missing environment variable</strong> — <code>kubectl describe pod</code> shows the env section and what was injected</div></li>
+        <li><i class="bi bi-chevron-right"></i><div><strong>OOMKilled (out of memory)</strong> — increase memory limits; check <code>kubectl describe pod</code> for <code>OOMKilled</code> reason</div></li>
+        <li><i class="bi bi-chevron-right"></i><div><strong>Wrong image tag / image doesn't exist</strong> — <code>kubectl describe pod</code> shows image pull errors in Events</div></li>
+      </ul>
+    </div>
+
+    <h3 class="sub-heading">Pod Stuck in Pending</h3>
+    <div class="card-light">
+      <span class="ans-label tip"><i class="bi bi-exclamation-triangle me-1"></i>Common Causes</span>
+      <ul class="ans-list red">
+        <li><i class="bi bi-chevron-right"></i><div><strong>Insufficient CPU or memory on all nodes</strong> — <code>kubectl describe pod</code> → Events will say "Insufficient cpu" or "Insufficient memory"</div></li>
+        <li><i class="bi bi-chevron-right"></i><div><strong>Node taint rejecting pod</strong> — pod needs matching <code>tolerations</code>; check <code>kubectl describe node</code> for taints</div></li>
+        <li><i class="bi bi-chevron-right"></i><div><strong>PVC not bound</strong> — <code>kubectl get pvc</code> will show status <code>Pending</code>; check StorageClass and provisioner logs</div></li>
+        <li><i class="bi bi-chevron-right"></i><div><strong>Image pull failure (no registry credentials)</strong> — create an <code>imagePullSecret</code> and reference it in the pod spec</div></li>
+        <li><i class="bi bi-chevron-right"></i><div><strong>NodeSelector or affinity rules not matching any node</strong> — check node labels with <code>kubectl get nodes --show-labels</code></div></li>
+      </ul>
+    </div>
+
+    <h3 class="sub-heading">Debug Commands</h3>
+    <div class="card-light">
+      <pre class="code-block"><code># Full pod details including Events section (always start here)
+kubectl describe pod my-pod -n production
+
+# Previous container logs (after crash — most useful for CrashLoopBackOff)
+kubectl logs my-pod --previous
+
+# Run an ephemeral debug container alongside the broken pod
+kubectl debug -it my-pod --image=busybox --target=app
+
+# Run a standalone debug pod in the same namespace
+kubectl run debug --image=busybox --rm -it --restart=Never -- sh
+
+# Check CPU and memory usage per pod
+kubectl top pods -n production
+
+# See all cluster events sorted by timestamp (great for recent failures)
+kubectl get events -n production --sort-by=.lastTimestamp
+
+# Check why a node is not ready (hardware / kubelet issues)
+kubectl describe node &lt;node-name&gt;
+
+# Port-forward to reach a pod directly (bypass Service)
+kubectl port-forward pod/my-pod 8080:8080 -n production</code></pre>
+      <div class="note-callout">
+        <strong><i class="bi bi-lightbulb me-1"></i>Debugging Flow:</strong> Always start with <code>kubectl describe pod</code> — the <strong>Events</strong> section at the bottom tells you exactly what went wrong. Then check <code>kubectl logs</code> for application-level errors.
+      </div>
+    </div>
+
+    <h3 class="sub-heading">Quick Diagnostic Cheat Sheet</h3>
+    <div class="card-light">
+      <table class="kv-table">
+        <thead><tr><th>Symptom</th><th>First Command</th><th>What to Look For</th></tr></thead>
+        <tbody>
+          <tr><td><code>CrashLoopBackOff</code></td><td><code>kubectl logs pod --previous</code></td><td>Stack trace, missing config, OOMKilled</td></tr>
+          <tr><td>Pod stuck <code>Pending</code></td><td><code>kubectl describe pod</code></td><td>Events: Insufficient cpu/memory, PVC not bound</td></tr>
+          <tr><td>Pod <code>Running</code> but no traffic</td><td><code>kubectl describe svc</code></td><td>Endpoints — must not be empty</td></tr>
+          <tr><td><code>ImagePullBackOff</code></td><td><code>kubectl describe pod</code></td><td>Events: 401/404 from registry, wrong tag</td></tr>
+          <tr><td>App slow / high latency</td><td><code>kubectl top pods</code></td><td>CPU throttling, memory near limit</td></tr>
+          <tr><td>Node <code>NotReady</code></td><td><code>kubectl describe node</code></td><td>Conditions section, disk/memory pressure</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 9: RBAC -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="content-section" id="rbac">
+    <h2 class="section-heading">9. RBAC — Role-Based Access Control</h2>
+    <div class="section-divider"></div>
+    <p class="section-sub">Control who can do what inside your Kubernetes cluster. RBAC is enabled by default and is the Kubernetes security model.</p>
+
+    <h3 class="sub-heading">Core RBAC Concepts</h3>
+    <div class="card-light">
+      <table class="kv-table">
+        <thead><tr><th>Object</th><th>Scope</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><code>Role</code></td><td>Namespace</td><td>Defines a set of permissions (verbs on resources) within one namespace</td></tr>
+          <tr><td><code>ClusterRole</code></td><td>Cluster-wide</td><td>Same as Role but applies across all namespaces (e.g., node access)</td></tr>
+          <tr><td><code>RoleBinding</code></td><td>Namespace</td><td>Grants a Role to a User, Group, or ServiceAccount in one namespace</td></tr>
+          <tr><td><code>ClusterRoleBinding</code></td><td>Cluster-wide</td><td>Grants a ClusterRole to a subject across all namespaces</td></tr>
+          <tr><td><code>ServiceAccount</code></td><td>Namespace</td><td>Identity for pods to call the Kubernetes API (not humans)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-heading">Developer Read-Only Role</h3>
+    <div class="card-light">
+      <pre class="code-block"><code># Read-only role for developers — can view but not modify
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: production
+  name: developer-readonly
+rules:
+- apiGroups: [""]
+  resources: ["pods", "services", "configmaps"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "watch"]
+---
+# Bind the role to a specific user
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: developer-binding
+  namespace: production
+subjects:
+- kind: User
+  name: john.doe@company.com
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: developer-readonly
+  apiGroup: rbac.authorization.k8s.io</code></pre>
+      <div class="compare-grid">
+        <div class="compare-card blue">
+          <h6><i class="bi bi-list-check me-1"></i>Common Verbs</h6>
+          <ul>
+            <li><strong>get</strong> — retrieve a single resource</li>
+            <li><strong>list</strong> — list all resources of a type</li>
+            <li><strong>watch</strong> — stream changes in real-time</li>
+            <li><strong>create</strong> — create a new resource</li>
+            <li><strong>update</strong> — overwrite a resource</li>
+            <li><strong>patch</strong> — partial update</li>
+            <li><strong>delete</strong> — remove a resource</li>
+          </ul>
+        </div>
+        <div class="compare-card amber">
+          <h6><i class="bi bi-shield-exclamation me-1"></i>RBAC Best Practices</h6>
+          <ul>
+            <li>Principle of least privilege — only grant what's needed</li>
+            <li>Prefer namespaced Roles over ClusterRoles</li>
+            <li>Use ServiceAccounts for pod-to-API communication</li>
+            <li>Audit with: <code>kubectl auth can-i list pods --as=user</code></li>
+            <li>Never bind <code>cluster-admin</code> to application pods</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 10: Helm -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="content-section" id="helm">
+    <h2 class="section-heading">10. Helm — Kubernetes Package Manager</h2>
+    <div class="section-divider"></div>
+    <p class="section-sub">Helm packages your Kubernetes YAML manifests into reusable, versioned, configurable Charts — like npm for Kubernetes.</p>
+
+    <h3 class="sub-heading">Core Helm Concepts</h3>
+    <div class="card-light">
+      <div class="ans-hero">
+        <i class="bi bi-box me-2"></i>Helm is like apt/npm for Kubernetes — package your K8s YAMLs as a reusable Chart with configurable values. Deploy the same chart to dev, staging, and prod with different <code>values.yaml</code> files.
+      </div>
+      <table class="kv-table">
+        <thead><tr><th>Concept</th><th>What It Is</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Chart</strong></td><td>A package of Kubernetes YAML templates — like a npm package</td></tr>
+          <tr><td><strong>Release</strong></td><td>An installed, running instance of a chart in the cluster</td></tr>
+          <tr><td><strong>Values</strong></td><td>Configuration overrides injected into templates at deploy time</td></tr>
+          <tr><td><strong>Repository</strong></td><td>A collection of charts hosted at a URL (like npm registry)</td></tr>
+          <tr><td><strong>Template</strong></td><td>A Kubernetes manifest with <code>{{ .Values.xxx }}</code> placeholders</td></tr>
+        </tbody>
+      </table>
+      <div class="icon-row">
+        <span class="icon-chip blue"><i class="bi bi-archive"></i> Chart = Package</span>
+        <span class="icon-chip green"><i class="bi bi-play-circle"></i> Release = Running Instance</span>
+        <span class="icon-chip amber"><i class="bi bi-sliders"></i> Values = Configuration</span>
+        <span class="icon-chip purple"><i class="bi bi-cloud-arrow-down"></i> Repo = Registry</span>
+      </div>
+    </div>
+
+    <h3 class="sub-heading">Common Helm Commands</h3>
+    <div class="card-light">
+      <pre class="code-block"><code># Install Helm
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+# Add a chart repository
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+
+# Search for a chart
+helm search repo bitnami/postgresql
+
+# Install PostgreSQL with custom values
+helm install my-postgres bitnami/postgresql \
+  --set auth.postgresPassword=mysecret \
+  --set primary.persistence.size=10Gi
+
+# Install from your own chart directory
+helm install my-app ./charts/spring-app \
+  --namespace production \
+  --values values-prod.yaml
+
+# Preview the rendered templates (dry run)
+helm install my-app ./charts/spring-app --dry-run --debug
+
+# Upgrade a release with new values
+helm upgrade my-app ./charts/spring-app --values values-prod.yaml
+
+# Rollback to a previous release revision
+helm rollback my-app 1
+
+# List all installed releases across namespaces
+helm list -A
+
+# Get values used for a release
+helm get values my-app
+
+# Uninstall a release
+helm uninstall my-app</code></pre>
+    </div>
+
+    <h3 class="sub-heading">Example Chart Structure</h3>
+    <div class="card-light">
+      <div class="compare-grid">
+        <div class="compare-card blue">
+          <h6><i class="bi bi-folder2-open me-1"></i>Chart Directory Structure</h6>
+          <ul>
+            <li><code>Chart.yaml</code> — metadata (name, version)</li>
+            <li><code>values.yaml</code> — default values</li>
+            <li><code>values-prod.yaml</code> — production overrides</li>
+            <li><code>templates/</code> — YAML templates with <code>{{ }}</code></li>
+            <li><code>templates/deployment.yaml</code></li>
+            <li><code>templates/service.yaml</code></li>
+            <li><code>templates/ingress.yaml</code></li>
+            <li><code>charts/</code> — chart dependencies</li>
+          </ul>
+        </div>
+        <div class="compare-card green">
+          <h6><i class="bi bi-check2-all me-1"></i>Why Use Helm?</h6>
+          <ul>
+            <li>One chart, multiple environments (dev/staging/prod)</li>
+            <li>Version-controlled releases with rollback</li>
+            <li>Community charts for Postgres, Redis, Kafka, etc.</li>
+            <li>Template logic — conditionals, loops, defaults</li>
+            <li>Consistent, repeatable deployments across clusters</li>
+            <li><code>helm test</code> — run integration tests post-deploy</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /container-main -->
+
+<!-- ── FOOTER ─────────────────────────────────────────────────── -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="brand-badge">DevOps</span>
+      <span class="fw-bold">DevOps Mastery Hub</span>
+    </div>
+    <p class="footer-sub">A comprehensive reference for modern DevOps tools and practices.</p>
+    <div class="footer-links">
+      <a href="devops-index.html"><i class="bi bi-house-door me-1"></i>Overview</a>
+      <a href="docker.html"><i class="bi bi-box-seam me-1"></i>Docker</a>
+      <a href="kubernetes.html"><i class="bi bi-diagram-3 me-1"></i>Kubernetes</a>
+      <a href="jenkins.html"><i class="bi bi-gear me-1"></i>Jenkins</a>
+      <a href="aws.html"><i class="bi bi-cloud me-1"></i>AWS</a>
+      <a href="devops-questions.html"><i class="bi bi-chat-left-text me-1"></i>Q&amp;A</a>
+    </div>
+    <p class="footer-copy">&copy; 2025 DevOps Mastery Hub. Built for learning and reference.</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Docker Deep-Dive — DevOps Mastery Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .ans-hero{background:linear-gradient(135deg,#6c63ff18,#a855f718);border-left:4px solid #6c63ff;border-radius:0 10px 10px 0;padding:.7rem 1.1rem;font-weight:700;font-size:1rem;color:#2d2b5e;margin-bottom:1rem;}
+    .ans-list{list-style:none;padding:0;margin:.5rem 0 1rem;}
+    .ans-list li{display:flex;align-items:flex-start;gap:.5rem;padding:.38rem .65rem;margin-bottom:.28rem;border-radius:8px;font-size:.93rem;background:#f7f8fc;border-left:3px solid #6c63ff;}
+    .ans-list.green li{border-left-color:#059669;background:#f0fdf4;}
+    .ans-list.amber li{border-left-color:#d97706;background:#fffbeb;}
+    .ans-list.red li{border-left-color:#dc2626;background:#fff5f5;}
+    .ans-list.blue li{border-left-color:#2563eb;background:#eff6ff;}
+    .ans-list.purple li{border-left-color:#7c3aed;background:#f5f3ff;}
+    .ans-label{display:inline-flex;align-items:center;gap:.3rem;font-size:.76rem;font-weight:800;text-transform:uppercase;padding:.18rem .6rem;border-radius:20px;margin-bottom:.4rem;}
+    .ans-label.def{background:#eef2ff;color:#4f46e5;}
+    .ans-label.key{background:#f0fdf4;color:#059669;}
+    .ans-label.ex{background:#fffbeb;color:#d97706;}
+    .ans-label.tip{background:#fff5f5;color:#dc2626;}
+    .hl{font-weight:700;padding:.05rem .38rem;border-radius:5px;font-size:.88em;}
+    .hl.green{background:#d1fae5;color:#065f46;}
+    .hl.blue{background:#dbeafe;color:#1e40af;}
+    .hl.purple{background:#ede9fe;color:#5b21b6;}
+    .hl.amber{background:#fef3c7;color:#92400e;}
+    .hl.red{background:#fee2e2;color:#991b1b;}
+    .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin:.6rem 0 1rem;}
+    .compare-card{border-radius:10px;padding:.75rem 1rem;}
+    .compare-card.green{background:#f0fdf4;border:1.5px solid #6ee7b7;}
+    .compare-card.blue{background:#eff6ff;border:1.5px solid #93c5fd;}
+    .compare-card.amber{background:#fffbeb;border:1.5px solid #fcd34d;}
+    .compare-card.red{background:#fff5f5;border:1.5px solid #fca5a5;}
+    .kv-table{width:100%;border-collapse:collapse;margin:.6rem 0 1rem;}
+    .kv-table th{background:#6c63ff;color:#fff;padding:.4rem .7rem;font-weight:700;}
+    .kv-table td{padding:.4rem .7rem;border-bottom:1px solid #e2e5f0;}
+    .icon-row{display:flex;flex-wrap:wrap;gap:.7rem;margin:.6rem 0 1rem;}
+    .icon-chip{display:flex;align-items:center;gap:.4rem;background:#f7f8fc;border:1px solid #e2e5f0;border-radius:10px;padding:.35rem .75rem;font-size:.88rem;font-weight:600;}
+    .icon-chip.blue{background:#eff6ff;border-color:#93c5fd;color:#1e40af;}
+    .icon-chip.green{background:#f0fdf4;border-color:#6ee7b7;color:#065f46;}
+    .icon-chip.amber{background:#fffbeb;border-color:#fcd34d;color:#92400e;}
+    .icon-chip.red{background:#fff5f5;border-color:#fca5a5;color:#991b1b;}
+    .icon-chip.purple{background:#f5f3ff;border-color:#c4b5fd;color:#5b21b6;}
+    @media(max-width:600px){.compare-grid{grid-template-columns:1fr;}}
+
+    /* Step list for numbered flows */
+    .step-list{list-style:none;padding:0;margin:.5rem 0 1rem;counter-reset:step-counter;}
+    .step-list li{display:flex;align-items:flex-start;gap:.75rem;padding:.5rem .75rem;margin-bottom:.4rem;border-radius:8px;font-size:.93rem;background:#eff6ff;border-left:3px solid #2563eb;counter-increment:step-counter;}
+    .step-list li::before{content:counter(step-counter);display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#6c63ff,#a855f7);color:#fff;font-size:.75rem;font-weight:800;flex-shrink:0;}
+
+    .compare-card h6{font-weight:800;font-size:.88rem;margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.03em;}
+    .compare-card.green h6{color:#065f46;}
+    .compare-card.red h6{color:#991b1b;}
+    .compare-card.amber h6{color:#92400e;}
+    .compare-card.blue h6{color:#1e40af;}
+    .compare-card ul{font-size:.86rem;padding-left:1.1rem;margin-bottom:0;}
+    .compare-card.green ul{color:#065f46;}
+    .compare-card.red ul{color:#991b1b;}
+    .compare-card.amber ul{color:#92400e;}
+    .compare-card.blue ul{color:#1e40af;}
+
+    .kv-table th{font-size:.82rem;text-align:left;}
+    .kv-table td{font-size:.88rem;vertical-align:top;}
+    .kv-table tbody tr:nth-child(even){background:#f7f8fc;}
+    .kv-table tbody tr:hover{background:#eef2ff;}
+    .kv-table code{background:#eef2ff;color:#4f46e5;padding:.1em .3em;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:.82em;}
+  </style>
+</head>
+<body>
+
+<!-- ── NAVBAR ──────────────────────────────────────────────── -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container-main d-flex w-100 align-items-center justify-content-between">
+    <a class="navbar-brand" href="devops-index.html">
+      <span class="brand-badge">DO</span> DevOps Mastery Hub
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navMenu" aria-controls="navMenu"
+            aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse flex-grow-0" id="navMenu">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="devops-index.html"><i class="bi bi-house-door me-1"></i>Overview</a></li>
+        <li class="nav-item"><a class="nav-link active" href="docker.html"><i class="bi bi-box-seam me-1"></i>Docker</a></li>
+        <li class="nav-item"><a class="nav-link" href="kubernetes.html"><i class="bi bi-diagram-3 me-1"></i>Kubernetes</a></li>
+        <li class="nav-item"><a class="nav-link" href="jenkins.html"><i class="bi bi-gear me-1"></i>Jenkins</a></li>
+        <li class="nav-item"><a class="nav-link" href="aws.html"><i class="bi bi-cloud me-1"></i>AWS</a></li>
+        <li class="nav-item"><a class="nav-link" href="devops-questions.html"><i class="bi bi-chat-left-text me-1"></i>Q&amp;A</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ─────────────────────────────────────────────────── -->
+<header class="hero">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <h1><i class="bi bi-box-seam me-2"></i>Docker Deep-Dive</h1>
+  <p class="lead">Everything you need to understand Docker — from the "works on my machine" problem to multi-stage builds, Compose, networking, volumes, CI/CD pipelines, and production best practices.</p>
+  <div class="d-flex gap-3 justify-content-center flex-wrap position-relative" style="z-index:2;">
+    <a href="#what-is-docker" class="btn btn-light btn-lg fw-bold px-4"><i class="bi bi-play-fill me-1"></i>Start Learning</a>
+    <a href="devops-index.html" class="btn btn-outline-light btn-lg fw-bold px-4"><i class="bi bi-arrow-left me-1"></i>Back to Overview</a>
+  </div>
+</header>
+
+<!-- ── STATS BAR ─────────────────────────────────────────────── -->
+<div class="stats-bar">
+  <div class="stat-card">
+    <div class="stat-num">10</div>
+    <div class="stat-label">Deep-Dive Sections</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num">12</div>
+    <div class="stat-label">Dockerfile Instructions</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num">40+</div>
+    <div class="stat-label">Essential Commands</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num">5</div>
+    <div class="stat-label">Network Types</div>
+  </div>
+</div>
+
+<!-- ── MAIN CONTENT ───────────────────────────────────────────── -->
+<div class="container-main">
+
+  <!-- TOC PILLS -->
+  <div class="toc-pills">
+    <a href="#what-is-docker"><i class="bi bi-question-circle me-1"></i>What is Docker?</a>
+    <a href="#architecture"><i class="bi bi-diagram-3 me-1"></i>Architecture</a>
+    <a href="#dockerfile"><i class="bi bi-file-code me-1"></i>Dockerfile</a>
+    <a href="#commands"><i class="bi bi-terminal me-1"></i>Commands</a>
+    <a href="#networking"><i class="bi bi-hdd-network me-1"></i>Networking</a>
+    <a href="#volumes"><i class="bi bi-database me-1"></i>Volumes</a>
+    <a href="#compose"><i class="bi bi-layers me-1"></i>Docker Compose</a>
+    <a href="#full-journey"><i class="bi bi-arrow-right-circle me-1"></i>Full Journey</a>
+    <a href="#best-practices"><i class="bi bi-shield-check me-1"></i>Best Practices</a>
+    <a href="#cicd"><i class="bi bi-infinity me-1"></i>CI/CD</a>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 1: What is Docker? -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="content-section" id="what-is-docker">
+    <h2 class="section-heading">1. What is Docker?</h2>
+    <div class="section-divider"></div>
+    <p class="section-sub">Understanding the core problem Docker solves and what it actually is.</p>
+
+    <h3 class="sub-heading">The "Works on My Machine" Problem</h3>
+    <div class="card-light">
+      <div class="ans-hero">
+        <i class="bi bi-exclamation-triangle me-2"></i>Before Docker: your Java app works locally but crashes on the server because of different JDK versions, OS libraries, or config — the classic "works on my machine" nightmare.
+      </div>
+      <div class="compare-grid">
+        <div class="compare-card red">
+          <h6><i class="bi bi-x-circle me-1"></i>Without Docker</h6>
+          <ul>
+            <li>App works on dev laptop (JDK 17, Ubuntu)</li>
+            <li>Deployed to server (JDK 11, CentOS)</li>
+            <li>Crashes immediately on startup</li>
+            <li>"But it works on my machine!"</li>
+            <li>2 days debugging environment mismatches</li>
+          </ul>
+        </div>
+        <div class="compare-card green">
+          <h6><i class="bi bi-check-circle me-1"></i>With Docker</h6>
+          <ul>
+            <li>App + JDK 17 + all dependencies packaged into one container</li>
+            <li>Runs identically on any machine with Docker installed</li>
+            <li>Same image in dev, staging, and production</li>
+            <li>Zero "works on my machine" problems</li>
+            <li>Ship the environment, not just the code</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="sub-heading">What Docker Is</h3>
+    <div class="card-light">
+      <div class="ans-hero">
+        <i class="bi bi-box-seam me-2"></i>Docker is a platform that packages your application + its entire environment into a lightweight, portable container — run it anywhere, get identical behaviour every time.
+      </div>
+      <table class="kv-table">
+        <thead><tr><th>Concept</th><th>Analogy</th><th>What it means</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Container</strong></td><td>Shipping container</td><td>Standardized box — app + dependencies, runs anywhere</td></tr>
+          <tr><td><strong>Image</strong></td><td>Blueprint / recipe</td><td>Read-only template used to create containers</td></tr>
+          <tr><td><strong>Dockerfile</strong></td><td>Cooking recipe</td><td>Text file with instructions to build an image layer by layer</td></tr>
+          <tr><td><strong>Docker Hub</strong></td><td>App Store</td><td>Public registry to share, discover, and download images</td></tr>
+          <tr><td><strong>Docker Engine</strong></td><td>The ship</td><td>Runtime that runs containers on your machine</td></tr>
+        </tbody>
+      </table>
+      <div class="icon-row">
+        <span class="icon-chip blue"><i class="bi bi-box-seam"></i> Container = Running app</span>
+        <span class="icon-chip purple"><i class="bi bi-layers"></i> Image = Blueprint</span>
+        <span class="icon-chip amber"><i class="bi bi-file-code"></i> Dockerfile = Instructions</span>
+        <span class="icon-chip green"><i class="bi bi-cloud"></i> Registry = Storage</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 2: Docker Architecture -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="content-section" id="architecture">
+    <h2 class="section-heading">2. Docker Architecture</h2>
+    <div class="section-divider"></div>
+    <p class="section-sub">The five core components of the Docker platform and how they interact.</p>
+
+    <h3 class="sub-heading">Core Components</h3>
+    <div class="card-grid">
+      <div class="type-card">
+        <h5><i class="bi bi-terminal me-1" style="color:#6c63ff;"></i> Docker Client</h5>
+        <p>The CLI tool you interact with directly. When you type <code>docker run</code> or <code>docker build</code>, the client sends those instructions to the Docker Daemon via a REST API.</p>
+        <div class="type-meta"><strong>Binary:</strong> <code>docker</code><br><strong>Communicates with:</strong> Docker Daemon (dockerd)</div>
+      </div>
+      <div class="type-card">
+        <h5><i class="bi bi-cpu me-1" style="color:#a855f7;"></i> Docker Daemon (dockerd)</h5>
+        <p>The background service that does all the actual work — building images, running containers, managing networks and volumes. It listens for Docker API requests.</p>
+        <div class="type-meta"><strong>Process:</strong> <code>dockerd</code><br><strong>Manages:</strong> Images, containers, networks, volumes</div>
+      </div>
+      <div class="type-card">
+        <h5><i class="bi bi-layers me-1" style="color:#059669;"></i> Docker Images</h5>
+        <p>Read-only templates made of stacked layers. Each instruction in a Dockerfile adds a new layer. Layers are cached and shared across images for efficiency.</p>
+        <div class="type-meta"><strong>Built from:</strong> Dockerfile<br><strong>Stored in:</strong> Registry (Docker Hub, ECR, etc.)</div>
+      </div>
+      <div class="type-card">
+        <h5><i class="bi bi-play-circle me-1" style="color:#2563eb;"></i> Docker Containers</h5>
+        <p>Running instances of images. Each container is an isolated process with its own filesystem, networking, and process tree — but shares the host OS kernel.</p>
+        <div class="type-meta"><strong>Created from:</strong> Image + <code>docker run</code><br><strong>Lifecycle:</strong> Created → Running → Stopped → Removed</div>
+      </div>
+      <div class="type-card">
+        <h5><i class="bi bi-cloud-arrow-up me-1" style="color:#d97706;"></i> Docker Registry</h5>
+        <p>Storage and distribution system for Docker images. Docker Hub is the default public registry. Organizations run private registries (AWS ECR, GitHub Packages, Harbor).</p>
+        <div class="type-meta"><strong>Public:</strong> Docker Hub, GitHub Container Registry<br><strong>Private:</strong> AWS ECR, Azure ACR, self-hosted Harbor</div>
+      </div>
+    </div>
+
+    <h3 class="sub-heading">How Docker Works — Step by Step</h3>
+    <div class="card-light">
+      <ol class="step-list">
+        <li>You write a <strong>Dockerfile</strong> — a recipe describing how to build your image</li>
+        <li><code>docker build</code> reads the Dockerfile and creates an <strong>Image</strong> (a stack of read-only layers)</li>
+        <li><code>docker push</code> uploads the image to a <strong>Registry</strong> (Docker Hub, ECR, etc.)</li>
+        <li>On any server: <code>docker pull</code> downloads the image from the registry</li>
+        <li><code>docker run</code> starts a <strong>Container</strong> — a live, writable instance of the image</li>
+        <li>Container runs your app in complete isolation with its own network and filesystem</li>
+      </ol>
+    </div>
+
+    <h3 class="sub-heading">Docker vs Virtual Machine</h3>
+    <div class="card-light">
+      <div class="compare-grid">
+        <div class="compare-card amber">
+          <h6><i class="bi bi-pc-display me-1"></i>Virtual Machine</h6>
+          <ul>
+            <li>Full OS per VM (2–4 GB each)</li>
+            <li>Slow boot (1–2 minutes)</li>
+            <li>Heavy — needs a hypervisor (VMware, VirtualBox)</li>
+            <li>Isolated at hardware/OS level</li>
+            <li>Complete OS = large attack surface</li>
+          </ul>
+        </div>
+        <div class="compare-card green">
+          <h6><i class="bi bi-box-seam me-1"></i>Docker Container</h6>
+          <ul>
+            <li>Shares host OS kernel (10–200 MB)</li>
+            <li>Starts in milliseconds</li>
+            <li>Lightweight — no hypervisor needed</li>
+            <li>Isolated at process level (namespaces/cgroups)</li>
+            <li>Minimal image = small attack surface</li>
+          </ul>
+        </div>
+      </div>
+      <table class="kv-table">
+        <thead><tr><th>Aspect</th><th>Virtual Machine</th><th>Docker Container</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Size</strong></td><td>2–4 GB</td><td>10–200 MB</td></tr>
+          <tr><td><strong>Startup Time</strong></td><td>1–2 minutes</td><td>Under 1 second</td></tr>
+          <tr><td><strong>OS</strong></td><td>Full guest OS per VM</td><td>Shares host kernel</td></tr>
+          <tr><td><strong>Isolation</strong></td><td>Hardware-level (hypervisor)</td><td>Process-level (namespaces + cgroups)</td></tr>
+          <tr><td><strong>Performance</strong></td><td>Near-native with overhead</td><td>Near-native</td></tr>
+          <tr><td><strong>Best for</strong></td><td>Full OS isolation, legacy apps, different kernels</td><td>Microservices, CI/CD, cloud-native, dev environments</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 3: Dockerfile -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="content-section" id="dockerfile">
+    <h2 class="section-heading">3. Dockerfile — Building Your First Image</h2>
+    <div class="section-divider"></div>
+    <p class="section-sub">A Dockerfile is the recipe — Docker reads it top to bottom and builds an image one layer at a time.</p>
+
+    <h3 class="sub-heading">Dockerfile Basics</h3>
+    <div class="card-light">
+      <div class="ans-hero">
+        <i class="bi bi-file-code me-2"></i>A Dockerfile is a plain text file with instructions — Docker reads it top to bottom and builds an image layer by layer. Each instruction creates a new cached layer.
+      </div>
+      <table class="kv-table">
+        <thead><tr><th>Instruction</th><th>What it does</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><span class="hl purple">FROM</span></td><td>Base image to start from — every Dockerfile must begin with this</td><td><code>FROM openjdk:17-jre-slim</code></td></tr>
+          <tr><td><span class="hl purple">WORKDIR</span></td><td>Set the working directory inside the image for subsequent commands</td><td><code>WORKDIR /app</code></td></tr>
+          <tr><td><span class="hl purple">COPY</span></td><td>Copy files/folders from build context into the image</td><td><code>COPY target/app.jar app.jar</code></td></tr>
+          <tr><td><span class="hl purple">RUN</span></td><td>Execute a shell command during the image build step</td><td><code>RUN apt-get install -y curl</code></td></tr>
+          <tr><td><span class="hl purple">EXPOSE</span></td><td>Document which port the container listens on (metadata only)</td><td><code>EXPOSE 8080</code></td></tr>
+          <tr><td><span class="hl purple">ENV</span></td><td>Set an environment variable available at runtime</td><td><code>ENV SPRING_PROFILES_ACTIVE=prod</code></td></tr>
+          <tr><td><span class="hl purple">CMD</span></td><td>Default command to run when container starts (can be overridden)</td><td><code>CMD ["java", "-jar", "app.jar"]</code></td></tr>
+          <tr><td><span class="hl purple">ENTRYPOINT</span></td><td>Fixed command that always runs (CMD provides arguments)</td><td><code>ENTRYPOINT ["java", "-jar"]</code></td></tr>
+          <tr><td><span class="hl purple">ARG</span></td><td>Build-time variable — only available during <code>docker build</code></td><td><code>ARG VERSION=1.0</code></td></tr>
+          <tr><td><span class="hl purple">LABEL</span></td><td>Add metadata key=value pairs to the image</td><td><code>LABEL maintainer="dev@company.com"</code></td></tr>
+          <tr><td><span class="hl purple">HEALTHCHECK</span></td><td>Tell Docker how to test if the container is healthy</td><td><code>HEALTHCHECK CMD curl -f http://localhost:8080/health</code></td></tr>
+          <tr><td><span class="hl purple">VOLUME</span></td><td>Create a mount point for persistent or shared data</td><td><code>VOLUME /data</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-heading">Complete Spring Boot Dockerfile (Multi-Stage)</h3>
+    <div class="card-light">
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-wrap').querySelector('.code-block').innerText)">Copy</button>
+        <div class="code-block"><span class="cm"># Stage 1: Build — uses Maven + full JDK to compile</span>
+<span class="kw">FROM</span> <span class="st">maven:3.9.6-eclipse-temurin-17</span> <span class="kw">AS</span> <span class="cl">builder</span>
+<span class="kw">WORKDIR</span> <span class="st">/build</span>
+<span class="cm"># Copy pom.xml first so dependency layer is cached separately</span>
+<span class="kw">COPY</span> pom.xml .
+<span class="kw">RUN</span> mvn dependency:go-offline -B
+<span class="kw">COPY</span> src ./src
+<span class="kw">RUN</span> mvn clean package -DskipTests
+
+<span class="cm"># Stage 2: Run — uses slim JRE only (no Maven, no source code)</span>
+<span class="kw">FROM</span> <span class="st">eclipse-temurin:17-jre-slim</span>
+<span class="kw">WORKDIR</span> <span class="st">/app</span>
+<span class="cm"># Add non-root user for security</span>
+<span class="kw">RUN</span> addgroup --system appgroup &amp;&amp; adduser --system --ingroup appgroup appuser
+<span class="cm"># Copy only the built JAR from the builder stage</span>
+<span class="kw">COPY</span> --from=<span class="cl">builder</span> /build/target/*.jar app.jar
+<span class="kw">RUN</span> chown appuser:appgroup app.jar
+<span class="kw">USER</span> appuser
+<span class="kw">EXPOSE</span> <span class="num">8080</span>
+<span class="kw">HEALTHCHECK</span> --interval=<span class="num">30s</span> --timeout=<span class="num">3s</span> \
+  <span class="kw">CMD</span> curl -f http://localhost:<span class="num">8080</span>/actuator/health || exit <span class="num">1</span>
+<span class="kw">ENTRYPOINT</span> [<span class="st">"java"</span>, <span class="st">"-Djava.security.egd=file:/dev/./urandom"</span>, <span class="st">"-jar"</span>, <span class="st">"app.jar"</span>]</div>
+      </div>
+    </div>
+
+    <h3 class="sub-heading">Multi-Stage Builds — Why They Matter</h3>
+    <div class="card-light">
+      <div class="ans-hero">
+        <i class="bi bi-arrow-left-right me-2"></i>Multi-stage builds: use one image to compile, copy only the output to a smaller runtime image — production image shrinks from 800 MB to 150 MB, with zero build tools exposed.
+      </div>
+      <div class="compare-grid">
+        <div class="compare-card amber">
+          <h6><i class="bi bi-dash-circle me-1"></i>Single Stage (Naive)</h6>
+          <ul>
+            <li>Final image = 800 MB (Maven + full JDK + source code)</li>
+            <li>Contains build tools unnecessary in production</li>
+            <li>Source code exposed in final image</li>
+            <li>Slow pull and deploy times</li>
+            <li>Larger attack surface</li>
+          </ul>
+        </div>
+        <div class="compare-card green">
+          <h6><i class="bi bi-plus-circle me-1"></i>Multi-Stage (Production)</h6>
+          <ul>
+            <li>Final image = 150 MB (JRE only + JAR)</li>
+            <li>Build tools left behind in the builder stage</li>
+            <li>Source code never reaches production image</li>
+            <li>Faster pull, smaller storage cost</li>
+            <li>Minimal attack surface</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 4: Essential Docker Commands -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="content-section" id="commands">
+    <h2 class="section-heading">4. Essential Docker Commands</h2>
+    <div class="section-divider"></div>
+    <p class="section-sub">The commands you'll use every day — from pulling images to debugging running containers.</p>
+
+    <h3 class="sub-heading">Image Commands</h3>
+    <div class="card-light">
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-wrap').querySelector('.code-block').innerText)">Copy</button>
+        <div class="code-block"><span class="cm"># Pull an image from Docker Hub</span>
+docker pull nginx:latest
+
+<span class="cm"># List all local images</span>
+docker images
+
+<span class="cm"># Build image from Dockerfile in current directory</span>
+docker build -t myapp:<span class="num">1.0</span> .
+
+<span class="cm"># Build with no cache (fresh build — ignores all cached layers)</span>
+docker build --no-cache -t myapp:<span class="num">1.0</span> .
+
+<span class="cm"># Tag an image with a new name/registry path</span>
+docker tag myapp:<span class="num">1.0</span> myrepo/myapp:<span class="num">1.0</span>
+
+<span class="cm"># Push to Docker Hub (must be logged in)</span>
+docker push myrepo/myapp:<span class="num">1.0</span>
+
+<span class="cm"># Remove a specific image</span>
+docker rmi myapp:<span class="num">1.0</span>
+
+<span class="cm"># Remove all unused images (dangling + unreferenced)</span>
+docker image prune -a</div>
+      </div>
+    </div>
+
+    <h3 class="sub-heading">Container Commands</h3>
+    <div class="card-light">
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-wrap').querySelector('.code-block').innerText)">Copy</button>
+        <div class="code-block"><span class="cm"># Run a container (foreground — blocks your terminal)</span>
+docker run nginx:latest
+
+<span class="cm"># Run detached (background) with name and port mapping host:container</span>
+docker run -d --name my-nginx -p <span class="num">8080</span>:<span class="num">80</span> nginx:latest
+
+<span class="cm"># Run with environment variable</span>
+docker run -d -e SPRING_PROFILES_ACTIVE=prod myapp:<span class="num">1.0</span>
+
+<span class="cm"># Run with volume mount (host path:container path)</span>
+docker run -d -v /host/data:/container/data myapp:<span class="num">1.0</span>
+
+<span class="cm"># List running containers</span>
+docker ps
+
+<span class="cm"># List all containers including stopped ones</span>
+docker ps -a
+
+<span class="cm"># View logs</span>
+docker logs my-nginx
+docker logs -f my-nginx          <span class="cm"># follow / tail logs in real time</span>
+
+<span class="cm"># Execute command inside a running container (interactive bash)</span>
+docker exec -it my-nginx bash
+
+<span class="cm"># Stop / Start / Restart a named container</span>
+docker stop my-nginx
+docker start my-nginx
+docker restart my-nginx
+
+<span class="cm"># Remove a container (must be stopped first)</span>
+docker rm my-nginx
+docker rm -f my-nginx            <span class="cm"># force remove a running container</span>
+
+<span class="cm"># Copy file to/from container</span>
+docker cp my-nginx:/etc/nginx/nginx.conf ./nginx.conf
+docker cp ./nginx.conf my-nginx:/etc/nginx/nginx.conf</div>
+      </div>
+    </div>
+
+    <h3 class="sub-heading">Inspect &amp; Debug Commands</h3>
+    <div class="card-light">
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-wrap').querySelector('.code-block').innerText)">Copy</button>
+        <div class="code-block"><span class="cm"># Inspect full container config/state as JSON</span>
+docker inspect my-nginx
+
+<span class="cm"># Live CPU, memory, network, and disk usage for all containers</span>
+docker stats
+
+<span class="cm"># Show port mappings for a container</span>
+docker port my-nginx
+
+<span class="cm"># Show running processes inside a container</span>
+docker top my-nginx
+
+<span class="cm"># View image layer history (sizes and commands)</span>
+docker history myapp:<span class="num">1.0</span>
+
+<span class="cm"># Scan image for known CVEs (requires Docker Scout)</span>
+docker scout cves myapp:<span class="num">1.0</span>
+
+<span class="cm"># System-wide disk usage summary</span>
+docker system df
+
+<span class="cm"># Clean everything unused (images, containers, networks, build cache)</span>
+docker system prune -a</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 5: Docker Networking -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="content-section" id="networking">
+    <h2 class="section-heading">5. Docker Networking</h2>
+    <div class="section-divider"></div>
+    <p class="section-sub">How containers communicate with each other and the outside world — five network driver types.</p>
+
+    <h3 class="sub-heading">Network Types</h3>
+    <div class="card-light">
+      <table class="kv-table">
+        <thead><tr><th>Type</th><th>Description</th><th>Use Case</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="hl blue">bridge</span></td>
+            <td>Default driver. Creates an isolated virtual network on the host. Containers on the same bridge network can communicate using container names as hostnames.</td>
+            <td>Local dev, single-host multi-container apps</td>
+          </tr>
+          <tr>
+            <td><span class="hl green">host</span></td>
+            <td>Container shares the host's network stack directly. No port mapping needed — container ports are the host ports.</td>
+            <td>Performance-critical workloads, Linux only</td>
+          </tr>
+          <tr>
+            <td><span class="hl red">none</span></td>
+            <td>Container has no network interfaces. Completely isolated from all networking.</td>
+            <td>Isolated batch jobs, security-sensitive processing</td>
+          </tr>
+          <tr>
+            <td><span class="hl purple">overlay</span></td>
+            <td>Spans multiple Docker hosts using VXLAN tunneling. Requires Docker Swarm or Kubernetes orchestration.</td>
+            <td>Docker Swarm services, cross-host communication</td>
+          </tr>
+          <tr>
+            <td><span class="hl amber">macvlan</span></td>
+            <td>Assigns a unique MAC address to each container so it appears as a physical device on the network.</td>
+            <td>Legacy apps that require a physical network presence</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-heading">Network Commands</h3>
+    <div class="card-light">
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-wrap').querySelector('.code-block').innerText)">Copy</button>
+        <div class="code-block"><span class="cm"># List all networks on the host</span>
+docker network ls
+
+<span class="cm"># Create a custom named bridge network</span>
+docker network create my-network
+
+<span class="cm"># Run two containers on the same network</span>
+<span class="cm"># They can resolve each other by container name!</span>
+docker run -d --network my-network --name app myapp:<span class="num">1.0</span>
+docker run -d --network my-network --name db postgres:<span class="num">15</span>
+
+<span class="cm"># 'app' can now reach 'db' at hostname 'db' — no IPs needed</span>
+<span class="cm"># e.g., SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/myapp</span>
+
+<span class="cm"># Inspect a network (see connected containers, subnet, gateway)</span>
+docker network inspect my-network
+
+<span class="cm"># Connect an already-running container to a network</span>
+docker network connect my-network my-container
+
+<span class="cm"># Disconnect a container from a network</span>
+docker network disconnect my-network my-container
+
+<span class="cm"># Remove a network (all containers must be disconnected first)</span>
+docker network rm my-network</div>
+      </div>
+      <div class="info-panel tip mt-3">
+        <div class="panel-title">Key Insight — DNS Resolution</div>
+        Containers on the same user-defined bridge network automatically get DNS resolution by container name. The default <code>bridge</code> network does NOT support this — always create a named network for multi-container apps.
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 6: Docker Volumes -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="content-section" id="volumes">
+    <h2 class="section-heading">6. Docker Volumes (Persistent Data)</h2>
+    <div class="section-divider"></div>
+    <p class="section-sub">Containers are ephemeral — volumes are how you persist data beyond a container's lifetime.</p>
+
+    <h3 class="sub-heading">Why Volumes?</h3>
+    <div class="card-light">
+      <div class="ans-hero">
+        <i class="bi bi-database me-2"></i>Containers are ephemeral — when they stop or are removed, any data written inside the container filesystem is gone. Volumes persist data outside the container lifecycle.
+      </div>
+      <div class="compare-grid">
+        <div class="compare-card red">
+          <h6><i class="bi bi-x-circle me-1"></i>Without a Volume</h6>
+          <ul>
+            <li>Write data to container filesystem</li>
+            <li>Container crashes or is removed</li>
+            <li>ALL data is permanently lost</li>
+            <li>Database wiped on every restart</li>
+            <li>Logs, uploads, state — all gone</li>
+          </ul>
+        </div>
+        <div class="compare-card green">
+          <h6><i class="bi bi-check-circle me-1"></i>With a Volume</h6>
+          <ul>
+            <li>Data stored in a Docker-managed volume</li>
+            <li>Container removed or replaced</li>
+            <li>Volume persists independently</li>
+            <li>New container mounts the same volume</li>
+            <li>Data intact — zero data loss on redeploy</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="sub-heading">Volume Types</h3>
+    <div class="card-light">
+      <table class="kv-table">
+        <thead><tr><th>Type</th><th>Syntax</th><th>Use Case</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="hl purple">Named Volume</span></td>
+            <td><code>-v my-vol:/data</code></td>
+            <td>Databases (Postgres, MySQL, Redis). Docker manages the storage location on the host. Best for production data persistence.</td>
+          </tr>
+          <tr>
+            <td><span class="hl blue">Bind Mount</span></td>
+            <td><code>-v /host/path:/container/path</code></td>
+            <td>Development hot-reload (mount source code), config files, sharing files between host and container.</td>
+          </tr>
+          <tr>
+            <td><span class="hl amber">tmpfs Mount</span></td>
+            <td><code>--tmpfs /tmp</code></td>
+            <td>Temporary files, in-memory secrets, sensitive data that must never touch disk.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-heading">Volume Commands</h3>
+    <div class="card-light">
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-wrap').querySelector('.code-block').innerText)">Copy</button>
+        <div class="code-block"><span class="cm"># Create a named volume</span>
+docker volume create my-data
+
+<span class="cm"># Run postgres with persistent volume (data survives container removal)</span>
+docker run -d \
+  --name postgres-db \
+  -e POSTGRES_PASSWORD=secret \
+  -v my-data:/var/lib/postgresql/data \
+  -p <span class="num">5432</span>:<span class="num">5432</span> \
+  postgres:<span class="num">15</span>
+
+<span class="cm"># List all volumes</span>
+docker volume ls
+
+<span class="cm"># Inspect a volume (shows actual mount path on host)</span>
+docker volume inspect my-data
+
+<span class="cm"># Remove a specific volume (container must not be using it)</span>
+docker volume rm my-data
+
+<span class="cm"># Remove all unused volumes (WARNING: permanent data loss)</span>
+docker volume prune
+
+<span class="cm"># Bind mount example — mount current dir into container (dev hot-reload)</span>
+docker run -d \
+  -v $(pwd)/src:/app/src \
+  -p <span class="num">3000</span>:<span class="num">3000</span> \
+  my-react-app:dev</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 7: Docker Compose -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="content-section" id="compose">
+    <h2 class="section-heading">7. Docker Compose</h2>
+    <div class="section-divider"></div>
+    <p class="section-sub">Define and run multi-container applications with a single YAML file.</p>
+
+    <h3 class="sub-heading">What is Docker Compose?</h3>
+    <div class="card-light">
+      <div class="ans-hero">
+        <i class="bi bi-layers me-2"></i>Docker Compose lets you define and run multi-container apps in a single YAML file — one command starts everything in the right order with the right networking.
+      </div>
+      <ul class="ans-list blue">
+        <li><i class="bi bi-x-circle me-1" style="color:#dc2626;flex-shrink:0;"></i><strong>Without Compose:</strong> 5 separate <code>docker run</code> commands with long flags, manual network creation, manual volume setup, manual dependency ordering</li>
+        <li><i class="bi bi-check-circle me-1" style="color:#059669;flex-shrink:0;"></i><strong>With Compose:</strong> one <code>docker-compose.yml</code> file + <code>docker-compose up -d</code> — everything starts in the correct order with proper networking and volumes</li>
+      </ul>
+    </div>
+
+    <h3 class="sub-heading">Complete docker-compose.yml (Spring Boot + PostgreSQL + Redis + Nginx)</h3>
+    <div class="card-light">
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-wrap').querySelector('.code-block').innerText)">Copy</button>
+        <div class="code-block"><span class="kw">version</span>: <span class="st">'3.8'</span>
+
+<span class="kw">services</span>:
+  <span class="cm"># PostgreSQL Database</span>
+  <span class="cl">db</span>:
+    <span class="kw">image</span>: <span class="st">postgres:15-alpine</span>
+    <span class="kw">container_name</span>: <span class="st">app-db</span>
+    <span class="kw">environment</span>:
+      <span class="cl">POSTGRES_DB</span>: <span class="st">myapp</span>
+      <span class="cl">POSTGRES_USER</span>: <span class="st">appuser</span>
+      <span class="cl">POSTGRES_PASSWORD</span>: <span class="st">${DB_PASSWORD}</span>
+    <span class="kw">volumes</span>:
+      - <span class="st">postgres-data:/var/lib/postgresql/data</span>
+      - <span class="st">./init.sql:/docker-entrypoint-initdb.d/init.sql</span>
+    <span class="kw">networks</span>:
+      - <span class="st">backend</span>
+    <span class="kw">healthcheck</span>:
+      <span class="kw">test</span>: [<span class="st">"CMD-SHELL"</span>, <span class="st">"pg_isready -U appuser -d myapp"</span>]
+      <span class="kw">interval</span>: <span class="num">10s</span>
+      <span class="kw">timeout</span>: <span class="num">5s</span>
+      <span class="kw">retries</span>: <span class="num">5</span>
+
+  <span class="cm"># Redis Cache</span>
+  <span class="cl">redis</span>:
+    <span class="kw">image</span>: <span class="st">redis:7-alpine</span>
+    <span class="kw">container_name</span>: <span class="st">app-redis</span>
+    <span class="kw">command</span>: <span class="st">redis-server --requirepass ${REDIS_PASSWORD}</span>
+    <span class="kw">networks</span>:
+      - <span class="st">backend</span>
+
+  <span class="cm"># Spring Boot Application</span>
+  <span class="cl">app</span>:
+    <span class="kw">build</span>:
+      <span class="kw">context</span>: <span class="st">.</span>
+      <span class="kw">dockerfile</span>: <span class="st">Dockerfile</span>
+    <span class="kw">container_name</span>: <span class="st">spring-app</span>
+    <span class="kw">environment</span>:
+      <span class="cl">SPRING_DATASOURCE_URL</span>: <span class="st">jdbc:postgresql://db:5432/myapp</span>
+      <span class="cl">SPRING_DATASOURCE_USERNAME</span>: <span class="st">appuser</span>
+      <span class="cl">SPRING_DATASOURCE_PASSWORD</span>: <span class="st">${DB_PASSWORD}</span>
+      <span class="cl">SPRING_REDIS_HOST</span>: <span class="st">redis</span>
+      <span class="cl">SPRING_REDIS_PASSWORD</span>: <span class="st">${REDIS_PASSWORD}</span>
+    <span class="kw">ports</span>:
+      - <span class="st">"8080:8080"</span>
+    <span class="kw">depends_on</span>:
+      <span class="cl">db</span>:
+        <span class="kw">condition</span>: <span class="st">service_healthy</span>
+      <span class="cl">redis</span>:
+        <span class="kw">condition</span>: <span class="st">service_started</span>
+    <span class="kw">networks</span>:
+      - <span class="st">backend</span>
+      - <span class="st">frontend</span>
+    <span class="kw">restart</span>: <span class="st">unless-stopped</span>
+
+  <span class="cm"># Nginx Reverse Proxy</span>
+  <span class="cl">nginx</span>:
+    <span class="kw">image</span>: <span class="st">nginx:alpine</span>
+    <span class="kw">container_name</span>: <span class="st">app-nginx</span>
+    <span class="kw">ports</span>:
+      - <span class="st">"80:80"</span>
+      - <span class="st">"443:443"</span>
+    <span class="kw">volumes</span>:
+      - <span class="st">./nginx.conf:/etc/nginx/nginx.conf:ro</span>
+      - <span class="st">./ssl:/etc/nginx/ssl:ro</span>
+    <span class="kw">depends_on</span>:
+      - <span class="st">app</span>
+    <span class="kw">networks</span>:
+      - <span class="st">frontend</span>
+    <span class="kw">restart</span>: <span class="st">unless-stopped</span>
+
+<span class="kw">networks</span>:
+  <span class="cl">backend</span>:
+    <span class="kw">driver</span>: <span class="st">bridge</span>
+  <span class="cl">frontend</span>:
+    <span class="kw">driver</span>: <span class="st">bridge</span>
+
+<span class="kw">volumes</span>:
+  <span class="cl">postgres-data</span>:
+    <span class="kw">driver</span>: <span class="st">local</span></div>
+      </div>
+    </div>
+
+    <h3 class="sub-heading">Docker Compose Commands</h3>
+    <div class="card-light">
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-wrap').querySelector('.code-block').innerText)">Copy</button>
+        <div class="code-block"><span class="cm"># Start all services in background (build if images don't exist)</span>
+docker-compose up -d
+
+<span class="cm"># Start and force rebuild all images</span>
+docker-compose up -d --build
+
+<span class="cm"># Stop all services (containers removed, volumes kept)</span>
+docker-compose down
+
+<span class="cm"># Stop and remove all volumes — WARNING: permanent data loss</span>
+docker-compose down -v
+
+<span class="cm"># View logs from all services (follow/tail)</span>
+docker-compose logs -f
+
+<span class="cm"># View logs from a specific service only</span>
+docker-compose logs -f app
+
+<span class="cm"># Scale a service to 3 replicas</span>
+docker-compose up -d --scale app=<span class="num">3</span>
+
+<span class="cm"># Execute a command in a running service container</span>
+docker-compose exec app bash
+
+<span class="cm"># List all services and their current status</span>
+docker-compose ps
+
+<span class="cm"># Restart a single service without touching others</span>
+docker-compose restart app
+
+<span class="cm"># Pull latest images for all services</span>
+docker-compose pull
+
+<span class="cm"># Validate and view the merged compose config</span>
+docker-compose config</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 8: The Full Journey -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="content-section" id="full-journey">
+    <h2 class="section-heading">8. The Full Journey — Code to Docker to Deploy</h2>
+    <div class="section-divider"></div>
+    <p class="section-sub">The complete end-to-end path from a Spring Boot app on your laptop to a running container in production.</p>
+
+    <h3 class="sub-heading">Step-by-Step: Spring Boot App to Running Container</h3>
+    <div class="card-light">
+      <ol class="step-list">
+        <li><strong>Write Spring Boot app</strong> — <code>pom.xml</code>, <code>Application.java</code>, controllers, services, repositories</li>
+        <li><strong>Build the JAR:</strong> <code>mvn clean package</code> — produces <code>target/app-1.0.jar</code></li>
+        <li><strong>Write Dockerfile</strong> — multi-stage: builder stage (Maven + JDK 17) + run stage (JRE slim)</li>
+        <li><strong>Build the image:</strong> <code>docker build -t myapp:1.0 .</code> — Docker reads Dockerfile, creates image layers</li>
+        <li><strong>Test locally:</strong> <code>docker run -p 8080:8080 myapp:1.0</code> — verify app runs correctly in a container</li>
+        <li><strong>Tag for registry:</strong> <code>docker tag myapp:1.0 myrepo/myapp:1.0</code> — prepend registry path</li>
+        <li><strong>Push to registry:</strong> <code>docker push myrepo/myapp:1.0</code> — image now available anywhere</li>
+        <li><strong>Deploy to server:</strong> <code>docker pull myrepo/myapp:1.0 &amp;&amp; docker run -d myrepo/myapp:1.0</code> — runs identically to local</li>
+      </ol>
+    </div>
+
+    <h3 class="sub-heading">Minimal Spring Boot App — Code Example</h3>
+    <div class="card-light">
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-wrap').querySelector('.code-block').innerText)">Copy</button>
+        <div class="code-block"><span class="cm">// Application.java — main entry point</span>
+<span class="ann">@SpringBootApplication</span>
+<span class="kw">public class</span> <span class="cl">Application</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cl">String</span>[] args) {
+        <span class="cl">SpringApplication</span>.<span class="fn">run</span>(<span class="cl">Application</span>.class, args);
+    }
+}
+
+<span class="cm">// HelloController.java — simple REST endpoints</span>
+<span class="ann">@RestController</span>
+<span class="kw">public class</span> <span class="cl">HelloController</span> {
+
+    <span class="ann">@GetMapping</span>(<span class="st">"/"</span>)
+    <span class="kw">public</span> <span class="cl">String</span> <span class="fn">hello</span>() {
+        <span class="kw">return</span> <span class="st">"Hello from Docker! Version: "</span> +
+               <span class="cl">System</span>.<span class="fn">getenv</span>().<span class="fn">getOrDefault</span>(<span class="st">"APP_VERSION"</span>, <span class="st">"1.0"</span>);
+    }
+
+    <span class="ann">@GetMapping</span>(<span class="st">"/actuator/health"</span>)
+    <span class="kw">public</span> <span class="cl">Map</span>&lt;<span class="cl">String</span>, <span class="cl">String</span>&gt; <span class="fn">health</span>() {
+        <span class="kw">return</span> <span class="cl">Map</span>.<span class="fn">of</span>(<span class="st">"status"</span>, <span class="st">"UP"</span>);
+    }
+}</div>
+      </div>
+      <div class="info-panel tip mt-3">
+        <div class="panel-title">Pro Tip — Health Checks</div>
+        Always expose a <code>/actuator/health</code> endpoint (Spring Boot Actuator) and reference it in both your Dockerfile <code>HEALTHCHECK</code> and your Compose <code>healthcheck</code> config. This lets Docker and orchestrators know when your app is truly ready to serve traffic.
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 9: Best Practices -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="content-section" id="best-practices">
+    <h2 class="section-heading">9. Docker Best Practices</h2>
+    <div class="section-divider"></div>
+    <p class="section-sub">Security, performance, and maintainability rules that separate production-grade Docker usage from development shortcuts.</p>
+
+    <h3 class="sub-heading">Security</h3>
+    <div class="card-light">
+      <span class="ans-label tip"><i class="bi bi-shield-lock me-1"></i>Security</span>
+      <ul class="ans-list red">
+        <li><i class="bi bi-person-x me-1" style="flex-shrink:0;"></i><strong>Never run as root</strong> — add a non-root user in Dockerfile: <code>RUN adduser --system appuser &amp;&amp; USER appuser</code></li>
+        <li><i class="bi bi-patch-check me-1" style="flex-shrink:0;"></i><strong>Use official/verified base images</strong> — always specify exact version tags, never <code>:latest</code> in production</li>
+        <li><i class="bi bi-search me-1" style="flex-shrink:0;"></i><strong>Scan images for CVEs</strong> — <code>docker scout cves myapp:1.0</code> or integrate Trivy in your CI pipeline</li>
+        <li><i class="bi bi-key me-1" style="flex-shrink:0;"></i><strong>Never hardcode secrets</strong> — use environment variables, Docker secrets, or a secrets manager (AWS Secrets Manager, Vault)</li>
+        <li><i class="bi bi-arrows-collapse me-1" style="flex-shrink:0;"></i><strong>Minimize image size</strong> — smaller image = fewer packages = smaller attack surface</li>
+        <li><i class="bi bi-lock me-1" style="flex-shrink:0;"></i><strong>Use read-only filesystem</strong> where possible: <code>docker run --read-only --tmpfs /tmp myapp:1.0</code></li>
+      </ul>
+    </div>
+
+    <h3 class="sub-heading">Performance &amp; Size</h3>
+    <div class="card-light">
+      <span class="ans-label key"><i class="bi bi-speedometer me-1"></i>Performance</span>
+      <ul class="ans-list green">
+        <li><i class="bi bi-box2 me-1" style="flex-shrink:0;"></i><strong>Use Alpine-based images</strong> — <code>nginx:alpine</code> is 5 MB vs 140 MB for Debian-based; <code>eclipse-temurin:17-jre-alpine</code> is ~80 MB</li>
+        <li><i class="bi bi-layers me-1" style="flex-shrink:0;"></i><strong>Multi-stage builds</strong> — always separate build environment from runtime environment</li>
+        <li><i class="bi bi-sort-down me-1" style="flex-shrink:0;"></i><strong>Order instructions by change frequency</strong> — least-changing layers first (system packages, then dependencies, then source code)</li>
+        <li><i class="bi bi-file-earmark-x me-1" style="flex-shrink:0;"></i><strong>Use .dockerignore</strong> — exclude <code>node_modules/</code>, <code>target/</code>, <code>.git/</code>, <code>*.log</code> to keep build context small</li>
+        <li><i class="bi bi-link me-1" style="flex-shrink:0;"></i><strong>Combine RUN commands</strong> — chain with <code>&amp;&amp;</code> to reduce layer count: <code>RUN apt-get update &amp;&amp; apt-get install -y curl &amp;&amp; rm -rf /var/lib/apt/lists/*</code></li>
+      </ul>
+    </div>
+
+    <h3 class="sub-heading">.dockerignore File</h3>
+    <div class="card-light">
+      <p>Always create a <code>.dockerignore</code> file alongside your Dockerfile — it prevents large or sensitive files from being sent to the build context, speeding up builds significantly.</p>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-wrap').querySelector('.code-block').innerText)">Copy</button>
+        <div class="code-block"><span class="cm"># Version control</span>
+.git
+.gitignore
+.gitattributes
+
+<span class="cm"># Build outputs — don't include in build context</span>
+target/
+build/
+dist/
+node_modules/
+
+<span class="cm"># Logs and temp files</span>
+*.log
+*.tmp
+.DS_Store
+
+<span class="cm"># Documentation</span>
+*.md
+docs/
+
+<span class="cm"># Secrets — NEVER include these</span>
+.env
+.env.local
+*.pem
+*.key
+credentials.json
+
+<span class="cm"># IDE files</span>
+.idea/
+.vscode/
+*.iml</div>
+      </div>
+    </div>
+
+    <h3 class="sub-heading">Layer Caching — Order Matters</h3>
+    <div class="card-light">
+      <div class="info-panel warning">
+        <div class="panel-title">Cache Busting</div>
+        Docker rebuilds a layer and all subsequent layers whenever any file in a COPY or RUN instruction changes. Put instructions that change rarely at the top, instructions that change often (like copying source code) at the bottom.
+      </div>
+      <div class="compare-grid">
+        <div class="compare-card red">
+          <h6><i class="bi bi-x-circle me-1"></i>Bad Order (slow rebuilds)</h6>
+          <ul>
+            <li><code>COPY . .</code> — copies everything first</li>
+            <li><code>RUN mvn dependency:go-offline</code></li>
+            <li>Every code change re-downloads all dependencies</li>
+          </ul>
+        </div>
+        <div class="compare-card green">
+          <h6><i class="bi bi-check-circle me-1"></i>Good Order (fast rebuilds)</h6>
+          <ul>
+            <li><code>COPY pom.xml .</code> — pom rarely changes</li>
+            <li><code>RUN mvn dependency:go-offline</code> — cached</li>
+            <li><code>COPY src ./src</code> — only re-runs compile</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 10: Docker in CI/CD -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="content-section" id="cicd">
+    <h2 class="section-heading">10. Docker in CI/CD</h2>
+    <div class="section-divider"></div>
+    <p class="section-sub">Integrating Docker into a Jenkins pipeline — build, tag, push, and deploy automatically on every commit.</p>
+
+    <h3 class="sub-heading">Jenkins + Docker Pipeline</h3>
+    <div class="card-light">
+      <div class="ans-hero">
+        <i class="bi bi-infinity me-2"></i>In a typical CI/CD pipeline: Jenkins builds the JAR, builds a Docker image, pushes it to a registry, then deploys by stopping the old container and starting the new one — fully automated.
+      </div>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-wrap').querySelector('.code-block').innerText)">Copy</button>
+        <div class="code-block"><span class="fn">pipeline</span> {
+    <span class="fn">agent</span> any
+    <span class="kw">environment</span> {
+        <span class="cl">DOCKER_IMAGE</span> = <span class="st">"myrepo/myapp"</span>
+        <span class="cl">DOCKER_TAG</span>   = <span class="st">"${BUILD_NUMBER}"</span>
+        <span class="cl">REGISTRY_CREDS</span> = <span class="fn">credentials</span>(<span class="st">'docker-hub-creds'</span>)
+    }
+    <span class="fn">stages</span> {
+        <span class="fn">stage</span>(<span class="st">'Build JAR'</span>) {
+            <span class="fn">steps</span> {
+                <span class="fn">sh</span> <span class="st">'mvn clean package -DskipTests'</span>
+            }
+        }
+        <span class="fn">stage</span>(<span class="st">'Build Docker Image'</span>) {
+            <span class="fn">steps</span> {
+                <span class="fn">sh</span> <span class="st">"docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."</span>
+                <span class="fn">sh</span> <span class="st">"docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_IMAGE}:latest"</span>
+            }
+        }
+        <span class="fn">stage</span>(<span class="st">'Scan Image'</span>) {
+            <span class="fn">steps</span> {
+                <span class="cm">// Fail build if critical CVEs found</span>
+                <span class="fn">sh</span> <span class="st">"docker scout cves --exit-code --only-severity critical ${DOCKER_IMAGE}:${DOCKER_TAG}"</span>
+            }
+        }
+        <span class="fn">stage</span>(<span class="st">'Push to Registry'</span>) {
+            <span class="fn">steps</span> {
+                <span class="fn">sh</span> <span class="st">"echo ${REGISTRY_CREDS_PSW} | docker login -u ${REGISTRY_CREDS_USR} --password-stdin"</span>
+                <span class="fn">sh</span> <span class="st">"docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"</span>
+                <span class="fn">sh</span> <span class="st">"docker push ${DOCKER_IMAGE}:latest"</span>
+            }
+        }
+        <span class="fn">stage</span>(<span class="st">'Deploy'</span>) {
+            <span class="fn">steps</span> {
+                <span class="cm">// Stop old container if running (|| true prevents failure if not running)</span>
+                <span class="fn">sh</span> <span class="st">"docker stop myapp || true"</span>
+                <span class="fn">sh</span> <span class="st">"docker rm myapp || true"</span>
+                <span class="cm">// Start new container</span>
+                <span class="fn">sh</span> <span class="st">"""docker run -d \
+                       --name myapp \
+                       -p 8080:8080 \
+                       --restart unless-stopped \
+                       -e SPRING_PROFILES_ACTIVE=prod \
+                       ${DOCKER_IMAGE}:${DOCKER_TAG}"""</span>
+            }
+        }
+    }
+    <span class="fn">post</span> {
+        <span class="fn">always</span> {
+            <span class="cm">// Clean up local image to save disk space on Jenkins agent</span>
+            <span class="fn">sh</span> <span class="st">"docker rmi ${DOCKER_IMAGE}:${DOCKER_TAG} || true"</span>
+            <span class="fn">sh</span> <span class="st">"docker logout"</span>
+        }
+        <span class="fn">failure</span> {
+            <span class="fn">mail</span> <span class="kw">to</span>: <span class="st">'team@company.com'</span>,
+                 <span class="kw">subject</span>: <span class="st">"Docker Build Failed: ${JOB_NAME} #${BUILD_NUMBER}"</span>,
+                 <span class="kw">body</span>: <span class="st">"Build ${BUILD_URL} failed. Check the logs."</span>
+        }
+    }
+}</div>
+      </div>
+    </div>
+
+    <h3 class="sub-heading">CI/CD Pipeline Summary</h3>
+    <div class="card-light">
+      <div class="icon-row">
+        <span class="icon-chip blue"><i class="bi bi-code-slash"></i> 1. Code pushed to Git</span>
+        <span class="icon-chip amber"><i class="bi bi-gear"></i> 2. Jenkins triggered</span>
+        <span class="icon-chip purple"><i class="bi bi-hammer"></i> 3. mvn package</span>
+        <span class="icon-chip blue"><i class="bi bi-box-seam"></i> 4. docker build</span>
+        <span class="icon-chip red"><i class="bi bi-shield-check"></i> 5. Security scan</span>
+        <span class="icon-chip green"><i class="bi bi-cloud-arrow-up"></i> 6. docker push</span>
+        <span class="icon-chip amber"><i class="bi bi-rocket-takeoff"></i> 7. docker run (deploy)</span>
+      </div>
+      <div class="info-panel tip mt-2">
+        <div class="panel-title">Blue-Green &amp; Rolling Deployments</div>
+        For zero-downtime production deployments, use <strong>blue-green</strong> (run new version alongside old, switch traffic) or <strong>rolling updates</strong> (replace containers one at a time). These patterns are natively supported in Kubernetes and Docker Swarm. With plain Docker, use Nginx upstream switching or a load balancer.
+      </div>
+    </div>
+  </section>
+
+</div><!-- /.container-main -->
+
+<!-- ── FOOTER ────────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="footer-brand">DevOps Mastery Hub — Complete Reference</div>
+  <p class="mb-2">Docker &bull; Kubernetes &bull; Jenkins &bull; AWS &bull; CI/CD</p>
+  <div>
+    <a href="devops-index.html">Overview</a>
+    <a href="docker.html">Docker</a>
+    <a href="kubernetes.html">Kubernetes</a>
+    <a href="jenkins.html">Jenkins</a>
+    <a href="aws.html">AWS</a>
+    <a href="devops-questions.html">Q&amp;A</a>
+  </div>
+  <p class="mt-3 mb-0" style="opacity:.7;">&copy; 2026 DevOps Mastery Hub. Built for DevOps Engineers.</p>
+</footer>
+
+<!-- ── SCROLL TO TOP ─────────────────────────────────────────── -->
+<button id="scrollTop" class="scroll-top scroll-top-btn" aria-label="Scroll to top">&uarr;</button>
+
+<!-- ── SCRIPTS ───────────────────────────────────────────────── -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>

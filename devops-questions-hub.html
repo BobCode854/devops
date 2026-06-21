@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DevOps Interview Q&A — DevOps Mastery Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .ans-hero{background:linear-gradient(135deg,#6c63ff18,#a855f718);border-left:4px solid #6c63ff;border-radius:0 10px 10px 0;padding:.7rem 1.1rem;font-weight:700;font-size:1rem;color:#2d2b5e;margin-bottom:1rem;}
+    .ans-list{list-style:none;padding:0;margin:.5rem 0 1rem;}
+    .ans-list li{display:flex;align-items:flex-start;gap:.5rem;padding:.38rem .65rem;margin-bottom:.28rem;border-radius:8px;font-size:.93rem;background:#f7f8fc;border-left:3px solid #6c63ff;}
+    .ans-list.green li{border-left-color:#059669;background:#f0fdf4;}
+    .ans-list.amber li{border-left-color:#d97706;background:#fffbeb;}
+    .ans-list.red li{border-left-color:#dc2626;background:#fff5f5;}
+    .ans-list.blue li{border-left-color:#2563eb;background:#eff6ff;}
+    .ans-list.purple li{border-left-color:#7c3aed;background:#f5f3ff;}
+    .hl{font-weight:700;padding:.05rem .38rem;border-radius:5px;font-size:.88em;}
+    .hl.green{background:#d1fae5;color:#065f46;}
+    .hl.blue{background:#dbeafe;color:#1e40af;}
+    .hl.purple{background:#ede9fe;color:#5b21b6;}
+    .hl.amber{background:#fef3c7;color:#92400e;}
+    .hl.red{background:#fee2e2;color:#991b1b;}
+
+    /* Q&A Hub cards */
+    .qa-hub-card{border-radius:18px;padding:2rem;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;border:2px solid transparent;}
+    .qa-hub-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(108,99,255,.15);text-decoration:none;}
+    .qa-hub-card.docker{background:linear-gradient(135deg,#eff6ff,#dbeafe);border-color:#93c5fd;}
+    .qa-hub-card.docker:hover{border-color:#3b82f6;}
+    .qa-hub-card.k8s{background:linear-gradient(135deg,#f0fdf4,#d1fae5);border-color:#6ee7b7;}
+    .qa-hub-card.k8s:hover{border-color:#059669;}
+    .qa-hub-card.jenkins{background:linear-gradient(135deg,#fffbeb,#fef3c7);border-color:#fcd34d;}
+    .qa-hub-card.jenkins:hover{border-color:#d97706;}
+    .qa-hub-card.general{background:linear-gradient(135deg,#f5f3ff,#ede9fe);border-color:#c4b5fd;}
+    .qa-hub-card.general:hover{border-color:#7c3aed;}
+
+    .qa-hub-icon{font-size:3rem;margin-bottom:1rem;display:block;}
+    .qa-hub-title{font-size:1.4rem;font-weight:800;margin-bottom:.4rem;}
+    .qa-hub-subtitle{font-size:.9rem;opacity:.75;margin-bottom:1rem;}
+    .qa-hub-stats{display:flex;gap:.5rem;flex-wrap:wrap;}
+    .qa-stat{font-size:.75rem;font-weight:700;padding:.2rem .6rem;border-radius:20px;background:rgba(255,255,255,.7);}
+
+    .cat-badge{display:inline-flex;align-items:center;gap:.3rem;font-size:.75rem;font-weight:700;padding:.2rem .6rem;border-radius:20px;}
+    .cat-badge.easy{background:#d1fae5;color:#065f46;}
+    .cat-badge.medium{background:#fef3c7;color:#92400e;}
+    .cat-badge.hard{background:#fee2e2;color:#991b1b;}
+    .cat-badge.scenario{background:#ede9fe;color:#5b21b6;}
+    .cat-badge.tricky{background:#fce7f3;color:#9d174d;}
+
+    .tip-card{border-radius:12px;padding:1.2rem 1.4rem;margin-bottom:1rem;}
+    .tip-card.blue{background:#eff6ff;border:1.5px solid #93c5fd;}
+    .tip-card.green{background:#f0fdf4;border:1.5px solid #6ee7b7;}
+    .tip-card.amber{background:#fffbeb;border:1.5px solid #fcd34d;}
+    .tip-card.purple{background:#f5f3ff;border:1.5px solid #c4b5fd;}
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg sticky-top" style="background:var(--surface);box-shadow:0 2px 16px rgba(108,99,255,.1);">
+  <div class="container-xl">
+    <a class="navbar-brand fw-800 d-flex align-items-center gap-2" href="devops-index.html">
+      <i class="bi bi-rocket-takeoff-fill" style="color:var(--primary);font-size:1.3rem;"></i>
+      DevOps Mastery Hub
+      <span class="badge ms-1" style="background:var(--primary);font-size:.65rem;">DevOps</span>
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navmain">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navmain">
+      <ul class="navbar-nav ms-auto gap-1">
+        <li class="nav-item"><a class="nav-link" href="devops-index.html"><i class="bi bi-house me-1"></i>Overview</a></li>
+        <li class="nav-item"><a class="nav-link" href="docker.html"><i class="bi bi-box me-1"></i>Docker</a></li>
+        <li class="nav-item"><a class="nav-link" href="kubernetes.html"><i class="bi bi-diagram-3 me-1"></i>Kubernetes</a></li>
+        <li class="nav-item"><a class="nav-link" href="jenkins.html"><i class="bi bi-gear me-1"></i>Jenkins</a></li>
+        <li class="nav-item"><a class="nav-link" href="aws.html"><i class="bi bi-cloud me-1"></i>AWS</a></li>
+        <li class="nav-item"><a class="nav-link active fw-700" href="devops-questions-hub.html"><i class="bi bi-question-circle me-1"></i>Q&amp;A</a></li>
+        <li class="nav-item"><a class="nav-link" href="devops-coding.html"><i class="bi bi-code-slash me-1"></i>Coding</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section style="background:linear-gradient(135deg,#6c63ff,#a855f7);padding:3.5rem 0 2.5rem;color:#fff;">
+  <div class="container-xl text-center">
+    <div class="mb-3">
+      <span style="background:rgba(255,255,255,.2);border-radius:20px;padding:.3rem 1rem;font-size:.85rem;font-weight:600;">
+        <i class="bi bi-question-circle me-1"></i> 500+ Interview Questions
+      </span>
+    </div>
+    <h1 class="display-5 fw-900 mb-2">DevOps Interview Q&amp;A Hub</h1>
+    <p class="lead mb-3" style="opacity:.9;">200 Docker · 200 Kubernetes · 200 Jenkins — Easy, Medium, Hard, Scenario &amp; Tricky</p>
+    <div class="d-flex justify-content-center gap-2 flex-wrap">
+      <span class="cat-badge easy"><i class="bi bi-circle-fill me-1" style="font-size:.5rem;"></i>Easy</span>
+      <span class="cat-badge medium"><i class="bi bi-circle-fill me-1" style="font-size:.5rem;"></i>Medium</span>
+      <span class="cat-badge hard"><i class="bi bi-circle-fill me-1" style="font-size:.5rem;"></i>Hard</span>
+      <span class="cat-badge scenario"><i class="bi bi-circle-fill me-1" style="font-size:.5rem;"></i>Scenario</span>
+      <span class="cat-badge tricky"><i class="bi bi-circle-fill me-1" style="font-size:.5rem;"></i>Tricky</span>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div style="background:var(--surface);border-bottom:1px solid #e9ecef;">
+  <div class="container-xl">
+    <div class="row g-0 text-center">
+      <div class="col-6 col-md-3 py-3 border-end">
+        <div class="fw-800 fs-4" style="color:var(--primary);">200</div>
+        <div class="small text-muted">Docker Q&amp;A</div>
+      </div>
+      <div class="col-6 col-md-3 py-3 border-end">
+        <div class="fw-800 fs-4" style="color:#059669;">200</div>
+        <div class="small text-muted">Kubernetes Q&amp;A</div>
+      </div>
+      <div class="col-6 col-md-3 py-3 border-end">
+        <div class="fw-800 fs-4" style="color:#d97706;">200</div>
+        <div class="small text-muted">Jenkins Q&amp;A</div>
+      </div>
+      <div class="col-6 col-md-3 py-3">
+        <div class="fw-800 fs-4" style="color:#7c3aed;">5</div>
+        <div class="small text-muted">Difficulty Levels</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="container-xl py-5">
+
+  <!-- Q&A TOPIC CARDS -->
+  <h2 class="fw-800 mb-2" style="color:var(--primary);">
+    <i class="bi bi-grid-3x2-gap me-2"></i>Choose Your Topic
+  </h2>
+  <p class="text-muted mb-4">Each topic has 200 questions with full visual answers, code examples, and explanations.</p>
+
+  <div class="row g-4 mb-5">
+
+    <!-- Docker Card -->
+    <div class="col-md-6 col-lg-3">
+      <a href="devops-questions-docker.html" class="qa-hub-card docker">
+        <span class="qa-hub-icon"><i class="bi bi-box-seam" style="color:#2563eb;"></i></span>
+        <div class="qa-hub-title" style="color:#1e40af;">Docker</div>
+        <div class="qa-hub-subtitle">Containers, images, networking, volumes, Compose, security &amp; internals</div>
+        <div class="qa-hub-stats">
+          <span class="qa-stat">50 Easy</span>
+          <span class="qa-stat">60 Medium</span>
+          <span class="qa-stat">40 Hard</span>
+          <span class="qa-stat">30 Scenario</span>
+          <span class="qa-stat">20 Tricky</span>
+        </div>
+        <div class="mt-3 fw-700" style="color:#2563eb;font-size:.9rem;">
+          Open 200 Questions <i class="bi bi-arrow-right ms-1"></i>
+        </div>
+      </a>
+    </div>
+
+    <!-- Kubernetes Card -->
+    <div class="col-md-6 col-lg-3">
+      <a href="devops-questions-k8s.html" class="qa-hub-card k8s">
+        <span class="qa-hub-icon"><i class="bi bi-diagram-3" style="color:#059669;"></i></span>
+        <div class="qa-hub-title" style="color:#065f46;">Kubernetes</div>
+        <div class="qa-hub-subtitle">Pods, Deployments, Services, HPA, RBAC, Ingress, networking &amp; storage</div>
+        <div class="qa-hub-stats">
+          <span class="qa-stat">50 Easy</span>
+          <span class="qa-stat">60 Medium</span>
+          <span class="qa-stat">40 Hard</span>
+          <span class="qa-stat">30 Scenario</span>
+          <span class="qa-stat">20 Tricky</span>
+        </div>
+        <div class="mt-3 fw-700" style="color:#059669;font-size:.9rem;">
+          Open 200 Questions <i class="bi bi-arrow-right ms-1"></i>
+        </div>
+      </a>
+    </div>
+
+    <!-- Jenkins Card -->
+    <div class="col-md-6 col-lg-3">
+      <a href="devops-questions-jenkins.html" class="qa-hub-card jenkins">
+        <span class="qa-hub-icon"><i class="bi bi-gear-wide-connected" style="color:#d97706;"></i></span>
+        <div class="qa-hub-title" style="color:#92400e;">Jenkins</div>
+        <div class="qa-hub-subtitle">Pipelines, Jenkinsfile, shared libraries, agents, CI/CD, credentials</div>
+        <div class="qa-hub-stats">
+          <span class="qa-stat">50 Easy</span>
+          <span class="qa-stat">60 Medium</span>
+          <span class="qa-stat">40 Hard</span>
+          <span class="qa-stat">30 Scenario</span>
+          <span class="qa-stat">20 Tricky</span>
+        </div>
+        <div class="mt-3 fw-700" style="color:#d97706;font-size:.9rem;">
+          Open 200 Questions <i class="bi bi-arrow-right ms-1"></i>
+        </div>
+      </a>
+    </div>
+
+    <!-- General DevOps Card -->
+    <div class="col-md-6 col-lg-3">
+      <a href="devops-questions.html" class="qa-hub-card general">
+        <span class="qa-hub-icon"><i class="bi bi-infinity" style="color:#7c3aed;"></i></span>
+        <div class="qa-hub-title" style="color:#5b21b6;">DevOps General</div>
+        <div class="qa-hub-subtitle">CI/CD, DORA metrics, GitOps, IaC, SRE, deployment strategies, Helm &amp; more</div>
+        <div class="qa-hub-stats">
+          <span class="qa-stat">25 Docker</span>
+          <span class="qa-stat">25 K8s</span>
+          <span class="qa-stat">25 Jenkins</span>
+          <span class="qa-stat">25 General</span>
+        </div>
+        <div class="mt-3 fw-700" style="color:#7c3aed;font-size:.9rem;">
+          Open 100 Questions <i class="bi bi-arrow-right ms-1"></i>
+        </div>
+      </a>
+    </div>
+
+  </div>
+
+  <!-- HOW TO PREPARE SECTION -->
+  <div class="row g-4 mb-5">
+    <div class="col-12">
+      <h2 class="fw-800 mb-3" style="color:var(--primary);">
+        <i class="bi bi-lightbulb me-2"></i>How to Prepare — Strategy Guide
+      </h2>
+    </div>
+
+    <div class="col-md-6">
+      <div class="tip-card blue">
+        <h5 class="fw-700 mb-2"><i class="bi bi-1-circle-fill me-2" style="color:#2563eb;"></i>Week 1 — Docker Foundations</h5>
+        <ul class="ans-list blue">
+          <li><i class="bi bi-check-circle me-1"></i>Master all 50 Easy questions first — these are guaranteed in every interview</li>
+          <li><i class="bi bi-check-circle me-1"></i>Practice writing Dockerfiles from scratch (multi-stage, non-root user)</li>
+          <li><i class="bi bi-check-circle me-1"></i>Run docker-compose locally with a Spring Boot + Postgres setup</li>
+          <li><i class="bi bi-check-circle me-1"></i>Understand CMD vs ENTRYPOINT, COPY vs ADD, ARG vs ENV deeply</li>
+          <li><i class="bi bi-check-circle me-1"></i>Learn to debug: docker logs, docker inspect, docker exec</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="tip-card green">
+        <h5 class="fw-700 mb-2"><i class="bi bi-2-circle-fill me-2" style="color:#059669;"></i>Week 2 — Kubernetes Core</h5>
+        <ul class="ans-list green">
+          <li><i class="bi bi-check-circle me-1"></i>Draw the K8s architecture from memory (control plane + worker node)</li>
+          <li><i class="bi bi-check-circle me-1"></i>Write and apply Deployment + Service + Ingress YAMLs without docs</li>
+          <li><i class="bi bi-check-circle me-1"></i>Practice kubectl: get, describe, logs, exec, rollout, scale</li>
+          <li><i class="bi bi-check-circle me-1"></i>Understand ConfigMap, Secret, PVC — know when to use each</li>
+          <li><i class="bi bi-check-circle me-1"></i>Practice debugging: CrashLoopBackOff, Pending, OOMKilled</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="tip-card amber">
+        <h5 class="fw-700 mb-2"><i class="bi bi-3-circle-fill me-2" style="color:#d97706;"></i>Week 3 — Jenkins CI/CD</h5>
+        <ul class="ans-list amber">
+          <li><i class="bi bi-check-circle me-1"></i>Write a full Jenkinsfile from scratch: Build → Test → Docker → Deploy</li>
+          <li><i class="bi bi-check-circle me-1"></i>Understand declarative vs scripted pipeline differences</li>
+          <li><i class="bi bi-check-circle me-1"></i>Practice parallel stages, when conditions, withCredentials</li>
+          <li><i class="bi bi-check-circle me-1"></i>Learn shared library structure (vars/, src/, resources/)</li>
+          <li><i class="bi bi-check-circle me-1"></i>Know the Groovy CPS trap — why some code must be in script{} blocks</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="tip-card purple">
+        <h5 class="fw-700 mb-2"><i class="bi bi-4-circle-fill me-2" style="color:#7c3aed;"></i>Week 4 — Hard + Scenario Questions</h5>
+        <ul class="ans-list purple">
+          <li><i class="bi bi-check-circle me-1"></i>Go through all Scenario questions — these test real-world thinking</li>
+          <li><i class="bi bi-check-circle me-1"></i>Practice explaining your answers out loud (mock interview style)</li>
+          <li><i class="bi bi-check-circle me-1"></i>Know the Tricky questions — interviewers love edge cases</li>
+          <li><i class="bi bi-check-circle me-1"></i>Review the full pipeline: code → JAR → Docker → ECR → EKS</li>
+          <li><i class="bi bi-check-circle me-1"></i>Practice on Katacoda, KillerCoda, or a local minikube cluster</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOP QUESTIONS TO KNOW -->
+  <div class="mb-5">
+    <h2 class="fw-800 mb-3" style="color:var(--primary);">
+      <i class="bi bi-star me-2"></i>Most Asked — Top 15 Questions
+    </h2>
+    <p class="text-muted mb-4">These questions come up in almost every DevOps interview. Make sure you can answer them perfectly.</p>
+
+    <div class="row g-3">
+
+      <div class="col-md-4">
+        <div class="card border-0 h-100" style="background:#f7f8fc;border-radius:12px;">
+          <div class="card-body">
+            <span class="cat-badge easy mb-2 d-inline-flex">Easy</span>
+            <span class="badge ms-1 mb-2" style="background:#eff6ff;color:#1e40af;font-size:.7rem;">Docker</span>
+            <p class="fw-700 mb-1" style="font-size:.95rem;">Container vs VM — what is the difference?</p>
+            <p class="text-muted small mb-0">VMs virtualize hardware; containers virtualize the OS. Containers share the host kernel → 10x faster startup, 10x smaller size.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card border-0 h-100" style="background:#f7f8fc;border-radius:12px;">
+          <div class="card-body">
+            <span class="cat-badge medium mb-2 d-inline-flex">Medium</span>
+            <span class="badge ms-1 mb-2" style="background:#eff6ff;color:#1e40af;font-size:.7rem;">Docker</span>
+            <p class="fw-700 mb-1" style="font-size:.95rem;">How does Docker layer caching work?</p>
+            <p class="text-muted small mb-0">Each instruction creates a layer. If instruction + context unchanged → cache hit. Order matters: COPY pom.xml before COPY src/.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card border-0 h-100" style="background:#f7f8fc;border-radius:12px;">
+          <div class="card-body">
+            <span class="cat-badge easy mb-2 d-inline-flex">Easy</span>
+            <span class="badge ms-1 mb-2" style="background:#f0fdf4;color:#065f46;font-size:.7rem;">Kubernetes</span>
+            <p class="fw-700 mb-1" style="font-size:.95rem;">What is Kubernetes and why use it?</p>
+            <p class="text-muted small mb-0">Container orchestrator. Auto-restarts crashed pods, auto-scales, load balances, does zero-downtime deploys. Solves the "who manages 100 containers?" problem.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card border-0 h-100" style="background:#f7f8fc;border-radius:12px;">
+          <div class="card-body">
+            <span class="cat-badge medium mb-2 d-inline-flex">Medium</span>
+            <span class="badge ms-1 mb-2" style="background:#f0fdf4;color:#065f46;font-size:.7rem;">Kubernetes</span>
+            <p class="fw-700 mb-1" style="font-size:.95rem;">Deployment vs StatefulSet — when to use each?</p>
+            <p class="text-muted small mb-0">Deployment = stateless apps (any pod is identical). StatefulSet = stateful apps needing stable hostname + ordered scaling (databases, Kafka).</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card border-0 h-100" style="background:#f7f8fc;border-radius:12px;">
+          <div class="card-body">
+            <span class="cat-badge scenario mb-2 d-inline-flex">Scenario</span>
+            <span class="badge ms-1 mb-2" style="background:#f0fdf4;color:#065f46;font-size:.7rem;">Kubernetes</span>
+            <p class="fw-700 mb-1" style="font-size:.95rem;">Pod is in CrashLoopBackOff. How do you debug?</p>
+            <p class="text-muted small mb-0">kubectl logs pod-name --previous → kubectl describe pod → check Events section → check image, env vars, resource limits.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card border-0 h-100" style="background:#f7f8fc;border-radius:12px;">
+          <div class="card-body">
+            <span class="cat-badge easy mb-2 d-inline-flex">Easy</span>
+            <span class="badge ms-1 mb-2" style="background:#fffbeb;color:#92400e;font-size:.7rem;">Jenkins</span>
+            <p class="fw-700 mb-1" style="font-size:.95rem;">What is CI/CD and why is it important?</p>
+            <p class="text-muted small mb-0">CI = auto build+test on every commit. CD = auto deploy to staging/prod. Reduces integration hell, enables multiple deploys per day, catches bugs early.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card border-0 h-100" style="background:#f7f8fc;border-radius:12px;">
+          <div class="card-body">
+            <span class="cat-badge medium mb-2 d-inline-flex">Medium</span>
+            <span class="badge ms-1 mb-2" style="background:#fffbeb;color:#92400e;font-size:.7rem;">Jenkins</span>
+            <p class="fw-700 mb-1" style="font-size:.95rem;">Declarative vs Scripted Pipeline — difference?</p>
+            <p class="text-muted small mb-0">Declarative: structured syntax, validated, easier to read. Scripted: full Groovy, more flexible but harder to maintain. Use declarative by default.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card border-0 h-100" style="background:#f7f8fc;border-radius:12px;">
+          <div class="card-body">
+            <span class="cat-badge hard mb-2 d-inline-flex">Hard</span>
+            <span class="badge ms-1 mb-2" style="background:#fffbeb;color:#92400e;font-size:.7rem;">Jenkins</span>
+            <p class="fw-700 mb-1" style="font-size:.95rem;">What is a Jenkins Shared Library?</p>
+            <p class="text-muted small mb-0">Groovy code in a separate Git repo (vars/, src/) that multiple Jenkinsfiles can import. One place to define common steps like buildAndPush(), deployToK8s().</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card border-0 h-100" style="background:#f7f8fc;border-radius:12px;">
+          <div class="card-body">
+            <span class="cat-badge tricky mb-2 d-inline-flex">Tricky</span>
+            <span class="badge ms-1 mb-2" style="background:#fffbeb;color:#92400e;font-size:.7rem;">Jenkins</span>
+            <p class="fw-700 mb-1" style="font-size:.95rem;">Why does withCredentials not mask secrets in double-quoted strings?</p>
+            <p class="text-muted small mb-0">Groovy string interpolation resolves ${MY_SECRET} before Jenkins masks it. Always use single quotes: sh 'echo $MY_SECRET' not sh "echo ${MY_SECRET}".</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card border-0 h-100" style="background:#f7f8fc;border-radius:12px;">
+          <div class="card-body">
+            <span class="cat-badge medium mb-2 d-inline-flex">Medium</span>
+            <span class="badge ms-1 mb-2" style="background:#eff6ff;color:#1e40af;font-size:.7rem;">Docker</span>
+            <p class="fw-700 mb-1" style="font-size:.95rem;">What is a multi-stage Docker build?</p>
+            <p class="text-muted small mb-0">Multiple FROM stages in one Dockerfile. Build in stage 1 (Maven/Node) → copy only the artifact to stage 2 (JRE/nginx). Final image has no build tools → 10x smaller.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card border-0 h-100" style="background:#f7f8fc;border-radius:12px;">
+          <div class="card-body">
+            <span class="cat-badge medium mb-2 d-inline-flex">Medium</span>
+            <span class="badge ms-1 mb-2" style="background:#f0fdf4;color:#065f46;font-size:.7rem;">Kubernetes</span>
+            <p class="fw-700 mb-1" style="font-size:.95rem;">What is a HorizontalPodAutoscaler (HPA)?</p>
+            <p class="text-muted small mb-0">K8s object that auto-scales pod replicas based on CPU/memory/custom metrics. Checks every 15s, scales up when metric > target, down after 5 min cool-down.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card border-0 h-100" style="background:#f7f8fc;border-radius:12px;">
+          <div class="card-body">
+            <span class="cat-badge scenario mb-2 d-inline-flex">Scenario</span>
+            <span class="badge ms-1 mb-2" style="background:#eff6ff;color:#1e40af;font-size:.7rem;">Docker</span>
+            <p class="fw-700 mb-1" style="font-size:.95rem;">Docker image is 2GB. How do you reduce it to 200MB?</p>
+            <p class="text-muted small mb-0">Multi-stage build, switch to alpine/JRE-slim, combine RUN commands, add .dockerignore, remove dev dependencies, avoid installing unnecessary packages.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card border-0 h-100" style="background:#f7f8fc;border-radius:12px;">
+          <div class="card-body">
+            <span class="cat-badge tricky mb-2 d-inline-flex">Tricky</span>
+            <span class="badge ms-1 mb-2" style="background:#f0fdf4;color:#065f46;font-size:.7rem;">Kubernetes</span>
+            <p class="fw-700 mb-1" style="font-size:.95rem;">If you delete a pod managed by a Deployment, what happens?</p>
+            <p class="text-muted small mb-0">The Deployment's ReplicaSet controller immediately creates a new pod to maintain desired replica count. The pod is replaced, not gone permanently.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card border-0 h-100" style="background:#f7f8fc;border-radius:12px;">
+          <div class="card-body">
+            <span class="cat-badge hard mb-2 d-inline-flex">Hard</span>
+            <span class="badge ms-1 mb-2" style="background:#eff6ff;color:#1e40af;font-size:.7rem;">Docker</span>
+            <p class="fw-700 mb-1" style="font-size:.95rem;">What is the PID 1 problem in Docker?</p>
+            <p class="text-muted small mb-0">Docker's CMD becomes PID 1. It must handle SIGTERM for graceful shutdown AND reap zombie processes. Use exec form CMD + implement signal handler, or use --init flag.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card border-0 h-100" style="background:#f7f8fc;border-radius:12px;">
+          <div class="card-body">
+            <span class="cat-badge scenario mb-2 d-inline-flex">Scenario</span>
+            <span class="badge ms-1 mb-2" style="background:#fffbeb;color:#92400e;font-size:.7rem;">Jenkins</span>
+            <p class="fw-700 mb-1" style="font-size:.95rem;">Jenkins build takes 45 minutes. How do you speed it up?</p>
+            <p class="text-muted small mb-0">Run tests in parallel, use Docker layer cache, cache Maven ~/.m2 across builds, use incremental builds, skip redundant stages on feature branches.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FULL PIPELINE REMINDER -->
+  <div class="mb-5 p-4 rounded-3" style="background:linear-gradient(135deg,#0f172a,#1e293b);color:#e2e8f0;">
+    <h4 class="fw-800 mb-3" style="color:#a78bfa;"><i class="bi bi-diagram-2 me-2"></i>The Full Pipeline — Know This Cold</h4>
+    <p class="mb-3" style="color:#94a3b8;">Every DevOps interview asks about the deployment pipeline. Know each step and which tool handles it.</p>
+    <div class="row g-2 text-center">
+      <div class="col"><div class="p-2 rounded" style="background:#1e293b;border:1px solid #334155;"><div style="color:#60a5fa;font-size:1.5rem;"><i class="bi bi-git"></i></div><small style="color:#94a3b8;">git push</small></div></div>
+      <div class="col d-flex align-items-center justify-content-center" style="color:#475569;font-size:1.2rem;">→</div>
+      <div class="col"><div class="p-2 rounded" style="background:#1e293b;border:1px solid #334155;"><div style="color:#facc15;font-size:1.5rem;"><i class="bi bi-gear"></i></div><small style="color:#94a3b8;">Jenkins trigger</small></div></div>
+      <div class="col d-flex align-items-center justify-content-center" style="color:#475569;font-size:1.2rem;">→</div>
+      <div class="col"><div class="p-2 rounded" style="background:#1e293b;border:1px solid #334155;"><div style="color:#fb923c;font-size:1.5rem;"><i class="bi bi-file-earmark-zip"></i></div><small style="color:#94a3b8;">mvn build JAR</small></div></div>
+      <div class="col d-flex align-items-center justify-content-center" style="color:#475569;font-size:1.2rem;">→</div>
+      <div class="col"><div class="p-2 rounded" style="background:#1e293b;border:1px solid #334155;"><div style="color:#38bdf8;font-size:1.5rem;"><i class="bi bi-box-seam"></i></div><small style="color:#94a3b8;">docker build</small></div></div>
+      <div class="col d-flex align-items-center justify-content-center" style="color:#475569;font-size:1.2rem;">→</div>
+      <div class="col"><div class="p-2 rounded" style="background:#1e293b;border:1px solid #334155;"><div style="color:#f472b6;font-size:1.5rem;"><i class="bi bi-cloud-upload"></i></div><small style="color:#94a3b8;">push to ECR</small></div></div>
+      <div class="col d-flex align-items-center justify-content-center" style="color:#475569;font-size:1.2rem;">→</div>
+      <div class="col"><div class="p-2 rounded" style="background:#1e293b;border:1px solid #334155;"><div style="color:#4ade80;font-size:1.5rem;"><i class="bi bi-diagram-3"></i></div><small style="color:#94a3b8;">kubectl deploy</small></div></div>
+      <div class="col d-flex align-items-center justify-content-center" style="color:#475569;font-size:1.2rem;">→</div>
+      <div class="col"><div class="p-2 rounded" style="background:#1e293b;border:1px solid #334155;"><div style="color:#a78bfa;font-size:1.5rem;"><i class="bi bi-check-circle"></i></div><small style="color:#94a3b8;">Live in EKS</small></div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer style="background:#0f172a;color:#94a3b8;padding:2.5rem 0;">
+  <div class="container-xl">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="fw-800 mb-2" style="color:#fff;font-size:1.1rem;">
+          <i class="bi bi-rocket-takeoff-fill me-2" style="color:#a78bfa;"></i>DevOps Mastery Hub
+        </div>
+        <p class="small mb-0">Complete DevOps learning resource — Docker, Kubernetes, Jenkins, AWS with 500+ interview questions and coding challenges.</p>
+      </div>
+      <div class="col-md-4">
+        <div class="fw-700 mb-2" style="color:#fff;">Concept Guides</div>
+        <div class="d-flex flex-column gap-1">
+          <a href="devops-index.html" class="text-decoration-none small" style="color:#94a3b8;">DevOps Overview</a>
+          <a href="docker.html" class="text-decoration-none small" style="color:#94a3b8;">Docker Deep Dive</a>
+          <a href="kubernetes.html" class="text-decoration-none small" style="color:#94a3b8;">Kubernetes Deep Dive</a>
+          <a href="jenkins.html" class="text-decoration-none small" style="color:#94a3b8;">Jenkins Deep Dive</a>
+          <a href="aws.html" class="text-decoration-none small" style="color:#94a3b8;">AWS for DevOps</a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="fw-700 mb-2" style="color:#fff;">Interview Q&amp;A</div>
+        <div class="d-flex flex-column gap-1">
+          <a href="devops-questions-docker.html" class="text-decoration-none small" style="color:#94a3b8;">200 Docker Questions</a>
+          <a href="devops-questions-k8s.html" class="text-decoration-none small" style="color:#94a3b8;">200 Kubernetes Questions</a>
+          <a href="devops-questions-jenkins.html" class="text-decoration-none small" style="color:#94a3b8;">200 Jenkins Questions</a>
+          <a href="devops-questions.html" class="text-decoration-none small" style="color:#94a3b8;">100 General DevOps Questions</a>
+          <a href="devops-coding.html" class="text-decoration-none small" style="color:#94a3b8;">Coding Challenges</a>
+        </div>
+      </div>
+    </div>
+    <hr style="border-color:#1e293b;margin:1.5rem 0;" />
+    <div class="text-center small">DevOps Mastery Hub — Built for interview preparation and deep learning</div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

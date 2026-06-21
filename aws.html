@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AWS for DevOps — DevOps Mastery Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .ans-hero{background:linear-gradient(135deg,#6c63ff18,#a855f718);border-left:4px solid #6c63ff;border-radius:0 10px 10px 0;padding:.7rem 1.1rem;font-weight:700;font-size:1rem;color:#2d2b5e;margin-bottom:1rem;}
+    .ans-list{list-style:none;padding:0;margin:.5rem 0 1rem;}
+    .ans-list li{display:flex;align-items:flex-start;gap:.5rem;padding:.38rem .65rem;margin-bottom:.28rem;border-radius:8px;font-size:.93rem;background:#f7f8fc;border-left:3px solid #6c63ff;}
+    .ans-list.green li{border-left-color:#059669;background:#f0fdf4;}
+    .ans-list.amber li{border-left-color:#d97706;background:#fffbeb;}
+    .ans-list.red li{border-left-color:#dc2626;background:#fff5f5;}
+    .ans-list.blue li{border-left-color:#2563eb;background:#eff6ff;}
+    .ans-list.purple li{border-left-color:#7c3aed;background:#f5f3ff;}
+    .ans-label{display:inline-flex;align-items:center;gap:.3rem;font-size:.76rem;font-weight:800;text-transform:uppercase;padding:.18rem .6rem;border-radius:20px;margin-bottom:.4rem;}
+    .ans-label.def{background:#eef2ff;color:#4f46e5;}
+    .ans-label.key{background:#f0fdf4;color:#059669;}
+    .ans-label.ex{background:#fffbeb;color:#d97706;}
+    .ans-label.tip{background:#fff5f5;color:#dc2626;}
+    .hl{font-weight:700;padding:.05rem .38rem;border-radius:5px;font-size:.88em;}
+    .hl.green{background:#d1fae5;color:#065f46;}
+    .hl.blue{background:#dbeafe;color:#1e40af;}
+    .hl.purple{background:#ede9fe;color:#5b21b6;}
+    .hl.amber{background:#fef3c7;color:#92400e;}
+    .hl.red{background:#fee2e2;color:#991b1b;}
+    .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin:.6rem 0 1rem;}
+    .compare-card{border-radius:10px;padding:.75rem 1rem;}
+    .compare-card.green{background:#f0fdf4;border:1.5px solid #6ee7b7;}
+    .compare-card.blue{background:#eff6ff;border:1.5px solid #93c5fd;}
+    .compare-card.amber{background:#fffbeb;border:1.5px solid #fcd34d;}
+    .compare-card.red{background:#fff5f5;border:1.5px solid #fca5a5;}
+    .kv-table{width:100%;border-collapse:collapse;margin:.6rem 0 1rem;}
+    .kv-table th{background:#6c63ff;color:#fff;padding:.4rem .7rem;font-weight:700;}
+    .kv-table td{padding:.4rem .7rem;border-bottom:1px solid #e2e5f0;}
+    .icon-row{display:flex;flex-wrap:wrap;gap:.7rem;margin:.6rem 0 1rem;}
+    .icon-chip{display:flex;align-items:center;gap:.4rem;background:#f7f8fc;border:1px solid #e2e5f0;border-radius:10px;padding:.35rem .75rem;font-size:.88rem;font-weight:600;}
+    .icon-chip.blue{background:#eff6ff;border-color:#93c5fd;color:#1e40af;}
+    .icon-chip.green{background:#f0fdf4;border-color:#6ee7b7;color:#065f46;}
+    .icon-chip.amber{background:#fffbeb;border-color:#fcd34d;color:#92400e;}
+    .icon-chip.purple{background:#f5f3ff;border-color:#c4b5fd;color:#5b21b6;}
+    @media(max-width:600px){.compare-grid{grid-template-columns:1fr;}}
+
+    /* Step list for numbered flows */
+    .step-list{list-style:none;padding:0;margin:.5rem 0 1rem;counter-reset:step-counter;}
+    .step-list li{display:flex;align-items:flex-start;gap:.75rem;padding:.5rem .75rem;margin-bottom:.4rem;border-radius:8px;font-size:.93rem;background:#eff6ff;border-left:3px solid #2563eb;counter-increment:step-counter;}
+    .step-list li::before{content:counter(step-counter);display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#6c63ff,#a855f7);color:#fff;font-size:.75rem;font-weight:800;flex-shrink:0;}
+
+    .compare-card h6{font-weight:800;font-size:.88rem;margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.03em;}
+    .compare-card.green h6{color:#065f46;}
+    .compare-card.red h6{color:#991b1b;}
+    .compare-card.amber h6{color:#92400e;}
+    .compare-card.blue h6{color:#1e40af;}
+    .compare-card ul{font-size:.86rem;padding-left:1.1rem;margin-bottom:0;}
+    .compare-card.green ul{color:#065f46;}
+    .compare-card.red ul{color:#991b1b;}
+    .compare-card.amber ul{color:#92400e;}
+    .compare-card.blue ul{color:#1e40af;}
+
+    .kv-table th{font-size:.82rem;text-align:left;}
+    .kv-table td{font-size:.88rem;vertical-align:top;}
+    .kv-table tbody tr:nth-child(even){background:#f7f8fc;}
+    .kv-table tbody tr:hover{background:#eef2ff;}
+    .kv-table code{background:#eef2ff;color:#4f46e5;padding:.1em .3em;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:.82em;}
+
+    /* Service cards for AWS services grid */
+    .service-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.85rem;margin:.6rem 0 1rem;}
+    .service-card{border-radius:12px;padding:.9rem 1rem;border:1.5px solid #e2e5f0;background:#fff;transition:box-shadow .15s,transform .15s;}
+    .service-card:hover{box-shadow:0 4px 18px #6c63ff1a;transform:translateY(-2px);}
+    .service-card.orange{border-top:3px solid #ea580c;background:linear-gradient(135deg,#fff7ed,#fff);}
+    .service-card.blue{border-top:3px solid #2563eb;background:linear-gradient(135deg,#eff6ff,#fff);}
+    .service-card.green{border-top:3px solid #059669;background:linear-gradient(135deg,#f0fdf4,#fff);}
+    .service-card.purple{border-top:3px solid #7c3aed;background:linear-gradient(135deg,#f5f3ff,#fff);}
+    .service-card.amber{border-top:3px solid #d97706;background:linear-gradient(135deg,#fffbeb,#fff);}
+    .service-card h6{font-weight:800;font-size:.92rem;margin-bottom:.3rem;}
+    .service-card.orange h6{color:#c2410c;}
+    .service-card.blue h6{color:#1e40af;}
+    .service-card.green h6{color:#065f46;}
+    .service-card.purple h6{color:#5b21b6;}
+    .service-card.amber h6{color:#92400e;}
+    .service-card p{font-size:.83rem;color:#555;margin-bottom:0;line-height:1.45;}
+    .service-icon{font-size:1.4rem;margin-bottom:.4rem;}
+  </style>
+</head>
+<body>
+
+<!-- ── NAVBAR ──────────────────────────────────────────────── -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container-main d-flex w-100 align-items-center justify-content-between">
+    <a class="navbar-brand" href="devops-index.html">
+      <span class="brand-badge">DO</span> DevOps Mastery Hub
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navMenu" aria-controls="navMenu"
+            aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse flex-grow-0" id="navMenu">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="devops-index.html"><i class="bi bi-house-door me-1"></i>Overview</a></li>
+        <li class="nav-item"><a class="nav-link" href="docker.html"><i class="bi bi-box-seam me-1"></i>Docker</a></li>
+        <li class="nav-item"><a class="nav-link" href="kubernetes.html"><i class="bi bi-diagram-3 me-1"></i>Kubernetes</a></li>
+        <li class="nav-item"><a class="nav-link" href="jenkins.html"><i class="bi bi-gear me-1"></i>Jenkins</a></li>
+        <li class="nav-item"><a class="nav-link active" href="aws.html"><i class="bi bi-cloud me-1"></i>AWS</a></li>
+        <li class="nav-item"><a class="nav-link" href="devops-questions.html"><i class="bi bi-chat-left-text me-1"></i>Q&amp;A</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ─────────────────────────────────────────────────── -->
+<header class="hero">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <h1><i class="bi bi-cloud me-2"></i>AWS for DevOps</h1>
+  <p class="lead">Deploy your apps to the cloud — EC2, EKS, ECR, S3, RDS, CodePipeline and more, explained simply</p>
+  <div class="d-flex gap-3 justify-content-center flex-wrap position-relative" style="z-index:2;">
+    <a href="#why-cloud" class="btn btn-light btn-lg fw-bold px-4"><i class="bi bi-play-fill me-1"></i>Start Learning</a>
+    <a href="devops-index.html" class="btn btn-outline-light btn-lg fw-bold px-4"><i class="bi bi-arrow-left me-1"></i>Back to Overview</a>
+  </div>
+</header>
+
+<!-- ── STATS BAR ─────────────────────────────────────────────── -->
+<div class="stats-bar">
+  <div class="stat-card">
+    <div class="stat-num">200+</div>
+    <div class="stat-label">AWS Services</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num">EC2 + EKS + ECR</div>
+    <div class="stat-label">Core Compute &amp; Containers</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num">Managed</div>
+    <div class="stat-label">Kubernetes</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num">Global</div>
+    <div class="stat-label">Infrastructure</div>
+  </div>
+</div>
+
+<!-- ── MAIN CONTENT ───────────────────────────────────────────── -->
+<div class="container-main">
+
+  <!-- TOC PILLS -->
+  <div class="toc-pills">
+    <a href="#why-cloud"><i class="bi bi-question-circle me-1"></i>Why Cloud?</a>
+    <a href="#services"><i class="bi bi-grid me-1"></i>AWS Services</a>
+    <a href="#cli"><i class="bi bi-terminal me-1"></i>CLI Commands</a>
+    <a href="#eks-deploy"><i class="bi bi-diagram-3 me-1"></i>EKS Deployment</a>
+    <a href="#iam"><i class="bi bi-shield-lock me-1"></i>IAM Security</a>
+    <a href="#s3"><i class="bi bi-archive me-1"></i>S3 Artifacts</a>
+    <a href="#best-practices"><i class="bi bi-star me-1"></i>Best Practices</a>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 1: What is AWS and Why Cloud? -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="content-section" id="why-cloud">
+    <h2 class="section-heading">1. What is AWS and Why Cloud?</h2>
+    <div class="section-divider"></div>
+    <p class="section-sub">Understanding the core problem cloud solves and why AWS is the dominant choice for DevOps teams worldwide.</p>
+
+    <h3 class="sub-heading">The Problem With On-Premise Servers</h3>
+    <div class="card-light">
+      <div class="ans-hero">
+        <i class="bi bi-exclamation-triangle me-2"></i>Before cloud: you had to buy physical servers, rack them, power them, cool them, and manage them 24/7. One traffic spike = server down.
+      </div>
+
+      <div class="compare-grid">
+        <div class="compare-card amber">
+          <h6><i class="bi bi-building me-1"></i>On-Premise</h6>
+          <ul>
+            <li>Buy servers upfront ($50,000+)</li>
+            <li>Fixed capacity — over-provision or crash</li>
+            <li>Weeks to provision a new server</li>
+            <li>You manage hardware, OS, network</li>
+            <li>Datacenter costs: rent, power, cooling</li>
+            <li>Server breaks → your team fixes at 3am</li>
+          </ul>
+        </div>
+        <div class="compare-card green">
+          <h6><i class="bi bi-cloud-check me-1"></i>AWS Cloud</h6>
+          <ul>
+            <li>Pay per hour (EC2 t3.micro = $0.01/hr)</li>
+            <li>Scale up in minutes, scale down to zero</li>
+            <li>New server in 90 seconds</li>
+            <li>AWS manages physical hardware</li>
+            <li>No datacenter costs</li>
+            <li>AWS handles hardware failures automatically</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="sub-heading">Core AWS Concepts</h3>
+    <div class="card-light">
+      <p style="font-size:.9rem;color:#555;margin-bottom:.8rem;">Before diving into services, understand the foundational concepts every DevOps engineer must know.</p>
+      <table class="kv-table">
+        <thead>
+          <tr>
+            <th><i class="bi bi-bookmark me-1"></i>Concept</th>
+            <th><i class="bi bi-info-circle me-1"></i>What It Means</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="hl blue">Region</span></td>
+            <td>Geographic area (<code>us-east-1</code>, <code>eu-west-1</code>) with multiple datacenters</td>
+          </tr>
+          <tr>
+            <td><span class="hl blue">Availability Zone (AZ)</span></td>
+            <td>Isolated datacenter within a region; deploy across 2+ AZs for high availability</td>
+          </tr>
+          <tr>
+            <td><span class="hl purple">VPC</span></td>
+            <td>Your private network in AWS — completely isolated from other customers</td>
+          </tr>
+          <tr>
+            <td><span class="hl amber">IAM</span></td>
+            <td>Identity &amp; Access Management — who can do what in your AWS account</td>
+          </tr>
+          <tr>
+            <td><span class="hl green">EC2</span></td>
+            <td>Virtual machines in the cloud — pick instance type (CPU/RAM/GPU)</td>
+          </tr>
+          <tr>
+            <td><span class="hl green">S3</span></td>
+            <td>Object storage — files, images, logs, backups. 11 nines of durability.</td>
+          </tr>
+          <tr>
+            <td><span class="hl green">RDS</span></td>
+            <td>Managed relational databases (Postgres, MySQL, Aurora)</td>
+          </tr>
+          <tr>
+            <td><span class="hl blue">EKS</span></td>
+            <td>Managed Kubernetes — AWS runs the control plane for you</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="icon-row">
+        <span class="icon-chip blue"><i class="bi bi-globe"></i>33 Regions</span>
+        <span class="icon-chip green"><i class="bi bi-building"></i>105+ AZs</span>
+        <span class="icon-chip purple"><i class="bi bi-diagram-2"></i>450+ Edge Locations</span>
+        <span class="icon-chip amber"><i class="bi bi-people"></i>1M+ Active Customers</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 2: AWS Services Every DevOps Engineer Uses -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="content-section" id="services">
+    <h2 class="section-heading">2. AWS Services Every DevOps Engineer Uses</h2>
+    <div class="section-divider"></div>
+    <p class="section-sub">AWS has 200+ services. These are the ones you'll use every day as a DevOps engineer.</p>
+
+    <!-- COMPUTE -->
+    <h3 class="sub-heading"><i class="bi bi-cpu me-2" style="color:#ea580c;"></i>Compute</h3>
+    <div class="card-light">
+      <div class="service-grid">
+        <div class="service-card orange">
+          <div class="service-icon" style="color:#ea580c;">&#xe0b0;<i class="bi bi-server"></i></div>
+          <h6>EC2 — Elastic Compute Cloud</h6>
+          <p>Virtual machines. You pick instance type (CPU/RAM). Run anything. SSH in, deploy manually or with automation tools. Choose from 500+ instance types.</p>
+        </div>
+        <div class="service-card blue">
+          <div class="service-icon"><i class="bi bi-boxes" style="color:#2563eb;"></i></div>
+          <h6>ECS — Elastic Container Service</h6>
+          <p>AWS-managed Docker container orchestration. Simpler than K8s for small teams. Two launch types: EC2 (you manage nodes) or Fargate (serverless).</p>
+        </div>
+        <div class="service-card blue">
+          <div class="service-icon"><i class="bi bi-diagram-3" style="color:#7c3aed;"></i></div>
+          <h6>EKS — Elastic Kubernetes Service</h6>
+          <p>Managed Kubernetes — AWS runs the control plane (API server, etcd). You manage worker nodes. Drop-in compatible with standard <code>kubectl</code>.</p>
+        </div>
+        <div class="service-card green">
+          <div class="service-icon"><i class="bi bi-lightning" style="color:#059669;"></i></div>
+          <h6>Lambda — Serverless Functions</h6>
+          <p>Run code without managing servers. Pay per invocation (first 1M free/month). Great for event-driven tasks, webhooks, scheduled jobs.</p>
+        </div>
+        <div class="service-card purple">
+          <div class="service-icon"><i class="bi bi-cloud-upload" style="color:#7c3aed;"></i></div>
+          <h6>Fargate — Serverless Containers</h6>
+          <p>Run ECS or EKS pods without managing EC2 nodes. No patching, no capacity planning. Pay per vCPU and memory used by your containers.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- STORAGE -->
+    <h3 class="sub-heading"><i class="bi bi-database me-2" style="color:#059669;"></i>Storage</h3>
+    <div class="card-light">
+      <table class="kv-table">
+        <thead>
+          <tr>
+            <th><i class="bi bi-hdd me-1"></i>Service</th>
+            <th><i class="bi bi-info-circle me-1"></i>What it Is &amp; When to Use It</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="hl green">S3</span></td>
+            <td>Object storage. Store any file. 99.999999999% durability. Used for artifacts, static sites, backups, data lakes. Infinite scale.</td>
+          </tr>
+          <tr>
+            <td><span class="hl blue">EBS</span></td>
+            <td>Block storage. Attached to EC2 like a hard drive. Fast, persistent. Used for OS volumes, databases. Up to 64 TB per volume.</td>
+          </tr>
+          <tr>
+            <td><span class="hl purple">EFS</span></td>
+            <td>Network file system. Shared between multiple EC2 instances simultaneously. Like NFS in the cloud. Auto-scales storage.</td>
+          </tr>
+          <tr>
+            <td><span class="hl amber">ECR</span></td>
+            <td>Elastic Container Registry. Private Docker image registry. Push/pull images for ECS/EKS deployments. Integrated with IAM for access control.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- NETWORKING -->
+    <h3 class="sub-heading"><i class="bi bi-hdd-network me-2" style="color:#2563eb;"></i>Networking</h3>
+    <div class="card-light">
+      <table class="kv-table">
+        <thead>
+          <tr>
+            <th><i class="bi bi-router me-1"></i>Service</th>
+            <th><i class="bi bi-info-circle me-1"></i>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="hl purple">VPC</span></td>
+            <td>Virtual Private Cloud — your isolated, private network in AWS. Define IP ranges, subnets, route tables.</td>
+          </tr>
+          <tr>
+            <td><span class="hl blue">Subnets</span></td>
+            <td><span class="hl green">Public</span> (internet-accessible via Internet Gateway) vs <span class="hl amber">Private</span> (internal only, no direct internet). Always put databases in private subnets.</td>
+          </tr>
+          <tr>
+            <td><span class="hl amber">Security Groups</span></td>
+            <td>Stateful firewall rules for EC2/RDS/etc — allow/deny by port + source IP. Acts like a per-resource firewall.</td>
+          </tr>
+          <tr>
+            <td><span class="hl green">ALB</span></td>
+            <td>Application Load Balancer — distribute HTTP/HTTPS traffic across EC2 instances or containers. Supports path-based routing, health checks, SSL termination.</td>
+          </tr>
+          <tr>
+            <td><span class="hl blue">Route 53</span></td>
+            <td>AWS DNS service — map domain names to AWS resources. Supports weighted routing, latency-based routing, failover.</td>
+          </tr>
+          <tr>
+            <td><span class="hl purple">CloudFront</span></td>
+            <td>CDN — cache and serve content globally from 450+ edge locations. Dramatically reduces latency for users worldwide.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- CI/CD -->
+    <h3 class="sub-heading"><i class="bi bi-infinity me-2" style="color:#7c3aed;"></i>AWS Native CI/CD</h3>
+    <div class="card-light">
+      <p style="font-size:.9rem;color:#555;margin-bottom:.75rem;">AWS offers a complete native CI/CD toolchain. Many teams use Jenkins + ECR + EKS instead, but knowing these is essential.</p>
+      <table class="kv-table">
+        <thead>
+          <tr>
+            <th><i class="bi bi-gear me-1"></i>Service</th>
+            <th><i class="bi bi-info-circle me-1"></i>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="hl blue">CodeCommit</span></td>
+            <td>Managed Git repository (like GitHub, AWS-hosted). Integrates with IAM for access control.</td>
+          </tr>
+          <tr>
+            <td><span class="hl green">CodeBuild</span></td>
+            <td>Run build commands — like Jenkins agents, fully managed by AWS. Pay per build minute. Docker-in-Docker supported.</td>
+          </tr>
+          <tr>
+            <td><span class="hl amber">CodeDeploy</span></td>
+            <td>Deploy to EC2, Lambda, or ECS. Supports blue/green deployments, rolling updates, canary releases.</td>
+          </tr>
+          <tr>
+            <td><span class="hl purple">CodePipeline</span></td>
+            <td>Orchestrate the full CI/CD pipeline (Source → Build → Test → Deploy). Visual pipeline editor. Triggers on code commits.</td>
+          </tr>
+          <tr>
+            <td><span class="hl amber">ECR</span></td>
+            <td>Docker image registry — the bridge between your CI system and ECS/EKS container deployments.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- DATABASE -->
+    <h3 class="sub-heading"><i class="bi bi-table me-2" style="color:#059669;"></i>Database Services</h3>
+    <div class="card-light">
+      <table class="kv-table">
+        <thead>
+          <tr>
+            <th><i class="bi bi-database me-1"></i>Service</th>
+            <th><i class="bi bi-info-circle me-1"></i>Description &amp; Use Case</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="hl green">RDS</span></td>
+            <td>Managed relational DB: Postgres, MySQL, MariaDB, Oracle, SQL Server. Automated backups, Multi-AZ for HA, read replicas for scaling. No SSH access needed.</td>
+          </tr>
+          <tr>
+            <td><span class="hl blue">Aurora</span></td>
+            <td>AWS-optimized MySQL/Postgres-compatible engine. 5x faster than standard MySQL. Auto-scales storage from 10 GB to 128 TB. Serverless option available.</td>
+          </tr>
+          <tr>
+            <td><span class="hl amber">DynamoDB</span></td>
+            <td>Managed NoSQL (key-value + document). Single-digit millisecond latency at any scale. Auto-scales read/write capacity. Great for session storage, leaderboards.</td>
+          </tr>
+          <tr>
+            <td><span class="hl purple">ElastiCache</span></td>
+            <td>Managed Redis or Memcached. In-memory caching to reduce database load. Sub-millisecond latency. Use for session caching, rate limiting, leaderboards.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 3: AWS CLI -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="content-section" id="cli">
+    <h2 class="section-heading">3. AWS CLI — Essential Commands</h2>
+    <div class="section-divider"></div>
+    <p class="section-sub">The AWS CLI is your daily driver for interacting with AWS services from the terminal and inside CI/CD pipelines.</p>
+
+    <div class="card-light">
+      <div class="ans-hero">
+        <i class="bi bi-terminal me-2"></i>Install: <code>pip install awscli</code> or download from <code>aws.amazon.com/cli</code>. Configure once with <code>aws configure</code> — it stores credentials in <code>~/.aws/credentials</code>.
+      </div>
+
+      <pre class="code-block"><code class="lang-bash"># ===== SETUP =====
+aws configure
+# Enter: Access Key ID, Secret Access Key, Region (us-east-1), Output (json)
+
+# Verify your identity
+aws sts get-caller-identity
+
+# ===== EC2 =====
+# List instances with ID, state, and public IP
+aws ec2 describe-instances \
+  --query 'Reservations[].Instances[].[InstanceId,State.Name,PublicIpAddress]' \
+  --output table
+
+# Start / Stop instance
+aws ec2 start-instances --instance-ids i-1234567890abcdef0
+aws ec2 stop-instances --instance-ids i-1234567890abcdef0
+
+# ===== S3 =====
+# List all buckets
+aws s3 ls
+
+# Upload a single file
+aws s3 cp target/app.jar s3://my-artifacts-bucket/releases/app-1.0.jar
+
+# Sync an entire folder (--delete removes files in S3 not in source)
+aws s3 sync ./dist s3://my-static-website/ --delete
+
+# Download from S3
+aws s3 cp s3://my-artifacts-bucket/releases/app-1.0.jar ./app.jar
+
+# ===== ECR =====
+# Authenticate Docker to ECR (token valid for 12 hours)
+aws ecr get-login-password --region us-east-1 | \
+  docker login --username AWS --password-stdin \
+  123456789.dkr.ecr.us-east-1.amazonaws.com
+
+# Create a new ECR repository
+aws ecr create-repository --repository-name my-spring-app
+
+# Tag local image for ECR
+docker tag myapp:1.0 123456789.dkr.ecr.us-east-1.amazonaws.com/my-spring-app:1.0
+
+# Push image to ECR
+docker push 123456789.dkr.ecr.us-east-1.amazonaws.com/my-spring-app:1.0
+
+# List images in a repository
+aws ecr list-images --repository-name my-spring-app
+
+# ===== EKS =====
+# Add cluster to local kubeconfig
+aws eks update-kubeconfig --region us-east-1 --name my-eks-cluster
+
+# Now standard kubectl commands work against your EKS cluster
+kubectl get nodes
+kubectl get pods -A
+kubectl get services -n production</code></pre>
+    </div>
+
+    <h3 class="sub-heading">Common CLI Flags &amp; Tricks</h3>
+    <div class="card-light">
+      <table class="kv-table">
+        <thead>
+          <tr>
+            <th>Flag / Pattern</th>
+            <th>What It Does</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>--output table</code></td>
+            <td>Pretty-print output as a table — much more readable than raw JSON</td>
+          </tr>
+          <tr>
+            <td><code>--output text</code></td>
+            <td>Tab-separated plain text — great for scripting and piping to <code>awk</code></td>
+          </tr>
+          <tr>
+            <td><code>--query '...'</code></td>
+            <td>JMESPath query to filter/reshape JSON output — learn this, it saves huge time</td>
+          </tr>
+          <tr>
+            <td><code>--profile myprofile</code></td>
+            <td>Use a named profile from <code>~/.aws/config</code> — switch between accounts easily</td>
+          </tr>
+          <tr>
+            <td><code>--region us-west-2</code></td>
+            <td>Override the default region for this command</td>
+          </tr>
+          <tr>
+            <td><code>--dry-run</code></td>
+            <td>Check if you have permission to run a command without actually running it (EC2 commands)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 4: Deploying to AWS EKS -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="content-section" id="eks-deploy">
+    <h2 class="section-heading">4. Deploying to AWS EKS — The Full Picture</h2>
+    <div class="section-divider"></div>
+    <p class="section-sub">The most common production deployment pattern: Jenkins builds your app, pushes to ECR, and deploys to EKS with zero downtime.</p>
+
+    <h3 class="sub-heading">Architecture Overview</h3>
+    <div class="card-light">
+      <div class="ans-hero">
+        <i class="bi bi-diagram-3 me-2"></i>EKS = managed Kubernetes on AWS. AWS runs the control plane. You manage worker nodes (EC2 or Fargate). ECR stores your Docker images. ALB routes external traffic to your pods.
+      </div>
+
+      <div class="compare-grid">
+        <div class="compare-card blue">
+          <h6><i class="bi bi-cloud me-1"></i>AWS Manages (Control Plane)</h6>
+          <ul>
+            <li>Kubernetes API server</li>
+            <li>etcd (cluster state store)</li>
+            <li>Controller manager</li>
+            <li>Scheduler</li>
+            <li>Control plane HA across AZs</li>
+            <li>Control plane upgrades</li>
+          </ul>
+        </div>
+        <div class="compare-card green">
+          <h6><i class="bi bi-person-gear me-1"></i>You Manage (Data Plane)</h6>
+          <ul>
+            <li>Worker nodes (EC2 instances)</li>
+            <li>Node groups (managed or self-managed)</li>
+            <li>Kubernetes workloads (Deployments, Services)</li>
+            <li>Persistent volumes (EBS/EFS)</li>
+            <li>Ingress controller (ALB Ingress)</li>
+            <li>Node OS patching (or use Fargate)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="sub-heading">Step-by-Step: Jenkins → ECR → EKS</h3>
+    <div class="card-light">
+      <p style="font-size:.9rem;color:#555;margin-bottom:.75rem;">The complete automated flow from code push to production deployment:</p>
+      <ol class="step-list">
+        <li>Developer pushes code to GitHub — triggers a webhook to Jenkins</li>
+        <li>Jenkins webhook fires and starts a new pipeline build</li>
+        <li>Maven builds the JAR: <code>mvn clean package</code></li>
+        <li>Docker image built: <code>docker build -t myapp:${BUILD_NUMBER} .</code></li>
+        <li>Login to ECR: <code>aws ecr get-login-password | docker login --username AWS --password-stdin</code></li>
+        <li>Push image to ECR: <code>docker push 123456789.dkr.ecr.us-east-1.amazonaws.com/myapp:${BUILD_NUMBER}</code></li>
+        <li>Update Kubernetes deployment: <code>kubectl set image deployment/myapp app=ECR_IMAGE:${BUILD_NUMBER}</code></li>
+        <li>Kubernetes performs a rolling update — old pods replaced one by one with the new image</li>
+        <li>Readiness probes verify each new pod is healthy before moving to the next</li>
+        <li>ALB routes traffic to new pods — zero downtime throughout the entire process</li>
+      </ol>
+    </div>
+
+    <h3 class="sub-heading">Complete Jenkinsfile for AWS ECR + EKS</h3>
+    <div class="card-light">
+      <div class="ans-label key"><i class="bi bi-file-code me-1"></i>Production-Ready Pipeline</div>
+      <pre class="code-block"><code class="lang-groovy">pipeline {
+    agent any
+    environment {
+        AWS_REGION     = 'us-east-1'
+        ECR_REGISTRY   = '123456789012.dkr.ecr.us-east-1.amazonaws.com'
+        ECR_REPO       = 'my-spring-app'
+        K8S_NAMESPACE  = 'production'
+        K8S_DEPLOYMENT = 'spring-app'
+    }
+    stages {
+        stage('Build JAR') {
+            steps {
+                sh 'mvn clean package -DskipTests -B'
+            }
+        }
+        stage('Unit Tests') {
+            steps {
+                sh 'mvn test'
+            }
+            post {
+                always { junit 'target/surefire-reports/*.xml' }
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                sh "docker build -t ${ECR_REGISTRY}/${ECR_REPO}:${BUILD_NUMBER} ."
+                sh "docker tag ${ECR_REGISTRY}/${ECR_REPO}:${BUILD_NUMBER} ${ECR_REGISTRY}/${ECR_REPO}:latest"
+            }
+        }
+        stage('Push to ECR') {
+            steps {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+                                   credentialsId: 'aws-credentials']]) {
+                    sh """
+                        aws ecr get-login-password --region ${AWS_REGION} | \\
+                        docker login --username AWS --password-stdin ${ECR_REGISTRY}
+                        docker push ${ECR_REGISTRY}/${ECR_REPO}:${BUILD_NUMBER}
+                        docker push ${ECR_REGISTRY}/${ECR_REPO}:latest
+                    """
+                }
+            }
+        }
+        stage('Deploy to EKS') {
+            steps {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+                                   credentialsId: 'aws-credentials']]) {
+                    sh """
+                        aws eks update-kubeconfig --region ${AWS_REGION} --name my-eks-cluster
+                        kubectl set image deployment/${K8S_DEPLOYMENT} \\
+                            app=${ECR_REGISTRY}/${ECR_REPO}:${BUILD_NUMBER} \\
+                            -n ${K8S_NAMESPACE}
+                        kubectl rollout status deployment/${K8S_DEPLOYMENT} \\
+                            -n ${K8S_NAMESPACE} --timeout=5m
+                    """
+                }
+            }
+        }
+    }
+    post {
+        success {
+            slackSend color: 'good',
+                      message: "Deployed ${ECR_REPO}:${BUILD_NUMBER} to EKS"
+        }
+        failure {
+            slackSend color: 'danger',
+                      message: "FAILED: ${ECR_REPO}:${BUILD_NUMBER}"
+        }
+        always {
+            sh "docker rmi ${ECR_REGISTRY}/${ECR_REPO}:${BUILD_NUMBER} || true"
+            cleanWs()
+        }
+    }
+}</code></pre>
+
+      <div class="icon-row" style="margin-top:.75rem;">
+        <span class="icon-chip green"><i class="bi bi-check-circle"></i>Rolling Updates</span>
+        <span class="icon-chip blue"><i class="bi bi-shield-check"></i>Readiness Probes</span>
+        <span class="icon-chip purple"><i class="bi bi-bell"></i>Slack Notifications</span>
+        <span class="icon-chip amber"><i class="bi bi-trash"></i>Image Cleanup</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 5: IAM -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="content-section" id="iam">
+    <h2 class="section-heading">5. IAM — Security in AWS</h2>
+    <div class="section-divider"></div>
+    <p class="section-sub">IAM is the most important service to understand. Every action in AWS goes through IAM. Get it wrong and you either lock yourself out or get hacked.</p>
+
+    <h3 class="sub-heading">Why IAM Matters</h3>
+    <div class="card-light">
+      <div class="ans-hero">
+        <i class="bi bi-shield-lock me-2"></i>IAM controls WHO can do WHAT in your AWS account. Never use root credentials. Create users/roles with least privilege — grant only the permissions actually needed.
+      </div>
+
+      <table class="kv-table">
+        <thead>
+          <tr>
+            <th><i class="bi bi-person me-1"></i>IAM Concept</th>
+            <th><i class="bi bi-info-circle me-1"></i>What It Is</th>
+            <th><i class="bi bi-tools me-1"></i>DevOps Use Case</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="hl blue">User</span></td>
+            <td>Individual human login with permanent credentials</td>
+            <td>Developer accounts, admin accounts</td>
+          </tr>
+          <tr>
+            <td><span class="hl green">Group</span></td>
+            <td>Collection of users sharing the same policies</td>
+            <td><code>dev-group</code>, <code>ops-group</code>, <code>readonly-group</code></td>
+          </tr>
+          <tr>
+            <td><span class="hl purple">Role</span></td>
+            <td>Temporary credentials assumed by services or users</td>
+            <td>EC2 role to access S3; Jenkins role to push ECR; Lambda role to write DynamoDB</td>
+          </tr>
+          <tr>
+            <td><span class="hl amber">Policy</span></td>
+            <td>JSON document defining allowed/denied actions on resources</td>
+            <td>Allow <code>S3:PutObject</code> on specific bucket; allow <code>ECR:PutImage</code></td>
+          </tr>
+          <tr>
+            <td><span class="hl red">MFA</span></td>
+            <td>Multi-factor authentication — second factor beyond password</td>
+            <td>Require for console login + sensitive API calls like deleting resources</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-heading">Jenkins IAM Role Policy (Least Privilege)</h3>
+    <div class="card-light">
+      <div class="ans-label tip"><i class="bi bi-shield me-1"></i>Principle of Least Privilege</div>
+      <p style="font-size:.88rem;color:#555;margin-bottom:.75rem;">Grant Jenkins only what it needs: push to ECR and describe the EKS cluster. Nothing else.</p>
+      <pre class="code-block"><code class="lang-json">{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ECRPush",
+      "Effect": "Allow",
+      "Action": [
+        "ecr:GetAuthorizationToken",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:PutImage",
+        "ecr:InitiateLayerUpload",
+        "ecr:UploadLayerPart",
+        "ecr:CompleteLayerUpload"
+      ],
+      "Resource": "arn:aws:ecr:us-east-1:123456789012:repository/my-spring-app"
+    },
+    {
+      "Sid": "EKSAccess",
+      "Effect": "Allow",
+      "Action": [
+        "eks:DescribeCluster",
+        "eks:ListClusters"
+      ],
+      "Resource": "*"
+    }
+  ]
+}</code></pre>
+
+      <div class="ans-label def" style="margin-top:.8rem;"><i class="bi bi-lightbulb me-1"></i>IAM Tips</div>
+      <ul class="ans-list purple">
+        <li><i class="bi bi-dot"></i><span>Use <strong>IAM roles</strong> for services (EC2, Lambda, EKS pods) — never hardcode access keys in application code</span></li>
+        <li><i class="bi bi-dot"></i><span>Use <strong>IRSA</strong> (IAM Roles for Service Accounts) to give individual Kubernetes pods AWS permissions</span></li>
+        <li><i class="bi bi-dot"></i><span>Attach policies to <strong>Groups</strong>, not individual users — easier to manage at scale</span></li>
+        <li><i class="bi bi-dot"></i><span>Use <strong>IAM Access Analyzer</strong> to find overly permissive policies automatically</span></li>
+        <li><i class="bi bi-dot"></i><span>Rotate access keys regularly; prefer short-lived STS tokens via <code>aws sts assume-role</code></span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 6: S3 for Artifacts and Static Hosting -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="content-section" id="s3">
+    <h2 class="section-heading">6. S3 for Artifacts and Static Hosting</h2>
+    <div class="section-divider"></div>
+    <p class="section-sub">S3 is AWS's most versatile service. DevOps engineers use it for build artifact storage, static website hosting, log archiving, and CI/CD integration.</p>
+
+    <h3 class="sub-heading">Store Build Artifacts from Jenkins</h3>
+    <div class="card-light">
+      <div class="ans-label ex"><i class="bi bi-archive me-1"></i>Artifact Storage Pattern</div>
+      <p style="font-size:.88rem;color:#555;margin-bottom:.75rem;">Archive every build's JAR to S3 so you can redeploy any previous version instantly — without re-running the build.</p>
+      <pre class="code-block"><code class="lang-groovy">// In Jenkinsfile — archive JAR to S3 after every successful build
+stage('Archive to S3') {
+    steps {
+        withAWS(credentials: 'aws-credentials', region: 'us-east-1') {
+            s3Upload(
+                bucket: 'my-artifacts',
+                path: "releases/${APP_NAME}/${BUILD_NUMBER}/",
+                includePathPattern: 'target/*.jar'
+            )
+        }
+    }
+}</code></pre>
+    </div>
+
+    <h3 class="sub-heading">Host Static Website (React/Angular Build Output)</h3>
+    <div class="card-light">
+      <div class="ans-label key"><i class="bi bi-globe me-1"></i>Static Website Hosting</div>
+      <p style="font-size:.88rem;color:#555;margin-bottom:.75rem;">Deploy a React/Angular/Vue app to S3 + CloudFront — globally distributed, infinitely scalable, and costs pennies per month.</p>
+      <pre class="code-block"><code class="lang-bash"># 1. Build the React app
+npm run build
+
+# 2. Sync built files to S3 (--delete removes old files not in the new build)
+aws s3 sync ./dist s3://my-react-app --delete
+
+# 3. Invalidate CloudFront cache so users get the new version immediately
+#    (without this, CloudFront serves the old cached version for up to 24 hours)
+aws cloudfront create-invalidation \
+  --distribution-id E1234567890 \
+  --paths "/*"</code></pre>
+
+      <div class="compare-grid" style="margin-top:.8rem;">
+        <div class="compare-card green">
+          <h6><i class="bi bi-check-circle me-1"></i>S3 + CloudFront Benefits</h6>
+          <ul>
+            <li>No server to manage or patch</li>
+            <li>Served from 450+ edge locations globally</li>
+            <li>Scales to any traffic automatically</li>
+            <li>Free SSL certificate via ACM</li>
+            <li>~$1-5/month for typical apps</li>
+          </ul>
+        </div>
+        <div class="compare-card blue">
+          <h6><i class="bi bi-info-circle me-1"></i>S3 Bucket Policy for Website</h6>
+          <ul>
+            <li>Enable "Static website hosting" in bucket settings</li>
+            <li>Set index document: <code>index.html</code></li>
+            <li>Error document: <code>index.html</code> (for SPA routing)</li>
+            <li>Block public access OFF for public buckets</li>
+            <li>Attach CloudFront OAC for private buckets</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="sub-heading">S3 Lifecycle Policies — Manage Costs</h3>
+    <div class="card-light">
+      <p style="font-size:.9rem;color:#555;margin-bottom:.75rem;">Automatically move old artifacts to cheaper storage tiers — save 80-90% on artifact storage costs.</p>
+      <table class="kv-table">
+        <thead>
+          <tr>
+            <th>Storage Class</th>
+            <th>Cost (vs Standard)</th>
+            <th>Use Case</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="hl blue">S3 Standard</span></td>
+            <td>$0.023/GB/month</td>
+            <td>Current artifacts, frequently accessed data</td>
+          </tr>
+          <tr>
+            <td><span class="hl green">S3 Standard-IA</span></td>
+            <td>$0.0125/GB/month (−46%)</td>
+            <td>Artifacts older than 30 days, infrequent access</td>
+          </tr>
+          <tr>
+            <td><span class="hl amber">S3 Glacier</span></td>
+            <td>$0.004/GB/month (−83%)</td>
+            <td>Compliance archives, old logs older than 90 days</td>
+          </tr>
+          <tr>
+            <td><span class="hl purple">S3 Glacier Deep Archive</span></td>
+            <td>$0.00099/GB/month (−96%)</td>
+            <td>Long-term retention, rarely or never accessed</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 7: AWS DevOps Best Practices -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="content-section" id="best-practices">
+    <h2 class="section-heading">7. AWS DevOps Best Practices</h2>
+    <div class="section-divider"></div>
+    <p class="section-sub">Hard-won lessons from running production workloads on AWS. Follow these to build secure, cost-effective, and highly available systems.</p>
+
+    <h3 class="sub-heading"><i class="bi bi-shield-lock me-2" style="color:#dc2626;"></i>Security</h3>
+    <div class="card-light">
+      <ul class="ans-list red">
+        <li><i class="bi bi-x-circle-fill" style="color:#dc2626;flex-shrink:0;"></i><span><strong>Never commit AWS credentials to Git</strong> — use IAM roles, environment variables injected at runtime, or AWS Secrets Manager</span></li>
+        <li><i class="bi bi-x-circle-fill" style="color:#dc2626;flex-shrink:0;"></i><span><strong>Use IAM roles for EC2/EKS/Lambda</strong> instead of access keys — roles provide temporary, auto-rotated credentials</span></li>
+        <li><i class="bi bi-x-circle-fill" style="color:#dc2626;flex-shrink:0;"></i><span><strong>Enable CloudTrail</strong> for full API audit logs — every API call logged to S3 for compliance and incident investigation</span></li>
+        <li><i class="bi bi-x-circle-fill" style="color:#dc2626;flex-shrink:0;"></i><span><strong>Use VPC private subnets</strong> for databases and internal services — never expose RDS directly to the internet</span></li>
+        <li><i class="bi bi-x-circle-fill" style="color:#dc2626;flex-shrink:0;"></i><span><strong>Enable MFA for all IAM users</strong> — especially for console access and sensitive operations</span></li>
+        <li><i class="bi bi-x-circle-fill" style="color:#dc2626;flex-shrink:0;"></i><span><strong>Use Secrets Manager or SSM Parameter Store</strong> for secrets — not hardcoded env vars, S3 files, or config maps</span></li>
+        <li><i class="bi bi-x-circle-fill" style="color:#dc2626;flex-shrink:0;"></i><span><strong>Enable ECR image scanning</strong> — automatically scan Docker images for known CVEs on every push</span></li>
+      </ul>
+    </div>
+
+    <h3 class="sub-heading"><i class="bi bi-piggy-bank me-2" style="color:#059669;"></i>Cost Optimization</h3>
+    <div class="card-light">
+      <ul class="ans-list green">
+        <li><i class="bi bi-check-circle-fill" style="color:#059669;flex-shrink:0;"></i><span><strong>Use Spot Instances for Jenkins agents</strong> — 70-90% cheaper than On-Demand. Jenkins can retry if a spot instance is interrupted.</span></li>
+        <li><i class="bi bi-check-circle-fill" style="color:#059669;flex-shrink:0;"></i><span><strong>Tag all resources</strong> (team, project, environment, cost-center) — required for accurate cost allocation and chargeback</span></li>
+        <li><i class="bi bi-check-circle-fill" style="color:#059669;flex-shrink:0;"></i><span><strong>Use Auto Scaling Groups</strong> to scale down at night and on weekends for non-prod environments</span></li>
+        <li><i class="bi bi-check-circle-fill" style="color:#059669;flex-shrink:0;"></i><span><strong>Delete unused resources</strong> — orphaned EBS volumes ($0.08/GB/month), unattached EIPs ($3.60/month), old AMIs and snapshots</span></li>
+        <li><i class="bi bi-check-circle-fill" style="color:#059669;flex-shrink:0;"></i><span><strong>Use S3 Lifecycle Policies</strong> to automatically move old build artifacts to Glacier — 83% cost reduction</span></li>
+        <li><i class="bi bi-check-circle-fill" style="color:#059669;flex-shrink:0;"></i><span><strong>Use Reserved Instances or Savings Plans</strong> for stable production workloads — 30-60% discount for 1-3 year commitments</span></li>
+        <li><i class="bi bi-check-circle-fill" style="color:#059669;flex-shrink:0;"></i><span><strong>Set up AWS Budgets alerts</strong> — get notified before you hit your budget limit, not after</span></li>
+      </ul>
+    </div>
+
+    <h3 class="sub-heading"><i class="bi bi-arrow-repeat me-2" style="color:#2563eb;"></i>High Availability</h3>
+    <div class="card-light">
+      <ul class="ans-list blue">
+        <li><i class="bi bi-check-circle-fill" style="color:#2563eb;flex-shrink:0;"></i><span><strong>Deploy across 2+ Availability Zones</strong> — a single AZ failure should never take down your application</span></li>
+        <li><i class="bi bi-check-circle-fill" style="color:#2563eb;flex-shrink:0;"></i><span><strong>Use ALB for load balancing</strong> — distributes traffic, performs health checks, automatically routes around unhealthy instances</span></li>
+        <li><i class="bi bi-check-circle-fill" style="color:#2563eb;flex-shrink:0;"></i><span><strong>RDS Multi-AZ for database failover</strong> — standby replica in another AZ; automatic failover in 60-120 seconds</span></li>
+        <li><i class="bi bi-check-circle-fill" style="color:#2563eb;flex-shrink:0;"></i><span><strong>EKS worker nodes across 3 AZs</strong> — spread pods across zones using <code>topologySpreadConstraints</code></span></li>
+        <li><i class="bi bi-check-circle-fill" style="color:#2563eb;flex-shrink:0;"></i><span><strong>Use health checks at every layer</strong> — ALB target health checks, Kubernetes readiness/liveness probes, RDS enhanced monitoring</span></li>
+        <li><i class="bi bi-check-circle-fill" style="color:#2563eb;flex-shrink:0;"></i><span><strong>Implement graceful shutdown</strong> in your apps — handle SIGTERM and drain connections before exiting to enable zero-downtime deployments</span></li>
+        <li><i class="bi bi-check-circle-fill" style="color:#2563eb;flex-shrink:0;"></i><span><strong>Use CloudWatch alarms</strong> for critical metrics — CPU, memory, error rates, latency p99 — with SNS notifications</span></li>
+      </ul>
+    </div>
+
+    <h3 class="sub-heading">AWS Well-Architected Framework — 6 Pillars</h3>
+    <div class="card-light">
+      <p style="font-size:.9rem;color:#555;margin-bottom:.8rem;">AWS's official framework for building reliable, secure, efficient, and cost-effective systems. Every AWS architect should know these.</p>
+      <div class="service-grid">
+        <div class="service-card blue">
+          <div class="service-icon"><i class="bi bi-shield-check" style="color:#2563eb;"></i></div>
+          <h6>Operational Excellence</h6>
+          <p>Run and monitor systems. Automate everything. Refine operations procedures. Learn from failure — run game days.</p>
+        </div>
+        <div class="service-card orange">
+          <div class="service-icon"><i class="bi bi-lock" style="color:#ea580c;"></i></div>
+          <h6>Security</h6>
+          <p>Protect data and systems. Strong identity, traceability, least privilege, encryption in transit and at rest.</p>
+        </div>
+        <div class="service-card green">
+          <div class="service-icon"><i class="bi bi-arrow-clockwise" style="color:#059669;"></i></div>
+          <h6>Reliability</h6>
+          <p>Recover from failures. Scale horizontally. Test recovery procedures. Manage change through automation.</p>
+        </div>
+        <div class="service-card purple">
+          <div class="service-icon"><i class="bi bi-speedometer2" style="color:#7c3aed;"></i></div>
+          <h6>Performance Efficiency</h6>
+          <p>Use resources efficiently. Select right instance types. Monitor performance. Make data-driven decisions.</p>
+        </div>
+        <div class="service-card amber">
+          <div class="service-icon"><i class="bi bi-piggy-bank" style="color:#d97706;"></i></div>
+          <h6>Cost Optimization</h6>
+          <p>Eliminate waste. Right-size resources. Use managed services. Measure, monitor, improve over time.</p>
+        </div>
+        <div class="service-card blue">
+          <div class="service-icon"><i class="bi bi-tree" style="color:#059669;"></i></div>
+          <h6>Sustainability</h6>
+          <p>Minimize environmental impact. Use efficient instance types. Scale to demand. Maximize utilization.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── BACK TO TOP / NAVIGATION ──────────────────────────────── -->
+  <div class="text-center py-4" style="border-top:1px solid #e2e5f0;margin-top:1rem;">
+    <a href="#" class="btn btn-outline-secondary btn-sm me-2"><i class="bi bi-arrow-up me-1"></i>Back to Top</a>
+    <a href="devops-index.html" class="btn btn-outline-secondary btn-sm me-2"><i class="bi bi-house-door me-1"></i>Overview</a>
+    <a href="jenkins.html" class="btn btn-outline-secondary btn-sm me-2"><i class="bi bi-arrow-left me-1"></i>Jenkins</a>
+    <a href="devops-questions.html" class="btn btn-outline-secondary btn-sm"><i class="bi bi-chat-left-text me-1"></i>Q&amp;A</a>
+  </div>
+
+</div><!-- /container-main -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

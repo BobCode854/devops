@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DevOps Mastery Hub — Overview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* ── Visual answer components (shared with questions.html) ── */
+    .ans-hero{background:linear-gradient(135deg,#6c63ff18,#a855f718);border-left:4px solid #6c63ff;border-radius:0 10px 10px 0;padding:.7rem 1.1rem;font-weight:700;font-size:1rem;color:#2d2b5e;margin-bottom:1rem;}
+    .ans-list{list-style:none;padding:0;margin:.5rem 0 1rem;}
+    .ans-list li{display:flex;align-items:flex-start;gap:.5rem;padding:.38rem .65rem;margin-bottom:.28rem;border-radius:8px;font-size:.93rem;background:#f7f8fc;border-left:3px solid #6c63ff;}
+    .ans-list.green li{border-left-color:#059669;background:#f0fdf4;}
+    .ans-list.amber li{border-left-color:#d97706;background:#fffbeb;}
+    .ans-list.red li{border-left-color:#dc2626;background:#fff5f5;}
+    .ans-list.blue li{border-left-color:#2563eb;background:#eff6ff;}
+    .ans-list.purple li{border-left-color:#7c3aed;background:#f5f3ff;}
+    .ans-label{display:inline-flex;align-items:center;gap:.3rem;font-size:.76rem;font-weight:800;text-transform:uppercase;padding:.18rem .6rem;border-radius:20px;margin-bottom:.4rem;}
+    .ans-label.def{background:#eef2ff;color:#4f46e5;}
+    .ans-label.key{background:#f0fdf4;color:#059669;}
+    .ans-label.ex{background:#fffbeb;color:#d97706;}
+    .ans-label.tip{background:#fff5f5;color:#dc2626;}
+    .hl{font-weight:700;padding:.05rem .38rem;border-radius:5px;font-size:.88em;}
+    .hl.green{background:#d1fae5;color:#065f46;}
+    .hl.blue{background:#dbeafe;color:#1e40af;}
+    .hl.purple{background:#ede9fe;color:#5b21b6;}
+    .hl.amber{background:#fef3c7;color:#92400e;}
+    .hl.red{background:#fee2e2;color:#991b1b;}
+    .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin:.6rem 0 1rem;}
+    .compare-card{border-radius:10px;padding:.75rem 1rem;}
+    .compare-card.green{background:#f0fdf4;border:1.5px solid #6ee7b7;}
+    .compare-card.blue{background:#eff6ff;border:1.5px solid #93c5fd;}
+    .compare-card.amber{background:#fffbeb;border:1.5px solid #fcd34d;}
+    .compare-card.red{background:#fff5f5;border:1.5px solid #fca5a5;}
+    .icon-row{display:flex;flex-wrap:wrap;gap:.7rem;margin:.6rem 0 1rem;}
+    .icon-chip{display:flex;align-items:center;gap:.4rem;background:#f7f8fc;border:1px solid #e2e5f0;border-radius:10px;padding:.35rem .75rem;font-size:.88rem;font-weight:600;}
+    .icon-chip.purple{background:#f5f3ff;border-color:#c4b5fd;color:#5b21b6;}
+    .icon-chip.green{background:#f0fdf4;border-color:#6ee7b7;color:#065f46;}
+    .icon-chip.blue{background:#eff6ff;border-color:#93c5fd;color:#1e40af;}
+    .icon-chip.amber{background:#fffbeb;border-color:#fcd34d;color:#92400e;}
+    .icon-chip.red{background:#fff5f5;border-color:#fca5a5;color:#991b1b;}
+    /* ── kv-table: key-value table ── */
+    .kv-table{width:100%;border-collapse:collapse;margin:1rem 0;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);border:1px solid #e2e5f0;}
+    .kv-table thead th{background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:.82rem;letter-spacing:.04em;text-transform:uppercase;padding:.8rem 1rem;text-align:left;}
+    .kv-table tbody td{padding:.7rem 1rem;border-top:1px solid #e2e5f0;vertical-align:top;font-size:.91rem;color:#374151;line-height:1.6;}
+    .kv-table tbody tr:nth-child(even){background:#f7f8fc;}
+    .kv-table tbody tr:hover{background:#eef2ff;transition:background .15s;}
+    .kv-table tbody td strong{color:#1e2235;font-weight:600;}
+    .kv-table tbody td code{background:#eef2ff;color:#4f46e5;padding:.1em .3em;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:.82em;}
+    /* ── Pipeline step list ── */
+    .pipeline-step{display:flex;align-items:flex-start;gap:.75rem;padding:.6rem .9rem;margin-bottom:.35rem;background:#f7f8fc;border-radius:10px;border-left:3px solid #6c63ff;font-size:.93rem;}
+    .pipeline-step .step-num{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#6c63ff,#e0195a);color:#fff;font-weight:800;font-size:.78rem;flex-shrink:0;box-shadow:0 2px 6px rgba(108,99,255,.3);}
+    /* ── DevOps lifecycle card accent colors ── */
+    .type-card:nth-child(1){border-top-color:#6c63ff;}
+    .type-card:nth-child(2){border-top-color:#2563eb;}
+    .type-card:nth-child(3){border-top-color:#059669;}
+    .type-card:nth-child(4){border-top-color:#d97706;}
+    .type-card:nth-child(5){border-top-color:#e0195a;}
+    .type-card:nth-child(6){border-top-color:#7c3aed;}
+    .type-card:nth-child(7){border-top-color:#0891b2;}
+    .type-card:nth-child(8){border-top-color:#dc2626;}
+    /* ── DevOps tool card accents ── */
+    .devops-tool-card{background:#fff;border:1px solid #e2e5f0;border-radius:14px;box-shadow:0 4px 16px rgba(0,0,0,.08);padding:2rem 1.5rem;text-align:center;transition:transform .25s ease,box-shadow .25s ease;position:relative;height:100%;text-decoration:none;display:block;color:inherit;}
+    .devops-tool-card:hover{transform:translateY(-6px);box-shadow:0 10px 30px rgba(108,99,255,.16);}
+    .devops-tool-card .tool-icon{font-size:3rem;margin-bottom:.8rem;display:block;}
+    .devops-tool-card h5{font-family:'Inter',sans-serif;font-weight:800;color:#1e2235;font-size:1.1rem;letter-spacing:-.02em;margin-bottom:.5rem;}
+    .devops-tool-card p{color:#6b7280;font-size:.88rem;line-height:1.6;margin-bottom:0;}
+    .devops-tool-card .tool-link-badge{position:absolute;top:12px;right:12px;background:#eef2ff;color:#4f46e5;border-radius:20px;padding:.2rem .65rem;font-size:.72rem;font-weight:700;}
+    .devops-tool-card.docker{border-top:4px solid #2496ed;}
+    .devops-tool-card.k8s{border-top:4px solid #326ce5;}
+    .devops-tool-card.jenkins{border-top:4px solid #d33833;}
+    .devops-tool-card.aws{border-top:4px solid #ff9900;}
+    /* ── DORA metric highlight ── */
+    .dora-card{background:#fff;border:1px solid #e2e5f0;border-radius:12px;padding:1.1rem 1.3rem;box-shadow:0 2px 8px rgba(0,0,0,.06);transition:transform .22s,box-shadow .22s;}
+    .dora-card:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(108,99,255,.14);}
+    .dora-card .dora-metric{font-weight:900;font-size:1.4rem;background:linear-gradient(135deg,#6c63ff,#e0195a);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+    .dora-card .dora-label{font-weight:700;font-size:.88rem;color:#1e2235;margin-bottom:.25rem;}
+    .dora-card .dora-desc{font-size:.82rem;color:#6b7280;line-height:1.55;}
+    .dora-card .dora-bench{display:inline-block;margin-top:.5rem;background:#d1fae5;color:#065f46;border-radius:20px;padding:.18rem .7rem;font-size:.76rem;font-weight:700;}
+    .dora-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1rem;margin:1rem 0;}
+    @media(max-width:600px){.compare-grid{grid-template-columns:1fr;}.dora-grid{grid-template-columns:1fr 1fr;}}
+    @media(max-width:420px){.dora-grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+
+  <!-- ============================== NAVBAR ============================== -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-main d-flex w-100 align-items-center justify-content-between">
+      <a class="navbar-brand" href="devops-index.html">
+        <span class="brand-badge">DevOps</span> DevOps Mastery Hub
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse flex-grow-0" id="navMenu">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link active" href="devops-index.html">Overview</a></li>
+          <li class="nav-item"><a class="nav-link" href="devops-docker.html">Docker</a></li>
+          <li class="nav-item"><a class="nav-link" href="devops-kubernetes.html">Kubernetes</a></li>
+          <li class="nav-item"><a class="nav-link" href="devops-jenkins.html">Jenkins</a></li>
+          <li class="nav-item"><a class="nav-link" href="devops-aws.html">AWS</a></li>
+          <li class="nav-item"><a class="nav-link" href="devops-questions.html">Interview Q&amp;A</a></li>
+          <li class="nav-item"><a class="nav-link" href="devops-coding.html">Coding</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============================== HERO ============================== -->
+  <header class="hero">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <h1>DevOps Mastery Hub</h1>
+    <p class="lead">Master DevOps from zero to hero — Docker, Kubernetes, Jenkins, AWS with deep concepts, real examples, and 500+ interview questions</p>
+    <div class="d-flex gap-3 justify-content-center flex-wrap position-relative" style="z-index:2;">
+      <a href="devops-questions.html" class="btn btn-light btn-lg fw-bold px-4">Interview Q&amp;A</a>
+      <a href="devops-coding.html" class="btn btn-outline-light btn-lg fw-bold px-4">Coding Challenges</a>
+    </div>
+  </header>
+
+  <!-- ============================== STATS BAR ============================== -->
+  <div class="stats-bar">
+    <div class="stat-card"><div class="stat-num">500+</div><div class="stat-label">Interview Questions</div></div>
+    <div class="stat-card"><div class="stat-num">200+</div><div class="stat-label">Coding Challenges</div></div>
+    <div class="stat-card"><div class="stat-num">4</div><div class="stat-label">Tools Deep Dives</div></div>
+    <div class="stat-card"><div class="stat-num">∞</div><div class="stat-label">Step-by-Step Guides</div></div>
+  </div>
+
+  <div class="container-main">
+
+    <!-- TOC PILLS -->
+    <div class="toc-pills">
+      <a href="#what-is-devops">What is DevOps</a>
+      <a href="#sdlc-problems">SDLC Problems</a>
+      <a href="#devops-lifecycle">DevOps Lifecycle</a>
+      <a href="#cicd-pipeline">CI/CD Pipeline</a>
+      <a href="#tools-overview">Docker</a>
+      <a href="#tools-overview">Kubernetes</a>
+      <a href="#tools-overview">Jenkins</a>
+      <a href="#tools-overview">AWS</a>
+      <a href="#devops-vs-sre">DevOps vs SRE</a>
+      <a href="#dora-metrics">DORA Metrics</a>
+    </div>
+
+    <!-- ====================================================================== -->
+    <!-- SECTION 1: WHAT IS DEVOPS?                                             -->
+    <!-- ====================================================================== -->
+    <section class="content-section" id="what-is-devops">
+      <h2 class="section-heading">1. What Is DevOps?</h2>
+      <p class="section-sub">The culture, practices, and tools that unite Development and Operations to deliver software faster and more reliably.</p>
+
+      <div class="card-light">
+        <p class="ans-hero"><i class="bi bi-infinity me-2"></i>DevOps = <span class="hl purple">Culture</span> + <span class="hl blue">Practices</span> + <span class="hl green">Tools</span> that unite Development and Operations to deliver software faster and more reliably.</p>
+
+        <div class="compare-grid">
+          <div class="compare-card red">
+            <span class="ans-label tip"><i class="bi bi-x-circle"></i> Before DevOps — The Problem</span>
+            <ul class="ans-list red mt-2">
+              <li><span>📝</span> Developer writes code</li>
+              <li><span>🧱</span> Throws it "over the wall" to Ops</li>
+              <li><span>🖥️</span> Ops runs it → it breaks</li>
+              <li><span>😤</span> Blame game begins</li>
+              <li><span>🐌</span> Releases take <strong>months</strong></li>
+              <li><span>🔒</span> Siloed teams, no collaboration</li>
+            </ul>
+          </div>
+          <div class="compare-card green">
+            <span class="ans-label key"><i class="bi bi-check-circle"></i> With DevOps</span>
+            <ul class="ans-list green mt-2">
+              <li><span>🤝</span> Dev + Ops collaborate daily</li>
+              <li><span>⚙️</span> Automate everything — CI/CD, IaC</li>
+              <li><span>🚀</span> Continuous delivery to production</li>
+              <li><span>🔁</span> Fast feedback loops at every stage</li>
+              <li><span>⚡</span> Releases in <strong>hours or days</strong></li>
+              <li><span>📊</span> Shared ownership and metrics</li>
+            </ul>
+          </div>
+        </div>
+
+        <span class="ans-label def"><i class="bi bi-columns-gap"></i> Core Pillars of DevOps</span>
+        <ul class="ans-list purple mt-2">
+          <li><span>🤝</span> <strong>Culture</strong> — Shared responsibility, no blame, cross-functional teams</li>
+          <li><span>⚙️</span> <strong>Automation</strong> — CI/CD pipelines, Infrastructure as Code (Terraform, Ansible)</li>
+          <li><span>📊</span> <strong>Measurement</strong> — Metrics, monitoring, alerting (Prometheus, Grafana, DORA)</li>
+          <li><span>🗣️</span> <strong>Sharing</strong> — Knowledge, tools, feedback loops, post-mortems</li>
+        </ul>
+      </div>
+
+      <h3 class="sub-heading">The Wall of Confusion</h3>
+      <p class="ans-hero"><i class="bi bi-brick-wall me-2"></i>"Dev says <span class="hl purple">'works on my machine'</span> — Ops says <span class="hl red">'not my problem'</span> — this is the wall DevOps breaks down."</p>
+
+      <table class="kv-table">
+        <thead>
+          <tr><th>Problem</th><th>DevOps Solution</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Slow manual deployments</strong></td><td>Automated CI/CD pipelines — deploy in minutes, not days</td></tr>
+          <tr><td><strong>"Works on my machine"</strong></td><td>Docker containers — same environment everywhere, every time</td></tr>
+          <tr><td><strong>Manual server configuration</strong></td><td>Infrastructure as Code (Terraform, Ansible) — version-controlled infra</td></tr>
+          <tr><td><strong>No visibility into production</strong></td><td>Monitoring + Alerting (Prometheus, Grafana, ELK Stack)</td></tr>
+          <tr><td><strong>Long release cycles (months)</strong></td><td>Continuous Delivery — deploy daily or even hourly</td></tr>
+          <tr><td><strong>Siloed teams, blame culture</strong></td><td>Cross-functional teams with shared ownership and accountability</td></tr>
+          <tr><td><strong>Inconsistent environments</strong></td><td>Containerization + IaC ensures dev = staging = production</td></tr>
+          <tr><td><strong>Late defect discovery</strong></td><td>Shift-left testing — automated tests run on every commit</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ====================================================================== -->
+    <!-- SECTION 1b: DEVOPS LIFECYCLE                                           -->
+    <!-- ====================================================================== -->
+    <section class="content-section" id="devops-lifecycle">
+      <h2 class="section-heading">DevOps Lifecycle — 8 Phases</h2>
+      <p class="section-sub">The infinite loop of Plan → Code → Build → Test → Release → Deploy → Operate → Monitor — then back to Plan.</p>
+
+      <p class="ans-hero"><i class="bi bi-arrow-repeat me-2"></i>DevOps is an <span class="hl purple">infinite loop</span> — every phase feeds the next, creating a continuous improvement cycle that never stops.</p>
+
+      <div class="card-grid">
+        <div class="type-card">
+          <h5><i class="bi bi-kanban me-2" style="color:#6c63ff;"></i>1. Plan</h5>
+          <p>Define requirements, user stories, and sprint goals. Break work into deliverable chunks.</p>
+          <div class="type-meta"><strong>Tools:</strong> Jira, Confluence, Trello, Azure Boards</div>
+        </div>
+        <div class="type-card">
+          <h5><i class="bi bi-code-slash me-2" style="color:#2563eb;"></i>2. Code</h5>
+          <p>Developers write, review, and version-control application source code.</p>
+          <div class="type-meta"><strong>Tools:</strong> Git, GitHub, GitLab, Bitbucket, VS Code</div>
+        </div>
+        <div class="type-card">
+          <h5><i class="bi bi-box-seam me-2" style="color:#059669;"></i>3. Build</h5>
+          <p>Compile source code, resolve dependencies, and package the application into an artifact.</p>
+          <div class="type-meta"><strong>Tools:</strong> Maven, Gradle, npm, Webpack, Docker</div>
+        </div>
+        <div class="type-card">
+          <h5><i class="bi bi-shield-check me-2" style="color:#d97706;"></i>4. Test</h5>
+          <p>Automatically run unit, integration, and E2E tests to catch defects before they reach production.</p>
+          <div class="type-meta"><strong>Tools:</strong> JUnit, Selenium, Jest, Postman, SonarQube</div>
+        </div>
+        <div class="type-card">
+          <h5><i class="bi bi-tag me-2" style="color:#e0195a;"></i>5. Release</h5>
+          <p>Package, version, and stage the validated artifact for deployment to any environment.</p>
+          <div class="type-meta"><strong>Tools:</strong> Jenkins, GitHub Actions, GitLab CI, CircleCI</div>
+        </div>
+        <div class="type-card">
+          <h5><i class="bi bi-rocket-takeoff me-2" style="color:#7c3aed;"></i>6. Deploy</h5>
+          <p>Push the release to production or target environment using automated deployment strategies.</p>
+          <div class="type-meta"><strong>Tools:</strong> Docker, Kubernetes, Ansible, Terraform, Helm</div>
+        </div>
+        <div class="type-card">
+          <h5><i class="bi bi-hdd-network me-2" style="color:#0891b2;"></i>7. Operate</h5>
+          <p>Manage running infrastructure, ensure uptime, handle scaling and configuration in production.</p>
+          <div class="type-meta"><strong>Tools:</strong> Linux, Nginx, Tomcat, AWS, Kubernetes</div>
+        </div>
+        <div class="type-card">
+          <h5><i class="bi bi-graph-up me-2" style="color:#dc2626;"></i>8. Monitor</h5>
+          <p>Observe system health, collect logs and metrics, alert on anomalies, close the feedback loop.</p>
+          <div class="type-meta"><strong>Tools:</strong> Prometheus, Grafana, ELK Stack, Datadog, CloudWatch</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================== -->
+    <!-- SECTION 2: TRADITIONAL SDLC PROBLEMS                                  -->
+    <!-- ====================================================================== -->
+    <section class="content-section" id="sdlc-problems">
+      <h2 class="section-heading">2. The Problem with Traditional SDLC</h2>
+      <p class="section-sub">How Waterfall became Agile, and how DevOps took it even further — from months to minutes.</p>
+
+      <h3 class="sub-heading">Waterfall vs Agile vs DevOps</h3>
+
+      <table class="kv-table">
+        <thead>
+          <tr>
+            <th>Aspect</th>
+            <th>Waterfall</th>
+            <th>Agile</th>
+            <th>DevOps</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Release Cycle</strong></td>
+            <td><span style="color:#dc2626;">Months / Years</span></td>
+            <td><span style="color:#d97706;">2-week sprints</span></td>
+            <td><span style="color:#059669;">Daily / Hourly</span></td>
+          </tr>
+          <tr>
+            <td><strong>Team Structure</strong></td>
+            <td>Siloed — Dev, QA, Ops separate</td>
+            <td>Cross-functional Dev + QA</td>
+            <td>Unified Dev + QA + Ops</td>
+          </tr>
+          <tr>
+            <td><strong>Feedback</strong></td>
+            <td>After final release</td>
+            <td>End of each sprint</td>
+            <td>Continuous — real-time</td>
+          </tr>
+          <tr>
+            <td><strong>Testing</strong></td>
+            <td>After all development</td>
+            <td>Each sprint (manual &amp; auto)</td>
+            <td>Continuous — shift-left, automated</td>
+          </tr>
+          <tr>
+            <td><strong>Deployment</strong></td>
+            <td>Manual, infrequent, risky</td>
+            <td>Manual or semi-automated</td>
+            <td>Fully automated pipelines</td>
+          </tr>
+          <tr>
+            <td><strong>Failure Recovery</strong></td>
+            <td>Days to weeks</td>
+            <td>Hours to days</td>
+            <td>Minutes — auto rollback</td>
+          </tr>
+          <tr>
+            <td><strong>Infrastructure</strong></td>
+            <td>Manual provisioning</td>
+            <td>Still largely manual</td>
+            <td>Infrastructure as Code</td>
+          </tr>
+          <tr>
+            <td><strong>Risk Level</strong></td>
+            <td>Very high — big-bang releases</td>
+            <td>Medium — sprint-by-sprint</td>
+            <td>Low — small, frequent increments</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 class="sub-heading">Real World Example — Old Way vs DevOps Way</h3>
+      <p class="ans-hero"><i class="bi bi-lightbulb me-2"></i>Imagine deploying a Java Spring Boot app the <span class="hl red">OLD way</span> vs the <span class="hl green">DevOps way</span> — same code, completely different experience.</p>
+
+      <div class="compare-grid">
+        <div class="compare-card red">
+          <span class="ans-label tip"><i class="bi bi-hourglass-split"></i> Old Way (Manual)</span>
+          <ul class="ans-list red mt-2">
+            <li><span>1️⃣</span> Developer builds JAR locally on their machine</li>
+            <li><span>2️⃣</span> Emails the JAR file to the Ops team</li>
+            <li><span>3️⃣</span> Ops manually copies JAR to production server</li>
+            <li><span>4️⃣</span> Ops manually restarts Tomcat</li>
+            <li><span>5️⃣</span> Everyone hopes it works — no automated tests</li>
+            <li><span>6️⃣</span> Bug found 2 days later → start again</li>
+            <li><span>⏱️</span> <strong>Total time: 2–5 days</strong></li>
+          </ul>
+        </div>
+        <div class="compare-card green">
+          <span class="ans-label key"><i class="bi bi-lightning-charge"></i> DevOps Way (Automated)</span>
+          <ul class="ans-list green mt-2">
+            <li><span>1️⃣</span> Developer pushes code to Git repository</li>
+            <li><span>2️⃣</span> GitHub webhook fires → Jenkins pipeline starts</li>
+            <li><span>3️⃣</span> Maven auto-builds the JAR artifact</li>
+            <li><span>4️⃣</span> JUnit + Selenium tests run automatically</li>
+            <li><span>5️⃣</span> Docker image built and pushed to registry</li>
+            <li><span>6️⃣</span> Kubernetes deploys → auto-rolled back if unhealthy</li>
+            <li><span>⚡</span> <strong>Total time: under 10 minutes</strong></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================== -->
+    <!-- SECTION 3: CI/CD PIPELINE — THE HEART OF DEVOPS                       -->
+    <!-- ====================================================================== -->
+    <section class="content-section" id="cicd-pipeline">
+      <h2 class="section-heading">3. CI/CD Pipeline — The Heart of DevOps</h2>
+      <p class="section-sub">Continuous Integration, Delivery, and Deployment — automate from code commit all the way to production.</p>
+
+      <h3 class="sub-heading">What Is CI/CD?</h3>
+      <div class="card-light">
+        <p class="ans-hero"><i class="bi bi-arrow-repeat me-2"></i><span class="hl blue">CI</span> = merge code frequently + auto-test every commit. <span class="hl green">CD</span> = auto-deploy to any environment on demand.</p>
+
+        <table class="kv-table">
+          <thead>
+            <tr><th>Term</th><th>Full Form</th><th>What It Does</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="hl blue">CI</span></td>
+              <td><strong>Continuous Integration</strong></td>
+              <td>Auto-build + auto-test on every code commit. Catches integration issues early.</td>
+            </tr>
+            <tr>
+              <td><span class="hl amber">CD</span></td>
+              <td><strong>Continuous Delivery</strong></td>
+              <td>Auto-deploy to staging; one-click production trigger. Keeps code always release-ready.</td>
+            </tr>
+            <tr>
+              <td><span class="hl green">CD</span></td>
+              <td><strong>Continuous Deployment</strong></td>
+              <td>Fully automatic deployment all the way to production — zero manual steps required.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="sub-heading">A Real Pipeline — Jenkinsfile</h3>
+
+      <div class="code-wrap">
+        <div class="code-block"><span class="cm">// Jenkinsfile — Declarative Pipeline: Code → Build → Test → Docker → Deploy</span>
+<span class="kw">pipeline</span> {
+    <span class="kw">agent</span> <span class="fn">any</span>
+
+    <span class="kw">stages</span> {
+        <span class="kw">stage</span>(<span class="st">'Checkout'</span>) {
+            <span class="kw">steps</span> {
+                <span class="fn">git</span> <span class="st">'https://github.com/user/app.git'</span>
+            }
+        }
+        <span class="kw">stage</span>(<span class="st">'Build'</span>) {
+            <span class="kw">steps</span> {
+                <span class="fn">sh</span> <span class="st">'mvn clean package -DskipTests'</span>
+            }
+        }
+        <span class="kw">stage</span>(<span class="st">'Test'</span>) {
+            <span class="kw">steps</span> {
+                <span class="fn">sh</span> <span class="st">'mvn test'</span>
+            }
+            <span class="kw">post</span> {
+                <span class="kw">always</span> {
+                    <span class="fn">junit</span> <span class="st">'**/target/surefire-reports/*.xml'</span>
+                }
+            }
+        }
+        <span class="kw">stage</span>(<span class="st">'Docker Build'</span>) {
+            <span class="kw">steps</span> {
+                <span class="fn">sh</span> <span class="st">'docker build -t myapp:latest .'</span>
+                <span class="fn">sh</span> <span class="st">'docker tag myapp:latest myregistry/myapp:${BUILD_NUMBER}'</span>
+                <span class="fn">sh</span> <span class="st">'docker push myregistry/myapp:${BUILD_NUMBER}'</span>
+            }
+        }
+        <span class="kw">stage</span>(<span class="st">'Deploy'</span>) {
+            <span class="kw">steps</span> {
+                <span class="fn">sh</span> <span class="st">'kubectl apply -f k8s/deployment.yaml'</span>
+                <span class="fn">sh</span> <span class="st">'kubectl rollout status deployment/myapp'</span>
+            }
+        }
+    }
+
+    <span class="kw">post</span> {
+        <span class="kw">success</span> { <span class="fn">slackSend</span> message: <span class="st">"✅ Build ${BUILD_NUMBER} deployed!"</span> }
+        <span class="kw">failure</span> { <span class="fn">slackSend</span> message: <span class="st">"❌ Build ${BUILD_NUMBER} failed!"</span> }
+    }
+}</div>
+      </div>
+
+      <h3 class="sub-heading">CI/CD Pipeline Flow — Step by Step</h3>
+
+      <div class="pipeline-step"><span class="step-num">1</span><div><strong>Developer pushes code</strong> to a feature branch on GitHub/GitLab</div></div>
+      <div class="pipeline-step"><span class="step-num">2</span><div><strong>GitHub webhook fires</strong> — notifies Jenkins that new code is available</div></div>
+      <div class="pipeline-step"><span class="step-num">3</span><div><strong>Jenkins picks up the build</strong> — checks out the latest code from the repository</div></div>
+      <div class="pipeline-step"><span class="step-num">4</span><div><strong>Maven builds the JAR</strong> — compiles, resolves dependencies, packages the artifact</div></div>
+      <div class="pipeline-step"><span class="step-num">5</span><div><strong>JUnit tests run</strong> — unit and integration tests execute automatically; failure stops the pipeline</div></div>
+      <div class="pipeline-step"><span class="step-num">6</span><div><strong>SonarQube quality gate</strong> — code coverage, complexity, security vulnerabilities checked</div></div>
+      <div class="pipeline-step"><span class="step-num">7</span><div><strong>Docker image built</strong> — application packaged into a container image with all its dependencies</div></div>
+      <div class="pipeline-step"><span class="step-num">8</span><div><strong>Image pushed to Docker Hub / ECR</strong> — versioned artifact stored in the container registry</div></div>
+      <div class="pipeline-step"><span class="step-num">9</span><div><strong>Kubernetes deployment updated</strong> — rolling update applied; new pods gradually replace old ones</div></div>
+      <div class="pipeline-step"><span class="step-num">10</span><div><strong>Health check performed</strong> — liveness/readiness probes confirm the new pods are healthy</div></div>
+      <div class="pipeline-step"><span class="step-num">11</span><div><strong>Slack notification sent</strong> — team notified of success or auto-rollback on failure</div></div>
+
+      <div class="info-panel tip mt-3">
+        <div class="panel-title"><i class="bi bi-lightbulb me-1"></i>Key Insight</div>
+        The entire pipeline — from code push to live production — typically runs in <strong>5–15 minutes</strong> for a well-optimized DevOps setup. Elite teams run this cycle multiple times per day.
+      </div>
+    </section>
+
+    <!-- ====================================================================== -->
+    <!-- SECTION 4: TOOLS OVERVIEW                                              -->
+    <!-- ====================================================================== -->
+    <section class="content-section" id="tools-overview">
+      <h2 class="section-heading">4. Tools Overview</h2>
+      <p class="section-sub">The four pillars of the modern DevOps toolkit — each with its own deep-dive page.</p>
+
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-3">
+          <a href="devops-docker.html" class="devops-tool-card docker">
+            <span class="tool-link-badge">Deep Dive →</span>
+            <span class="tool-icon">🐳</span>
+            <h5>Docker</h5>
+            <p>Containerize everything — build once, run anywhere. Package your app with all its dependencies into a portable image.</p>
+          </a>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <a href="devops-kubernetes.html" class="devops-tool-card k8s">
+            <span class="tool-link-badge">Deep Dive →</span>
+            <span class="tool-icon">☸️</span>
+            <h5>Kubernetes</h5>
+            <p>Orchestrate containers at scale — self-healing, auto-scaling, rolling deployments, and service discovery built in.</p>
+          </a>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <a href="devops-jenkins.html" class="devops-tool-card jenkins">
+            <span class="tool-link-badge">Deep Dive →</span>
+            <span class="tool-icon">🤖</span>
+            <h5>Jenkins</h5>
+            <p>Automate your pipeline — from code commit to production. The most widely used open-source CI/CD server.</p>
+          </a>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <a href="devops-aws.html" class="devops-tool-card aws">
+            <span class="tool-link-badge">Deep Dive →</span>
+            <span class="tool-icon">☁️</span>
+            <h5>AWS</h5>
+            <p>Cloud infrastructure at scale — EC2, EKS, ECR, S3, RDS, IAM, and 200+ services powering modern applications.</p>
+          </a>
+        </div>
+      </div>
+
+      <h3 class="sub-heading">DevOps Tool Ecosystem at a Glance</h3>
+
+      <table class="kv-table">
+        <thead>
+          <tr><th>Category</th><th>Popular Tools</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Version Control</strong></td>
+            <td><code>Git</code>, <code>GitHub</code>, <code>GitLab</code>, <code>Bitbucket</code></td>
+            <td>Track every code change; enable collaboration and branching</td>
+          </tr>
+          <tr>
+            <td><strong>CI/CD</strong></td>
+            <td><code>Jenkins</code>, <code>GitHub Actions</code>, <code>GitLab CI</code>, <code>CircleCI</code></td>
+            <td>Automate build, test, and deployment pipelines</td>
+          </tr>
+          <tr>
+            <td><strong>Containerization</strong></td>
+            <td><code>Docker</code>, <code>Podman</code>, <code>containerd</code></td>
+            <td>Package applications with dependencies for consistent environments</td>
+          </tr>
+          <tr>
+            <td><strong>Container Orchestration</strong></td>
+            <td><code>Kubernetes</code>, <code>ECS</code>, <code>Docker Swarm</code></td>
+            <td>Manage, scale, and heal containerized workloads</td>
+          </tr>
+          <tr>
+            <td><strong>Infrastructure as Code</strong></td>
+            <td><code>Terraform</code>, <code>Ansible</code>, <code>CloudFormation</code>, <code>Pulumi</code></td>
+            <td>Define and version-control infrastructure like application code</td>
+          </tr>
+          <tr>
+            <td><strong>Monitoring &amp; Alerting</strong></td>
+            <td><code>Prometheus</code>, <code>Grafana</code>, <code>Datadog</code>, <code>CloudWatch</code></td>
+            <td>Observe system health, visualize metrics, fire alerts</td>
+          </tr>
+          <tr>
+            <td><strong>Log Management</strong></td>
+            <td><code>ELK Stack</code>, <code>Splunk</code>, <code>Loki</code>, <code>Fluentd</code></td>
+            <td>Aggregate, search, and analyze logs from all services</td>
+          </tr>
+          <tr>
+            <td><strong>Cloud Platforms</strong></td>
+            <td><code>AWS</code>, <code>Azure</code>, <code>Google Cloud</code></td>
+            <td>Scalable compute, storage, networking, and managed services</td>
+          </tr>
+          <tr>
+            <td><strong>Artifact Registries</strong></td>
+            <td><code>Docker Hub</code>, <code>AWS ECR</code>, <code>JFrog Artifactory</code>, <code>Nexus</code></td>
+            <td>Store and version built artifacts and container images</td>
+          </tr>
+          <tr>
+            <td><strong>Security (DevSecOps)</strong></td>
+            <td><code>SonarQube</code>, <code>Snyk</code>, <code>OWASP ZAP</code>, <code>Trivy</code></td>
+            <td>Scan for vulnerabilities at every stage of the pipeline</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ====================================================================== -->
+    <!-- SECTION 5: DEVOPS vs SRE vs PLATFORM ENGINEERING                      -->
+    <!-- ====================================================================== -->
+    <section class="content-section" id="devops-vs-sre">
+      <h2 class="section-heading">5. DevOps vs SRE vs Platform Engineering</h2>
+      <p class="section-sub">Three related but distinct disciplines — each with different focus, origins, and ways of measuring success.</p>
+
+      <div class="card-light">
+        <p class="ans-hero"><i class="bi bi-diagram-3 me-2"></i>DevOps is a <span class="hl purple">culture</span>. SRE is a <span class="hl blue">job function</span> that implements DevOps principles with engineering rigor. Platform Engineering is the <span class="hl green">next evolution</span> — building internal developer platforms.</p>
+
+        <div class="icon-row">
+          <span class="icon-chip purple"><i class="bi bi-people"></i> DevOps — Cultural movement</span>
+          <span class="icon-chip blue"><i class="bi bi-google"></i> SRE — Google's engineering approach</span>
+          <span class="icon-chip green"><i class="bi bi-layers"></i> Platform Eng — Modern evolution</span>
+        </div>
+      </div>
+
+      <table class="kv-table">
+        <thead>
+          <tr>
+            <th>Aspect</th>
+            <th>DevOps</th>
+            <th>SRE (Site Reliability Engineering)</th>
+            <th>Platform Engineering</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Primary Focus</strong></td>
+            <td>Delivery speed + reliability balance</td>
+            <td>Reliability, uptime, and SLO management</td>
+            <td>Developer productivity and self-service</td>
+          </tr>
+          <tr>
+            <td><strong>Origin</strong></td>
+            <td>Cultural movement (2009, Patrick Debois)</td>
+            <td>Google's engineering discipline (~2003)</td>
+            <td>Modern evolution from DevOps</td>
+          </tr>
+          <tr>
+            <td><strong>Key Metric</strong></td>
+            <td>Deployment frequency, lead time</td>
+            <td>Error budget, SLO / SLA adherence</td>
+            <td>DORA metrics, cognitive load reduction</td>
+          </tr>
+          <tr>
+            <td><strong>Primary Tool</strong></td>
+            <td>CI/CD pipelines, IaC</td>
+            <td>Incident management, runbooks, SLOs</td>
+            <td>Internal Developer Platform (IDP)</td>
+          </tr>
+          <tr>
+            <td><strong>Team Structure</strong></td>
+            <td>Embedded in product squads</td>
+            <td>Dedicated SRE team</td>
+            <td>Dedicated platform team</td>
+          </tr>
+          <tr>
+            <td><strong>When Things Break</strong></td>
+            <td>Dev + Ops shared on-call</td>
+            <td>SRE owns incident response + postmortems</td>
+            <td>Platform team ensures resilient tooling</td>
+          </tr>
+          <tr>
+            <td><strong>Key Concept</strong></td>
+            <td>You build it, you run it</td>
+            <td>Error budget — spend wisely on risk</td>
+            <td>Paved roads — golden paths for developers</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="compare-grid mt-3">
+        <div class="compare-card blue">
+          <span class="ans-label def"><i class="bi bi-bullseye"></i> SRE in One Concept</span>
+          <ul class="ans-list blue mt-2">
+            <li><span>📉</span> <strong>SLO</strong> (Service Level Objective) — e.g., 99.9% uptime</li>
+            <li><span>💰</span> <strong>Error Budget</strong> — 0.1% downtime allowed per month</li>
+            <li><span>⚖️</span> Spend budget on features vs. reliability</li>
+            <li><span>🚨</span> Budget exhausted → feature freeze, fix reliability</li>
+          </ul>
+        </div>
+        <div class="compare-card green">
+          <span class="ans-label key"><i class="bi bi-building"></i> Platform Engineering Goal</span>
+          <ul class="ans-list green mt-2">
+            <li><span>🛣️</span> Build "golden paths" — opinionated, easy routes</li>
+            <li><span>🧰</span> Self-service infra provisioning for developers</li>
+            <li><span>⚡</span> Reduce cognitive load — devs focus on features</li>
+            <li><span>📏</span> Tools: Backstage, Crossplane, ArgoCD, Flux</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================== -->
+    <!-- SECTION 6: DORA METRICS                                                -->
+    <!-- ====================================================================== -->
+    <section class="content-section" id="dora-metrics">
+      <h2 class="section-heading">6. Key DevOps Metrics — DORA</h2>
+      <p class="section-sub">The 4 research-backed indicators that separate elite DevOps teams from everyone else.</p>
+
+      <p class="ans-hero"><i class="bi bi-bar-chart-fill me-2"></i>DORA metrics (by Google's DevOps Research and Assessment team) are the <span class="hl purple">4 key indicators</span> of DevOps performance — <span class="hl green">elite teams deploy multiple times daily</span> and recover from incidents in under an hour.</p>
+
+      <div class="dora-grid">
+        <div class="dora-card">
+          <div class="dora-metric"><i class="bi bi-rocket-takeoff"></i></div>
+          <div class="dora-label">Deployment Frequency</div>
+          <div class="dora-desc">How often your organization successfully releases to production. The heartbeat of your DevOps practice.</div>
+          <span class="dora-bench">Elite: Multiple times/day</span>
+        </div>
+        <div class="dora-card">
+          <div class="dora-metric"><i class="bi bi-hourglass-split"></i></div>
+          <div class="dora-label">Lead Time for Changes</div>
+          <div class="dora-desc">Time from a code commit being made to that code successfully running in production.</div>
+          <span class="dora-bench">Elite: &lt; 1 hour</span>
+        </div>
+        <div class="dora-card">
+          <div class="dora-metric"><i class="bi bi-exclamation-triangle"></i></div>
+          <div class="dora-label">Change Failure Rate</div>
+          <div class="dora-desc">Percentage of production deployments that cause a service degradation or require a hotfix/rollback.</div>
+          <span class="dora-bench">Elite: 0–15%</span>
+        </div>
+        <div class="dora-card">
+          <div class="dora-metric"><i class="bi bi-arrow-counterclockwise"></i></div>
+          <div class="dora-label">Time to Restore Service</div>
+          <div class="dora-desc">How quickly you recover when an incident or outage occurs in production. Speed of recovery matters most.</div>
+          <span class="dora-bench">Elite: &lt; 1 hour</span>
+        </div>
+      </div>
+
+      <table class="kv-table mt-3">
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>What It Measures</th>
+            <th>Low Performers</th>
+            <th>Elite Benchmark</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Deployment Frequency</strong></td>
+            <td>How often code reaches production</td>
+            <td>Once per month or less</td>
+            <td><span class="hl green">Multiple times per day</span></td>
+          </tr>
+          <tr>
+            <td><strong>Lead Time for Changes</strong></td>
+            <td>Commit to production duration</td>
+            <td>1 month to 6 months</td>
+            <td><span class="hl green">Less than 1 hour</span></td>
+          </tr>
+          <tr>
+            <td><strong>Change Failure Rate</strong></td>
+            <td>% of deployments causing incidents</td>
+            <td>46–60% of changes fail</td>
+            <td><span class="hl green">0–15%</span></td>
+          </tr>
+          <tr>
+            <td><strong>Time to Restore Service</strong></td>
+            <td>Recovery from production incident</td>
+            <td>1 week to 1 month</td>
+            <td><span class="hl green">Less than 1 hour</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="info-panel tip">
+        <div class="panel-title"><i class="bi bi-graph-up-arrow me-1"></i>Why DORA Metrics Matter</div>
+        Elite performers on DORA metrics are <strong>2x more likely to meet commercial goals</strong>, have <strong>50% lower change failure rates</strong>, and recover from incidents <strong>24x faster</strong> than low performers. These metrics directly correlate with organizational performance and profitability.
+      </div>
+
+      <h3 class="sub-heading">Where DevOps Practices Impact Each Metric</h3>
+      <table class="kv-table">
+        <thead>
+          <tr><th>DORA Metric</th><th>DevOps Practices That Improve It</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Deployment Frequency</strong></td>
+            <td>CI/CD automation, trunk-based development, feature flags, small batch sizes</td>
+          </tr>
+          <tr>
+            <td><strong>Lead Time for Changes</strong></td>
+            <td>Fast automated tests, pre-commit hooks, streamlined code review, no manual approvals</td>
+          </tr>
+          <tr>
+            <td><strong>Change Failure Rate</strong></td>
+            <td>Automated testing, canary deployments, blue-green deployments, comprehensive monitoring</td>
+          </tr>
+          <tr>
+            <td><strong>Time to Restore Service</strong></td>
+            <td>Auto-rollback, runbooks, alerting, chaos engineering, on-call rotation, post-mortems</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+  </div>
+
+  <!-- ============================== FOOTER ============================== -->
+  <footer class="footer">
+    <div class="footer-brand">DevOps Mastery Hub — Docker &bull; Kubernetes &bull; Jenkins &bull; AWS</div>
+    <p class="mb-2">CI/CD &bull; Infrastructure as Code &bull; Monitoring &bull; Cloud &bull; Interview Q&amp;A</p>
+    <div>
+      <a href="devops-index.html">Overview</a>
+      <a href="devops-docker.html">Docker</a>
+      <a href="devops-kubernetes.html">Kubernetes</a>
+      <a href="devops-jenkins.html">Jenkins</a>
+      <a href="devops-aws.html">AWS</a>
+      <a href="devops-questions.html">Interview Q&amp;A</a>
+      <a href="devops-coding.html">Coding</a>
+    </div>
+    <p class="mt-3 mb-0" style="opacity:.7;">&copy; 2026 DevOps Mastery Hub. Built for DevOps Engineers.</p>
+  </footer>
+
+  <!-- ============================== SCROLL TO TOP ============================== -->
+  <button id="scrollTop" class="scroll-top scroll-top-btn" aria-label="Scroll to top">&uarr;</button>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

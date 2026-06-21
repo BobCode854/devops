@@ -1,0 +1,4021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DevOps Coding Challenges — DevOps Mastery Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .ans-hero{background:linear-gradient(135deg,#6c63ff18,#a855f718);border-left:4px solid #6c63ff;border-radius:0 10px 10px 0;padding:.7rem 1.1rem;font-weight:700;font-size:1rem;color:#2d2b5e;margin-bottom:1rem;}
+    .ans-list{list-style:none;padding:0;margin:.5rem 0 1rem;}
+    .ans-list li{display:flex;align-items:flex-start;gap:.5rem;padding:.38rem .65rem;margin-bottom:.28rem;border-radius:8px;font-size:.93rem;background:#f7f8fc;border-left:3px solid #6c63ff;}
+    .ans-list.green li{border-left-color:#059669;background:#f0fdf4;}
+    .ans-list.amber li{border-left-color:#d97706;background:#fffbeb;}
+    .ans-list.red li{border-left-color:#dc2626;background:#fff5f5;}
+    .ans-list.blue li{border-left-color:#2563eb;background:#eff6ff;}
+    .ans-list.purple li{border-left-color:#7c3aed;background:#f5f3ff;}
+    .ans-label{display:inline-flex;align-items:center;gap:.3rem;font-size:.76rem;font-weight:800;text-transform:uppercase;padding:.18rem .6rem;border-radius:20px;margin-bottom:.4rem;}
+    .ans-label.def{background:#eef2ff;color:#4f46e5;}
+    .ans-label.key{background:#f0fdf4;color:#059669;}
+    .ans-label.ex{background:#fffbeb;color:#d97706;}
+    .ans-label.tip{background:#fff5f5;color:#dc2626;}
+    .hl{font-weight:700;padding:.05rem .38rem;border-radius:5px;font-size:.88em;}
+    .hl.green{background:#d1fae5;color:#065f46;}
+    .hl.blue{background:#dbeafe;color:#1e40af;}
+    .hl.purple{background:#ede9fe;color:#5b21b6;}
+    .hl.amber{background:#fef3c7;color:#92400e;}
+    .hl.red{background:#fee2e2;color:#991b1b;}
+    .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin:.6rem 0 1rem;}
+    .compare-card{border-radius:10px;padding:.75rem 1rem;}
+    .compare-card.green{background:#f0fdf4;border:1.5px solid #6ee7b7;}
+    .compare-card.blue{background:#eff6ff;border:1.5px solid #93c5fd;}
+    .compare-card.amber{background:#fffbeb;border:1.5px solid #fcd34d;}
+    .compare-card.red{background:#fff5f5;border:1.5px solid #fca5a5;}
+    .kv-table{width:100%;border-collapse:collapse;margin:.6rem 0 1rem;}
+    .kv-table th{background:#6c63ff;color:#fff;padding:.4rem .7rem;font-weight:700;}
+    .kv-table td{padding:.4rem .7rem;border-bottom:1px solid #e2e5f0;}
+    .icon-row{display:flex;flex-wrap:wrap;gap:.7rem;margin:.6rem 0 1rem;}
+    .icon-chip{display:flex;align-items:center;gap:.4rem;background:#f7f8fc;border:1px solid #e2e5f0;border-radius:10px;padding:.35rem .75rem;font-size:.88rem;font-weight:600;}
+    .icon-chip.blue{background:#eff6ff;border-color:#93c5fd;color:#1e40af;}
+    .icon-chip.green{background:#f0fdf4;border-color:#6ee7b7;color:#065f46;}
+    .icon-chip.amber{background:#fffbeb;border-color:#fcd34d;color:#92400e;}
+    .icon-chip.purple{background:#f5f3ff;border-color:#c4b5fd;color:#5b21b6;}
+    .diff-easy{background:#d1fae5;color:#065f46;padding:.15rem .5rem;border-radius:6px;font-size:.72rem;font-weight:800;text-transform:uppercase;}
+    .diff-medium{background:#fef3c7;color:#92400e;padding:.15rem .5rem;border-radius:6px;font-size:.72rem;font-weight:800;text-transform:uppercase;}
+    .diff-hard{background:#fee2e2;color:#991b1b;padding:.15rem .5rem;border-radius:6px;font-size:.72rem;font-weight:800;text-transform:uppercase;}
+    .challenge-num{background:#6c63ff;color:#fff;border-radius:6px;padding:.1rem .45rem;font-size:.75rem;font-weight:800;margin-right:.5rem;}
+    @media(max-width:600px){.compare-grid{grid-template-columns:1fr;}}
+
+    /* Extra page styles */
+    pre.code-block{background:#1e2235;color:#e2e8f0;border-radius:10px;padding:1.1rem 1.3rem;font-family:'JetBrains Mono',monospace;font-size:.82rem;line-height:1.7;overflow-x:auto;margin:.6rem 0 1rem;position:relative;}
+    pre.code-block .cm{color:#6b7280;}
+    pre.code-block .kw{color:#a78bfa;}
+    pre.code-block .str{color:#86efac;}
+    pre.code-block .var{color:#67e8f9;}
+    pre.code-block .num{color:#fdba74;}
+    pre.code-block .fn{color:#fde68a;}
+    .task-box{background:#f0f9ff;border:1.5px solid #bae6fd;border-radius:10px;padding:.8rem 1rem;margin-bottom:.8rem;}
+    .task-box .task-title{font-weight:800;font-size:.8rem;text-transform:uppercase;color:#0369a1;margin-bottom:.4rem;letter-spacing:.04em;}
+    .req-list{list-style:none;padding:0;margin:.4rem 0 .8rem;}
+    .req-list li{font-size:.9rem;padding:.22rem .5rem .22rem 1.5rem;position:relative;color:#374151;}
+    .req-list li::before{content:"›";position:absolute;left:.4rem;color:#6c63ff;font-weight:800;}
+    .info-panel{background:#fffbeb;border:1.5px solid #fcd34d;border-radius:10px;padding:.75rem 1rem;margin-top:.8rem;font-size:.88rem;}
+    .info-panel .ip-title{font-weight:800;font-size:.76rem;text-transform:uppercase;color:#92400e;margin-bottom:.35rem;}
+    .section-header-tab{font-size:1.05rem;font-weight:700;color:#2d2b5e;margin-bottom:1.2rem;padding-bottom:.5rem;border-bottom:2px solid #e2e5f0;}
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════ NAVBAR ═══ -->
+<nav class="navbar navbar-expand-lg sticky-top" style="background:#fff;border-bottom:1.5px solid #e2e5f0;box-shadow:0 2px 12px rgba(108,99,255,.07);">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand d-flex align-items-center gap-2 fw-800" href="devops-index.html" style="color:#1e2235;font-family:'Inter',sans-serif;">
+      <span style="background:linear-gradient(135deg,#6c63ff,#e0195a);color:#fff;border-radius:8px;padding:.22rem .65rem;font-size:.82rem;font-weight:900;letter-spacing:.03em;">DevOps</span>
+      <span style="font-weight:800;">DevOps Mastery Hub</span>
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav ms-auto gap-1 align-items-lg-center">
+        <li class="nav-item"><a class="nav-link px-3 fw-600" href="devops-index.html" style="color:#374151;font-family:'Inter',sans-serif;"><i class="bi bi-house me-1"></i>Overview</a></li>
+        <li class="nav-item"><a class="nav-link px-3 fw-600" href="docker.html" style="color:#374151;font-family:'Inter',sans-serif;"><i class="bi bi-box-seam me-1"></i>Docker</a></li>
+        <li class="nav-item"><a class="nav-link px-3 fw-600" href="kubernetes.html" style="color:#374151;font-family:'Inter',sans-serif;"><i class="bi bi-grid-3x3-gap me-1"></i>Kubernetes</a></li>
+        <li class="nav-item"><a class="nav-link px-3 fw-600" href="jenkins.html" style="color:#374151;font-family:'Inter',sans-serif;"><i class="bi bi-gear me-1"></i>Jenkins</a></li>
+        <li class="nav-item"><a class="nav-link px-3 fw-600" href="aws.html" style="color:#374151;font-family:'Inter',sans-serif;"><i class="bi bi-cloud me-1"></i>AWS</a></li>
+        <li class="nav-item"><a class="nav-link px-3 fw-600" href="devops-questions.html" style="color:#374151;font-family:'Inter',sans-serif;"><i class="bi bi-patch-question me-1"></i>Q&amp;A</a></li>
+        <li class="nav-item"><a class="nav-link px-3 fw-600 active" href="devops-coding.html" style="color:#6c63ff;font-family:'Inter',sans-serif;font-weight:800;"><i class="bi bi-code-slash me-1"></i>Coding</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════ HERO ═══ -->
+<section style="background:linear-gradient(135deg,#6c63ff14,#e0195a0d,#05966914);padding:3rem 0 2.2rem;border-bottom:1.5px solid #e2e5f0;">
+  <div class="container px-4">
+    <div class="d-flex align-items-center gap-2 mb-2">
+      <span style="background:linear-gradient(135deg,#6c63ff,#e0195a);color:#fff;border-radius:8px;padding:.2rem .7rem;font-size:.78rem;font-weight:900;letter-spacing:.05em;text-transform:uppercase;">Coding</span>
+      <span style="color:#6b7280;font-size:.85rem;font-family:'Inter',sans-serif;">Hands-on Practice</span>
+    </div>
+    <h1 style="font-family:'Inter',sans-serif;font-weight:900;font-size:2.3rem;color:#1e2235;margin-bottom:.6rem;line-height:1.2;">
+      <i class="bi bi-code-slash me-2" style="color:#6c63ff;"></i>DevOps Coding Challenges
+    </h1>
+    <p style="font-size:1.08rem;color:#374151;max-width:640px;margin-bottom:0;font-family:'Inter',sans-serif;">
+      Hands-on exercises — write real Dockerfiles, Kubernetes YAMLs, Jenkinsfiles and shell scripts. Each challenge includes a full solution with explanation.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ STATS BAR ═══ -->
+<section style="background:#fff;border-bottom:1.5px solid #e2e5f0;padding:.9rem 0;">
+  <div class="container px-4">
+    <div class="row g-3 text-center">
+      <div class="col-6 col-md-3">
+        <div style="background:#eff6ff;border-radius:10px;padding:.6rem .5rem;">
+          <div style="font-size:1.5rem;font-weight:900;color:#2563eb;font-family:'Inter',sans-serif;">15</div>
+          <div style="font-size:.78rem;color:#6b7280;font-weight:600;"><i class="bi bi-box-seam me-1"></i>Docker Challenges</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div style="background:#f5f3ff;border-radius:10px;padding:.6rem .5rem;">
+          <div style="font-size:1.5rem;font-weight:900;color:#7c3aed;font-family:'Inter',sans-serif;">15</div>
+          <div style="font-size:.78rem;color:#6b7280;font-weight:600;"><i class="bi bi-grid-3x3-gap me-1"></i>Kubernetes Challenges</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div style="background:#fff7ed;border-radius:10px;padding:.6rem .5rem;">
+          <div style="font-size:1.5rem;font-weight:900;color:#ea580c;font-family:'Inter',sans-serif;">15</div>
+          <div style="font-size:.78rem;color:#6b7280;font-weight:600;"><i class="bi bi-gear me-1"></i>Jenkins Challenges</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div style="background:#f0fdf4;border-radius:10px;padding:.6rem .5rem;">
+          <div style="font-size:1.5rem;font-weight:900;color:#059669;font-family:'Inter',sans-serif;">5</div>
+          <div style="font-size:.78rem;color:#6b7280;font-weight:600;"><i class="bi bi-cloud me-1"></i>AWS Challenges</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ MAIN CONTENT ═══ -->
+<main class="container px-4 py-4" style="max-width:1100px;">
+
+  <!-- TABS -->
+  <ul class="nav nav-tabs mb-4" id="challengeTabs" role="tablist" style="border-bottom:2px solid #e2e5f0;">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active fw-700" id="docker-tab" data-bs-toggle="tab" data-bs-target="#docker-panel" type="button" role="tab" style="font-family:'Inter',sans-serif;">
+        <i class="bi bi-box-seam me-1"></i>Docker
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link fw-700" id="k8s-tab" data-bs-toggle="tab" data-bs-target="#k8s-panel" type="button" role="tab" style="font-family:'Inter',sans-serif;">
+        <i class="bi bi-grid-3x3-gap me-1"></i>Kubernetes
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link fw-700" id="jenkins-tab" data-bs-toggle="tab" data-bs-target="#jenkins-panel" type="button" role="tab" style="font-family:'Inter',sans-serif;">
+        <i class="bi bi-gear me-1"></i>Jenkins
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link fw-700" id="aws-tab" data-bs-toggle="tab" data-bs-target="#aws-panel" type="button" role="tab" style="font-family:'Inter',sans-serif;">
+        <i class="bi bi-cloud me-1"></i>AWS + Shell
+      </button>
+    </li>
+  </ul>
+
+  <div class="tab-content" id="challengeTabContent">
+
+<!-- ╔══════════════════════════════════════════════════════════════╗
+     ║                    DOCKER CHALLENGES                        ║
+     ╚══════════════════════════════════════════════════════════════╝ -->
+<div class="tab-pane fade show active" id="docker-panel" role="tabpanel">
+  <div class="section-header-tab"><i class="bi bi-box-seam me-2" style="color:#2563eb;"></i>Docker Coding Challenges</div>
+  <div class="accordion" id="dockerAccordion">
+
+    <!-- DC-01 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#dc01" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">DC-01</span>
+          <span class="diff-easy me-2">Easy</span>
+          Write a Dockerfile for a Spring Boot App
+        </button>
+      </h2>
+      <div id="dc01" class="accordion-collapse collapse" data-bs-parent="#dockerAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Write a <strong>production-ready multi-stage Dockerfile</strong> for a Spring Boot app that produces the smallest possible image.</p>
+            <ul class="req-list">
+              <li>Multi-stage build (builder + runtime stages)</li>
+              <li>JRE-only runtime image (not JDK)</li>
+              <li>Non-root user for security</li>
+              <li>Health check via /actuator/health</li>
+              <li>EXPOSE correct port</li>
+            </ul>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Solution</div>
+          <pre class="code-block"><span class="cm"># ── Stage 1: Build ──────────────────────────────────────────</span>
+FROM maven:3.9-eclipse-temurin-17 AS builder
+WORKDIR /build
+
+<span class="cm"># Copy pom.xml first for dependency caching</span>
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
+
+<span class="cm"># Copy source and build JAR</span>
+COPY src ./src
+RUN mvn clean package -DskipTests -B
+
+<span class="cm"># ── Stage 2: Runtime ────────────────────────────────────────</span>
+FROM eclipse-temurin:17-jre-slim AS runtime
+WORKDIR /app
+
+<span class="cm"># Create non-root user</span>
+RUN addgroup --system appgroup &amp;&amp; \
+    adduser --system --ingroup appgroup appuser
+
+<span class="cm"># Copy only the built JAR from builder stage</span>
+COPY --from=builder /build/target/*.jar app.jar
+
+<span class="cm"># Set ownership</span>
+RUN chown appuser:appgroup app.jar
+
+<span class="cm"># Switch to non-root user</span>
+USER appuser
+
+EXPOSE 8080
+
+<span class="cm"># Health check</span>
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+  CMD curl -f http://localhost:8080/actuator/health || exit 1
+
+ENTRYPOINT ["java", "-jar", "app.jar"]</pre>
+          <div class="ans-label key"><i class="bi bi-lightbulb"></i> Key Concepts</div>
+          <ul class="ans-list green">
+            <li><i class="bi bi-check-circle-fill" style="color:#059669;flex-shrink:0;"></i><strong>Multi-stage:</strong> Builder stage has Maven + JDK; runtime stage has JRE only — final image is ~200MB instead of ~800MB</li>
+            <li><i class="bi bi-check-circle-fill" style="color:#059669;flex-shrink:0;"></i><strong>Dependency cache:</strong> Copying pom.xml before source means dependency layer is cached on code-only changes</li>
+            <li><i class="bi bi-check-circle-fill" style="color:#059669;flex-shrink:0;"></i><strong>Non-root:</strong> Running as appuser limits blast radius if the container is compromised</li>
+            <li><i class="bi bi-check-circle-fill" style="color:#059669;flex-shrink:0;"></i><strong>HEALTHCHECK:</strong> Docker/orchestrator can detect unhealthy containers and restart them</li>
+          </ul>
+          <div class="info-panel">
+            <div class="ip-title"><i class="bi bi-info-circle me-1"></i>Pro Tip</div>
+            Use <code>eclipse-temurin:17-jre-slim</code> rather than <code>openjdk:17-jre</code> — Temurin is the recommended OpenJDK distribution and <code>-slim</code> strips unnecessary OS packages.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DC-02 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#dc02" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">DC-02</span>
+          <span class="diff-easy me-2">Easy</span>
+          Write a .dockerignore File
+        </button>
+      </h2>
+      <div id="dc02" class="accordion-collapse collapse" data-bs-parent="#dockerAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-0" style="font-size:.93rem;">Write a complete <strong>.dockerignore</strong> file for a Java Maven project. Ensure the build context sent to Docker daemon is minimal.</p>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Solution</div>
+          <pre class="code-block"><span class="cm"># Java build output</span>
+target/
+*.class
+*.jar
+*.war
+
+<span class="cm"># Maven wrapper (not needed if using maven image)</span>
+.mvn/
+mvnw
+mvnw.cmd
+
+<span class="cm"># Version control</span>
+.git/
+.gitignore
+.gitattributes
+
+<span class="cm"># IDE files</span>
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.classpath
+.project
+.settings/
+
+<span class="cm"># Documentation</span>
+*.md
+docs/
+
+<span class="cm"># Secrets &amp; environment</span>
+.env
+.env.*
+*.pem
+*.key
+
+<span class="cm"># Node (if frontend module present)</span>
+node_modules/
+npm-debug.log
+
+<span class="cm"># OS files</span>
+.DS_Store
+Thumbs.db
+
+<span class="cm"># Logs</span>
+*.log
+logs/
+
+<span class="cm"># Test reports</span>
+target/surefire-reports/
+target/failsafe-reports/</pre>
+          <div class="ans-label key"><i class="bi bi-lightbulb"></i> Why It Matters</div>
+          <ul class="ans-list blue">
+            <li><i class="bi bi-arrow-right-circle-fill" style="color:#2563eb;flex-shrink:0;"></i>Reduces build context size sent to Docker daemon — speeds up builds dramatically</li>
+            <li><i class="bi bi-arrow-right-circle-fill" style="color:#2563eb;flex-shrink:0;"></i>Prevents accidentally including <code>.env</code> secrets inside the image</li>
+            <li><i class="bi bi-arrow-right-circle-fill" style="color:#2563eb;flex-shrink:0;"></i>Avoids cache invalidation from unrelated file changes (like editing README)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- DC-03 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#dc03" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">DC-03</span>
+          <span class="diff-easy me-2">Easy</span>
+          Docker Commands Challenge
+        </button>
+      </h2>
+      <div id="dc03" class="accordion-collapse collapse" data-bs-parent="#dockerAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Write Docker CLI commands to perform the full container lifecycle:</p>
+            <ul class="req-list">
+              <li>Build image tagged <code>myapp:v1</code></li>
+              <li>Run it, mapping host port 8080 → container port 8080</li>
+              <li>View container logs (follow mode)</li>
+              <li>Exec into the running container</li>
+              <li>Stop and remove the container</li>
+            </ul>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Solution</div>
+          <pre class="code-block"><span class="cm"># 1. Build the image</span>
+docker build -t myapp:v1 .
+
+<span class="cm"># 2. Run container (detached, port mapped, named)</span>
+docker run -d \
+  --name myapp-container \
+  -p 8080:8080 \
+  --restart unless-stopped \
+  myapp:v1
+
+<span class="cm"># 3. View logs (follow / tail 50 lines)</span>
+docker logs -f --tail 50 myapp-container
+
+<span class="cm"># 4. Exec into running container (interactive shell)</span>
+docker exec -it myapp-container /bin/sh
+
+<span class="cm"># 5. Check running containers</span>
+docker ps
+
+<span class="cm"># 6. Stop the container</span>
+docker stop myapp-container
+
+<span class="cm"># 7. Remove the container</span>
+docker rm myapp-container
+
+<span class="cm"># 8. Remove the image</span>
+docker rmi myapp:v1
+
+<span class="cm"># Bonus: one-liner to stop + remove all stopped containers</span>
+docker container prune -f</pre>
+          <div class="ans-label key"><i class="bi bi-lightbulb"></i> Key Flags</div>
+          <table class="kv-table">
+            <thead><tr><th>Flag</th><th>Meaning</th></tr></thead>
+            <tbody>
+              <tr><td><code>-d</code></td><td>Detached mode — run in background</td></tr>
+              <tr><td><code>-p 8080:8080</code></td><td>host_port:container_port mapping</td></tr>
+              <tr><td><code>--name</code></td><td>Give the container a human-readable name</td></tr>
+              <tr><td><code>-f</code> (logs)</td><td>Follow log output (like <code>tail -f</code>)</td></tr>
+              <tr><td><code>-it</code> (exec)</td><td>Interactive + pseudo-TTY for shell access</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- DC-04 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#dc04" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">DC-04</span>
+          <span class="diff-medium me-2">Medium</span>
+          Fix a Broken Dockerfile
+        </button>
+      </h2>
+      <div id="dc04" class="accordion-collapse collapse" data-bs-parent="#dockerAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bug me-1"></i>Find and Fix All Bugs</div>
+            <p class="mb-1" style="font-size:.93rem;">The following Dockerfile has multiple serious problems. Identify and fix every bug:</p>
+          </div>
+          <pre class="code-block" style="background:#2d1b1b;border:1.5px solid #fca5a5;"><span class="cm"># BROKEN Dockerfile — DO NOT USE AS-IS</span>
+FROM ubuntu:latest
+RUN apt-get install java
+COPY . /app
+RUN cd /app &amp;&amp; mvn package
+CMD java -jar app.jar</pre>
+          <div class="ans-label tip"><i class="bi bi-exclamation-triangle"></i> Bugs Found</div>
+          <ul class="ans-list red">
+            <li><i class="bi bi-x-circle-fill" style="color:#dc2626;flex-shrink:0;"></i><strong>ubuntu:latest</strong> — unpinned tag breaks reproducibility; ubuntu is huge for a JVM app</li>
+            <li><i class="bi bi-x-circle-fill" style="color:#dc2626;flex-shrink:0;"></i><strong>apt-get install java</strong> — missing <code>apt-get update</code> first; no <code>-y</code> flag; no cleanup of apt cache</li>
+            <li><i class="bi bi-x-circle-fill" style="color:#dc2626;flex-shrink:0;"></i><strong>COPY . /app</strong> — copies everything including .git, IDE files; no WORKDIR set</li>
+            <li><i class="bi bi-x-circle-fill" style="color:#dc2626;flex-shrink:0;"></i><strong>RUN cd /app</strong> — <code>cd</code> in RUN does not persist; use WORKDIR</li>
+            <li><i class="bi bi-x-circle-fill" style="color:#dc2626;flex-shrink:0;"></i><strong>CMD java -jar app.jar</strong> — shell form; JAR path hardcoded; should use ENTRYPOINT with exec form</li>
+          </ul>
+          <div class="ans-label key"><i class="bi bi-check-circle"></i> Fixed Dockerfile</div>
+          <pre class="code-block"><span class="cm"># ── Stage 1: Build ──────────────────────────────────────────</span>
+FROM maven:3.9-eclipse-temurin-17 AS builder
+WORKDIR /build
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
+COPY src ./src
+RUN mvn clean package -DskipTests -B
+
+<span class="cm"># ── Stage 2: Runtime ────────────────────────────────────────</span>
+FROM eclipse-temurin:17-jre-slim
+WORKDIR /app
+RUN addgroup --system appgroup &amp;&amp; adduser --system --ingroup appgroup appuser
+COPY --from=builder /build/target/*.jar app.jar
+RUN chown appuser:appgroup app.jar
+USER appuser
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]</pre>
+          <div class="info-panel">
+            <div class="ip-title"><i class="bi bi-info-circle me-1"></i>ENTRYPOINT vs CMD</div>
+            Use <strong>exec form</strong> <code>["java", "-jar", "app.jar"]</code> — signals are forwarded correctly to the JVM. Shell form <code>CMD java -jar</code> spawns a <code>/bin/sh -c</code> wrapper that blocks signal propagation and causes slow shutdowns.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DC-05 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#dc05" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">DC-05</span>
+          <span class="diff-medium me-2">Medium</span>
+          Docker Compose for Microservices
+        </button>
+      </h2>
+      <div id="dc05" class="accordion-collapse collapse" data-bs-parent="#dockerAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Write <code>docker-compose.yml</code> for a 3-service stack:</p>
+            <ul class="req-list">
+              <li>Spring Boot app (port 8080)</li>
+              <li>PostgreSQL database (port 5432)</li>
+              <li>Redis cache (port 6379)</li>
+              <li>App must wait until PostgreSQL is healthy before starting</li>
+            </ul>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Solution</div>
+          <pre class="code-block">version: '3.9'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres
+    environment:
+      POSTGRES_DB: mydb
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U myuser -d mydb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    volumes:
+      - redis_data:/data
+    networks:
+      - app-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    restart: unless-stopped
+
+  app:
+    build: .
+    container_name: spring-app
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/mydb
+      SPRING_DATASOURCE_USERNAME: myuser
+      SPRING_DATASOURCE_PASSWORD: mypassword
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - app-net
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  app-net:
+    driver: bridge</pre>
+          <div class="ans-label key"><i class="bi bi-lightbulb"></i> Key Concepts</div>
+          <ul class="ans-list green">
+            <li><i class="bi bi-check-circle-fill" style="color:#059669;flex-shrink:0;"></i><strong>depends_on + condition: service_healthy</strong> — ensures app waits for actual DB readiness, not just container start</li>
+            <li><i class="bi bi-check-circle-fill" style="color:#059669;flex-shrink:0;"></i><strong>Named volumes</strong> — data persists across container restarts/upgrades</li>
+            <li><i class="bi bi-check-circle-fill" style="color:#059669;flex-shrink:0;"></i><strong>Custom network</strong> — service discovery by hostname (e.g., <code>postgres</code>, <code>redis</code>)</li>
+            <li><i class="bi bi-check-circle-fill" style="color:#059669;flex-shrink:0;"></i><strong>Environment variables</strong> — Spring Boot auto-wires DB/Redis from these env vars</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- DC-06 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#dc06" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">DC-06</span>
+          <span class="diff-medium me-2">Medium</span>
+          Optimize a Large Docker Image
+        </button>
+      </h2>
+      <div id="dc06" class="accordion-collapse collapse" data-bs-parent="#dockerAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Your team's Docker image is <strong>1.2 GB</strong>. Apply all optimizations to reduce its size and improve build speed. Starting Dockerfile:</p>
+          </div>
+          <pre class="code-block" style="background:#2d1b1b;border:1.5px solid #fca5a5;">FROM ubuntu:22.04
+RUN apt-get update &amp;&amp; apt-get install -y openjdk-17-jdk maven curl wget
+WORKDIR /app
+COPY . .
+RUN mvn clean package
+EXPOSE 8080
+CMD ["java", "-jar", "target/app.jar"]</pre>
+          <div class="ans-label tip"><i class="bi bi-exclamation-triangle"></i> Problems</div>
+          <ul class="ans-list red">
+            <li><i class="bi bi-x-circle-fill" style="color:#dc2626;flex-shrink:0;"></i>Full JDK included in runtime image (JDK alone is ~400MB)</li>
+            <li><i class="bi bi-x-circle-fill" style="color:#dc2626;flex-shrink:0;"></i>ubuntu:22.04 base instead of slim/alpine</li>
+            <li><i class="bi bi-x-circle-fill" style="color:#dc2626;flex-shrink:0;"></i>apt cache not cleaned — adds ~50MB per RUN</li>
+            <li><i class="bi bi-x-circle-fill" style="color:#dc2626;flex-shrink:0;"></i>COPY . . copies everything; no .dockerignore</li>
+            <li><i class="bi bi-x-circle-fill" style="color:#dc2626;flex-shrink:0;"></i>Dependencies re-downloaded on every build</li>
+          </ul>
+          <div class="ans-label key"><i class="bi bi-check-circle"></i> Optimized Dockerfile (~180 MB result)</div>
+          <pre class="code-block"><span class="cm"># ── Stage 1: Build ──────────────────────────────────────────</span>
+FROM maven:3.9-eclipse-temurin-17 AS builder
+WORKDIR /build
+
+<span class="cm"># Cache dependencies separately from source code</span>
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
+
+COPY src ./src
+RUN mvn clean package -DskipTests -B
+
+<span class="cm"># ── Stage 2: Minimal Runtime ─────────────────────────────────</span>
+FROM eclipse-temurin:17-jre-slim
+WORKDIR /app
+
+<span class="cm"># Combine RUN commands, clean apt cache in same layer</span>
+RUN apt-get update &amp;&amp; \
+    apt-get install -y --no-install-recommends curl &amp;&amp; \
+    rm -rf /var/lib/apt/lists/*
+
+RUN addgroup --system app &amp;&amp; adduser --system --ingroup app app
+COPY --from=builder /build/target/*.jar app.jar
+RUN chown app:app app.jar
+USER app
+EXPOSE 8080
+HEALTHCHECK --interval=30s --timeout=10s CMD curl -f http://localhost:8080/actuator/health || exit 1
+ENTRYPOINT ["java", "-jar", "app.jar"]</pre>
+          <div class="icon-row">
+            <span class="icon-chip red"><i class="bi bi-exclamation-circle"></i> Before: 1.2 GB</span>
+            <span class="icon-chip green"><i class="bi bi-check-circle"></i> After: ~180 MB</span>
+            <span class="icon-chip amber"><i class="bi bi-speedometer2"></i> 85% smaller</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DC-07 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#dc07" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">DC-07</span>
+          <span class="diff-medium me-2">Medium</span>
+          Docker Networking
+        </button>
+      </h2>
+      <div id="dc07" class="accordion-collapse collapse" data-bs-parent="#dockerAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Create an <strong>app container</strong> and a <strong>db container</strong> that can communicate internally. The DB must <strong>not</strong> be reachable from outside the Docker host.</p>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Solution</div>
+          <pre class="code-block"><span class="cm"># 1. Create a custom bridge network</span>
+docker network create --driver bridge app-network
+
+<span class="cm"># 2. Run PostgreSQL — no -p flag = NOT exposed to host</span>
+docker run -d \
+  --name postgres \
+  --network app-network \
+  -e POSTGRES_DB=mydb \
+  -e POSTGRES_USER=myuser \
+  -e POSTGRES_PASSWORD=secret \
+  -v pg_data:/var/lib/postgresql/data \
+  postgres:16-alpine
+
+<span class="cm"># 3. Run app — exposed on host:8080, also on app-network</span>
+docker run -d \
+  --name spring-app \
+  --network app-network \
+  -p 8080:8080 \
+  -e SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/mydb \
+  -e SPRING_DATASOURCE_USERNAME=myuser \
+  -e SPRING_DATASOURCE_PASSWORD=secret \
+  myapp:v1
+
+<span class="cm"># Verify — app can reach DB by container name</span>
+docker exec spring-app ping -c 2 postgres
+
+<span class="cm"># Verify — DB is NOT reachable from host</span>
+curl localhost:5432  <span class="cm"># Should fail — connection refused</span></pre>
+          <div class="compare-grid">
+            <div class="compare-card green">
+              <div class="fw-700 mb-1" style="font-size:.85rem;"><i class="bi bi-check-circle-fill me-1" style="color:#059669;"></i>Custom Bridge Network</div>
+              <div style="font-size:.83rem;">Containers communicate by name. DB not exposed to host. Full isolation.</div>
+            </div>
+            <div class="compare-card red">
+              <div class="fw-700 mb-1" style="font-size:.85rem;"><i class="bi bi-x-circle-fill me-1" style="color:#dc2626;"></i>Default Bridge + -p on DB</div>
+              <div style="font-size:.83rem;">DB accessible from internet. No name resolution. Security risk.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DC-08 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#dc08" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">DC-08</span>
+          <span class="diff-hard me-2">Hard</span>
+          Multi-service Compose with Nginx Reverse Proxy
+        </button>
+      </h2>
+      <div id="dc08" class="accordion-collapse collapse" data-bs-parent="#dockerAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Write <code>docker-compose.yml</code> with Nginx as a reverse proxy for 2 backend services. Neither backend should directly expose ports.</p>
+            <ul class="req-list">
+              <li><code>/api/users</code> → users-service:8081</li>
+              <li><code>/api/orders</code> → orders-service:8082</li>
+              <li>Only Nginx exposes port 80 to the host</li>
+            </ul>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> docker-compose.yml</div>
+          <pre class="code-block">version: '3.9'
+
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - users-service
+      - orders-service
+    networks:
+      - backend-net
+    restart: unless-stopped
+
+  users-service:
+    image: users-service:latest
+    container_name: users-service
+    <span class="cm"># No ports: — not exposed to host</span>
+    environment:
+      SERVER_PORT: 8081
+    networks:
+      - backend-net
+    restart: unless-stopped
+
+  orders-service:
+    image: orders-service:latest
+    container_name: orders-service
+    <span class="cm"># No ports: — not exposed to host</span>
+    environment:
+      SERVER_PORT: 8082
+    networks:
+      - backend-net
+    restart: unless-stopped
+
+networks:
+  backend-net:
+    driver: bridge</pre>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> nginx.conf</div>
+          <pre class="code-block">events {
+  worker_connections 1024;
+}
+
+http {
+  upstream users_backend {
+    server users-service:8081;
+  }
+
+  upstream orders_backend {
+    server orders-service:8082;
+  }
+
+  server {
+    listen 80;
+
+    location /api/users {
+      proxy_pass http://users_backend;
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location /api/orders {
+      proxy_pass http://orders_backend;
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location /health {
+      return 200 'OK';
+      add_header Content-Type text/plain;
+    }
+  }
+}</pre>
+          <div class="info-panel">
+            <div class="ip-title"><i class="bi bi-info-circle me-1"></i>Note</div>
+            Nginx uses Docker's internal DNS to resolve <code>users-service</code> and <code>orders-service</code> by container name within <code>backend-net</code>. The backends are unreachable from outside because no <code>ports:</code> key is set.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DC-09 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#dc09" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">DC-09</span>
+          <span class="diff-hard me-2">Hard</span>
+          Health Checks and Restart Policies
+        </button>
+      </h2>
+      <div id="dc09" class="accordion-collapse collapse" data-bs-parent="#dockerAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Configure a Spring Boot container with all resilience settings:</p>
+            <ul class="req-list">
+              <li>HTTP health check polling /actuator/health every 30s</li>
+              <li>Restart policy: <code>unless-stopped</code></li>
+              <li>App only starts after postgres is <strong>healthy</strong></li>
+              <li>Memory limit of 512MB</li>
+            </ul>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Dockerfile HEALTHCHECK</div>
+          <pre class="code-block">HEALTHCHECK --interval=30s \
+            --timeout=10s \
+            --start-period=90s \
+            --retries=3 \
+  CMD curl -f http://localhost:8080/actuator/health || exit 1</pre>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> docker-compose.yml</div>
+          <pre class="code-block">version: '3.9'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: mydb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d mydb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    restart: unless-stopped
+    networks:
+      - app-net
+
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/mydb
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: pass
+    networks:
+      - app-net
+
+networks:
+  app-net:</pre>
+          <div class="ans-label key"><i class="bi bi-lightbulb"></i> Restart Policy Reference</div>
+          <table class="kv-table">
+            <thead><tr><th>Policy</th><th>Behavior</th></tr></thead>
+            <tbody>
+              <tr><td><code>no</code></td><td>Never restart (default)</td></tr>
+              <tr><td><code>always</code></td><td>Always restart, even on <code>docker stop</code></td></tr>
+              <tr><td><code>unless-stopped</code></td><td>Restart unless manually stopped — best for production</td></tr>
+              <tr><td><code>on-failure[:N]</code></td><td>Only on non-zero exit, up to N retries</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- DC-10 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#dc10" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">DC-10</span>
+          <span class="diff-medium me-2">Medium</span>
+          Build and Push to Docker Hub via Script
+        </button>
+      </h2>
+      <div id="dc10" class="accordion-collapse collapse" data-bs-parent="#dockerAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Write a bash script that automates the full build-and-push workflow:</p>
+            <ul class="req-list">
+              <li>Tag image with current Git SHA</li>
+              <li>Authenticate with Docker Hub using env vars</li>
+              <li>Push the image</li>
+              <li>Clean up local image after push</li>
+            </ul>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> build-and-push.sh</div>
+          <pre class="code-block">#!/bin/bash
+set -euo pipefail
+
+<span class="cm"># ── Configuration ────────────────────────────────────────────</span>
+DOCKER_USERNAME="${DOCKER_USERNAME:?DOCKER_USERNAME env var required}"
+DOCKER_PASSWORD="${DOCKER_PASSWORD:?DOCKER_PASSWORD env var required}"
+IMAGE_NAME="${DOCKER_USERNAME}/myapp"
+GIT_SHA=$(git rev-parse --short HEAD)
+IMAGE_TAG="${IMAGE_NAME}:${GIT_SHA}"
+LATEST_TAG="${IMAGE_NAME}:latest"
+
+echo "==> Building image: ${IMAGE_TAG}"
+docker build -t "${IMAGE_TAG}" -t "${LATEST_TAG}" .
+
+echo "==> Logging into Docker Hub"
+echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+
+echo "==> Pushing ${IMAGE_TAG}"
+docker push "${IMAGE_TAG}"
+
+echo "==> Pushing ${LATEST_TAG}"
+docker push "${LATEST_TAG}"
+
+echo "==> Cleaning up local images"
+docker rmi "${IMAGE_TAG}" "${LATEST_TAG}" || true
+
+echo "==> Done! Image available at:"
+echo "    docker pull ${IMAGE_TAG}"</pre>
+          <div class="info-panel">
+            <div class="ip-title"><i class="bi bi-shield-lock me-1"></i>Security Note</div>
+            Never hardcode credentials. Use <code>DOCKER_USERNAME</code> and <code>DOCKER_PASSWORD</code> as environment variables, injected from a secrets manager or CI/CD secret store. The <code>--password-stdin</code> flag avoids credentials appearing in the process list.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DC-11 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#dc11" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">DC-11</span>
+          <span class="diff-hard me-2">Hard</span>
+          Docker Secrets (Swarm Mode)
+        </button>
+      </h2>
+      <div id="dc11" class="accordion-collapse collapse" data-bs-parent="#dockerAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Store a DB password as a Docker secret in Swarm mode. Deploy a service that reads the secret securely. Show both creation and consumption.</p>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Create and Use the Secret</div>
+          <pre class="code-block"><span class="cm"># 1. Initialize Swarm (if not already)</span>
+docker swarm init
+
+<span class="cm"># 2. Create the secret from a file</span>
+echo "S3cur3P@ssw0rd!" | docker secret create db_password -
+
+<span class="cm"># 3. Or from a file</span>
+docker secret create db_password ./db_password.txt
+
+<span class="cm"># 4. List secrets (values are never shown)</span>
+docker secret ls
+
+<span class="cm"># 5. Deploy service with secret attached</span>
+docker service create \
+  --name spring-app \
+  --secret db_password \
+  --publish 8080:8080 \
+  -e DB_PASSWORD_FILE=/run/secrets/db_password \
+  myapp:v1</pre>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Reading the Secret in Spring Boot App</div>
+          <pre class="code-block"><span class="cm"># Docker mounts secrets at /run/secrets/&lt;secret-name&gt;</span>
+<span class="cm"># In your app's entrypoint script, read it:</span>
+
+#!/bin/sh
+export DB_PASSWORD=$(cat /run/secrets/db_password)
+exec java -jar app.jar</pre>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> docker-compose.yml (Swarm deploy)</div>
+          <pre class="code-block">version: '3.9'
+
+services:
+  app:
+    image: myapp:v1
+    secrets:
+      - db_password
+    environment:
+      SPRING_DATASOURCE_PASSWORD_FILE: /run/secrets/db_password
+    deploy:
+      replicas: 2
+
+secrets:
+  db_password:
+    external: true   <span class="cm"># Already created via docker secret create</span></pre>
+          <div class="info-panel">
+            <div class="ip-title"><i class="bi bi-shield-lock me-1"></i>Why Secrets Over Env Vars</div>
+            Environment variables are visible via <code>docker inspect</code> and may leak into logs. Docker secrets are encrypted at rest, transmitted encrypted, and mounted in-memory only — never written to the container's writable layer.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DC-12 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#dc12" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">DC-12</span>
+          <span class="diff-easy me-2">Easy</span>
+          Docker Volume Challenge
+        </button>
+      </h2>
+      <div id="dc12" class="accordion-collapse collapse" data-bs-parent="#dockerAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Run a PostgreSQL container with a named volume so data persists after container restart. Prove persistence works.</p>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Solution</div>
+          <pre class="code-block"><span class="cm"># 1. Create named volume</span>
+docker volume create pg_data
+
+<span class="cm"># 2. Run Postgres with the volume</span>
+docker run -d \
+  --name postgres \
+  -e POSTGRES_DB=testdb \
+  -e POSTGRES_USER=test \
+  -e POSTGRES_PASSWORD=test \
+  -v pg_data:/var/lib/postgresql/data \
+  -p 5432:5432 \
+  postgres:16-alpine
+
+<span class="cm"># 3. Create some data</span>
+docker exec -it postgres psql -U test -d testdb \
+  -c "CREATE TABLE items (id SERIAL PRIMARY KEY, name TEXT);"
+docker exec -it postgres psql -U test -d testdb \
+  -c "INSERT INTO items (name) VALUES ('test-item');"
+
+<span class="cm"># 4. Stop and REMOVE the container (not the volume)</span>
+docker stop postgres
+docker rm postgres
+
+<span class="cm"># 5. Start a NEW container with the same volume</span>
+docker run -d \
+  --name postgres-new \
+  -e POSTGRES_DB=testdb \
+  -e POSTGRES_USER=test \
+  -e POSTGRES_PASSWORD=test \
+  -v pg_data:/var/lib/postgresql/data \
+  postgres:16-alpine
+
+<span class="cm"># 6. Verify data survived</span>
+docker exec -it postgres-new psql -U test -d testdb \
+  -c "SELECT * FROM items;"
+<span class="cm"># Should output: 1 | test-item</span>
+
+<span class="cm"># Inspect volume details</span>
+docker volume inspect pg_data</pre>
+          <div class="ans-label key"><i class="bi bi-lightbulb"></i> Volume Types</div>
+          <table class="kv-table">
+            <thead><tr><th>Type</th><th>Syntax</th><th>Use When</th></tr></thead>
+            <tbody>
+              <tr><td>Named Volume</td><td><code>-v pg_data:/var/lib/pgsql</code></td><td>Production data persistence</td></tr>
+              <tr><td>Bind Mount</td><td><code>-v /host/path:/container/path</code></td><td>Local dev — live code reload</td></tr>
+              <tr><td>tmpfs</td><td><code>--tmpfs /tmp</code></td><td>Sensitive data in memory only</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- DC-13 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#dc13" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">DC-13</span>
+          <span class="diff-medium me-2">Medium</span>
+          Debug Container Startup Failure
+        </button>
+      </h2>
+      <div id="dc13" class="accordion-collapse collapse" data-bs-parent="#dockerAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">A container starts then immediately exits with code 1. Show the full debugging process to diagnose and fix the issue.</p>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Debugging Steps</div>
+          <pre class="code-block"><span class="cm"># Step 1: List all containers (including stopped)</span>
+docker ps -a
+<span class="cm"># Look for STATUS: Exited (1)</span>
+
+<span class="cm"># Step 2: Check container logs — usually shows the error</span>
+docker logs &lt;container-id&gt;
+docker logs --tail 100 &lt;container-id&gt;
+
+<span class="cm"># Step 3: Inspect container details (env vars, config, mounts)</span>
+docker inspect &lt;container-id&gt;
+
+<span class="cm"># Step 4: Check exit code specifically</span>
+docker inspect &lt;container-id&gt; \
+  --format='{{.State.ExitCode}} {{.State.Error}}'
+
+<span class="cm"># Step 5: Override the ENTRYPOINT to get a shell</span>
+docker run -it --entrypoint /bin/sh myapp:v1
+
+<span class="cm"># Step 6: Inside the container, run the JAR manually</span>
+java -jar app.jar
+<span class="cm"># Now you see the real error (e.g. missing env var, wrong JAR path)</span>
+
+<span class="cm"># Step 7: Check filesystem / file existence</span>
+docker run --rm --entrypoint ls myapp:v1 /app
+
+<span class="cm"># Step 8: Check events for OOM or other signals</span>
+docker events --filter container=&lt;container-id&gt;</pre>
+          <div class="ans-label key"><i class="bi bi-lightbulb"></i> Common Exit Code Meanings</div>
+          <table class="kv-table">
+            <thead><tr><th>Exit Code</th><th>Meaning</th><th>Common Cause</th></tr></thead>
+            <tbody>
+              <tr><td><code>1</code></td><td>Generic error</td><td>App exception, missing config</td></tr>
+              <tr><td><code>137</code></td><td>OOMKilled</td><td>Out of memory — increase limits</td></tr>
+              <tr><td><code>139</code></td><td>Segfault</td><td>Native crash / bad binary</td></tr>
+              <tr><td><code>127</code></td><td>Command not found</td><td>Wrong ENTRYPOINT path</td></tr>
+              <tr><td><code>126</code></td><td>Permission denied</td><td>Binary not executable</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- DC-14 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#dc14" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">DC-14</span>
+          <span class="diff-hard me-2">Hard</span>
+          Dockerfile ARG and ENV for Multi-Environment Builds
+        </button>
+      </h2>
+      <div id="dc14" class="accordion-collapse collapse" data-bs-parent="#dockerAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Write a Dockerfile that uses <code>ARG</code> for build-time values (app version, profile) and <code>ENV</code> for runtime configuration. Build separate images for staging and production.</p>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Dockerfile with ARG and ENV</div>
+          <pre class="code-block">FROM maven:3.9-eclipse-temurin-17 AS builder
+WORKDIR /build
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
+COPY src ./src
+
+<span class="cm"># ARG available only during build</span>
+ARG APP_VERSION=1.0.0
+ARG SPRING_PROFILE=prod
+
+<span class="cm"># Bake version into JAR via Maven property</span>
+RUN mvn clean package -DskipTests -Dapp.version=${APP_VERSION} -B
+
+FROM eclipse-temurin:17-jre-slim
+WORKDIR /app
+
+<span class="cm"># ARG re-declared in second stage (scope resets between stages)</span>
+ARG SPRING_PROFILE=prod
+ARG APP_VERSION=1.0.0
+
+<span class="cm"># Convert build ARG to runtime ENV</span>
+ENV SPRING_PROFILES_ACTIVE=${SPRING_PROFILE}
+ENV APP_VERSION=${APP_VERSION}
+ENV JAVA_OPTS="-Xms256m -Xmx512m"
+
+RUN addgroup --system app &amp;&amp; adduser --system --ingroup app app
+COPY --from=builder /build/target/*.jar app.jar
+RUN chown app:app app.jar
+USER app
+EXPOSE 8080
+
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]</pre>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Build Commands</div>
+          <pre class="code-block"><span class="cm"># Build for staging</span>
+docker build \
+  --build-arg SPRING_PROFILE=staging \
+  --build-arg APP_VERSION=2.1.0 \
+  -t myapp:2.1.0-staging \
+  .
+
+<span class="cm"># Build for production</span>
+docker build \
+  --build-arg SPRING_PROFILE=prod \
+  --build-arg APP_VERSION=2.1.0 \
+  -t myapp:2.1.0-prod \
+  .
+
+<span class="cm"># Verify the ENV was set correctly</span>
+docker inspect myapp:2.1.0-staging \
+  --format='{{range .Config.Env}}{{println .}}{{end}}'</pre>
+          <div class="compare-grid">
+            <div class="compare-card blue">
+              <div class="fw-700 mb-1" style="font-size:.85rem;"><code>ARG</code></div>
+              <div style="font-size:.83rem;">Available only during <code>docker build</code>. Not in the final image. Use for version numbers, build profiles.</div>
+            </div>
+            <div class="compare-card green">
+              <div class="fw-700 mb-1" style="font-size:.85rem;"><code>ENV</code></div>
+              <div style="font-size:.83rem;">Persists in the final image and is visible at runtime. Use for runtime config like <code>SPRING_PROFILES_ACTIVE</code>.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DC-15 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#dc15" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">DC-15</span>
+          <span class="diff-hard me-2">Hard</span>
+          Reduce Build Time with Layer Caching
+        </button>
+      </h2>
+      <div id="dc15" class="accordion-collapse collapse" data-bs-parent="#dockerAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Rewrite this Dockerfile to maximize Docker layer cache hits. Currently every code change triggers a full Maven dependency download:</p>
+          </div>
+          <pre class="code-block" style="background:#2d1b1b;border:1.5px solid #fca5a5;"><span class="cm"># SLOW — rebuilds everything on every change</span>
+FROM maven:3.9-eclipse-temurin-17
+WORKDIR /app
+COPY . .
+RUN mvn clean package
+CMD ["java", "-jar", "target/app.jar"]</pre>
+          <div class="ans-label key"><i class="bi bi-check-circle"></i> Optimized — Cache-Friendly Dockerfile</div>
+          <pre class="code-block"><span class="cm"># ── Stage 1: Build with maximized layer caching ──────────────</span>
+FROM maven:3.9-eclipse-temurin-17 AS builder
+WORKDIR /build
+
+<span class="cm"># LAYER 1: pom.xml only — invalidated only when dependencies change</span>
+COPY pom.xml .
+
+<span class="cm"># LAYER 2: Download all dependencies — CACHED until pom.xml changes</span>
+RUN mvn dependency:go-offline -B
+
+<span class="cm"># LAYER 3: Source code — invalidated on every code change</span>
+COPY src ./src
+
+<span class="cm"># LAYER 4: Build — only re-runs when src or pom.xml changes</span>
+RUN mvn clean package -DskipTests -B
+
+<span class="cm"># ── Stage 2: Minimal runtime ─────────────────────────────────</span>
+FROM eclipse-temurin:17-jre-slim
+WORKDIR /app
+COPY --from=builder /build/target/*.jar app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]</pre>
+          <div class="ans-label key"><i class="bi bi-lightbulb"></i> Cache Layer Strategy</div>
+          <ul class="ans-list green">
+            <li><i class="bi bi-layers-fill" style="color:#059669;flex-shrink:0;"></i><strong>Layer 1 (pom.xml):</strong> Only invalidated when you add/change a dependency — maybe once a sprint</li>
+            <li><i class="bi bi-layers-fill" style="color:#059669;flex-shrink:0;"></i><strong>Layer 2 (go-offline):</strong> All Maven deps downloaded once; served from cache on all subsequent builds</li>
+            <li><i class="bi bi-layers-fill" style="color:#059669;flex-shrink:0;"></i><strong>Layer 3 (src):</strong> Invalidated on every code change — but layers above are still cached</li>
+            <li><i class="bi bi-layers-fill" style="color:#059669;flex-shrink:0;"></i><strong>Result:</strong> Code-only changes skip dependency download — build time drops from ~3 min to ~20s</li>
+          </ul>
+          <div class="info-panel">
+            <div class="ip-title"><i class="bi bi-speedometer2 me-1"></i>Rule of Thumb</div>
+            Put instructions that <strong>change least often</strong> at the top, and instructions that <strong>change most often</strong> at the bottom. Docker invalidates all layers below any changed layer.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end dockerAccordion -->
+</div><!-- end docker-panel -->
+
+<!-- ╔══════════════════════════════════════════════════════════════╗
+     ║                 KUBERNETES CHALLENGES                       ║
+     ╚══════════════════════════════════════════════════════════════╝ -->
+<div class="tab-pane fade" id="k8s-panel" role="tabpanel">
+  <div class="section-header-tab"><i class="bi bi-grid-3x3-gap me-2" style="color:#7c3aed;"></i>Kubernetes Coding Challenges</div>
+  <div class="accordion" id="k8sAccordion">
+
+    <!-- KC-01 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#kc01" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">KC-01</span>
+          <span class="diff-easy me-2">Easy</span>
+          Write a Pod YAML
+        </button>
+      </h2>
+      <div id="kc01" class="accordion-collapse collapse" data-bs-parent="#k8sAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Write a complete Pod YAML for <code>nginx:alpine</code>, exposing port 80, with labels <code>app=web</code> and <code>env=prod</code>.</p>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Solution</div>
+          <pre class="code-block">apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-web
+  labels:
+    app: web
+    env: prod
+spec:
+  containers:
+    - name: nginx
+      image: nginx:alpine
+      ports:
+        - containerPort: 80
+          protocol: TCP
+      resources:
+        requests:
+          memory: "64Mi"
+          cpu: "50m"
+        limits:
+          memory: "128Mi"
+          cpu: "100m"</pre>
+          <div class="info-panel">
+            <div class="ip-title"><i class="bi bi-info-circle me-1"></i>Note</div>
+            Raw Pods are rarely used in production — use a <strong>Deployment</strong> instead so Kubernetes can restart pods automatically. Pods are useful for one-off tasks or debugging.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KC-02 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#kc02" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">KC-02</span>
+          <span class="diff-easy me-2">Easy</span>
+          Write a Deployment YAML
+        </button>
+      </h2>
+      <div id="kc02" class="accordion-collapse collapse" data-bs-parent="#k8sAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Write a Deployment YAML: 3 replicas, Spring Boot app image <code>myapp:1.0</code>, port 8080, rolling update with <code>maxUnavailable=1</code>.</p>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Solution</div>
+          <pre class="code-block">apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-app
+  labels:
+    app: spring-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: spring-app
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: spring-app
+    spec:
+      containers:
+        - name: spring-app
+          image: myapp:1.0
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"</pre>
+          <div class="ans-label key"><i class="bi bi-lightbulb"></i> Rolling Update Explained</div>
+          <ul class="ans-list purple">
+            <li><i class="bi bi-arrow-right-circle-fill" style="color:#7c3aed;flex-shrink:0;"></i><strong>maxUnavailable: 1</strong> — at most 1 pod can be down during update (so 2 of 3 always serving)</li>
+            <li><i class="bi bi-arrow-right-circle-fill" style="color:#7c3aed;flex-shrink:0;"></i><strong>maxSurge: 1</strong> — can create 1 extra pod above desired (so up to 4 pods during rollout)</li>
+            <li><i class="bi bi-arrow-right-circle-fill" style="color:#7c3aed;flex-shrink:0;"></i>Zero-downtime deploy: new pods start, pass readiness, then old pods terminate</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- KC-03 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#kc03" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">KC-03</span>
+          <span class="diff-easy me-2">Easy</span>
+          Write a Service YAML
+        </button>
+      </h2>
+      <div id="kc03" class="accordion-collapse collapse" data-bs-parent="#k8sAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Write a ClusterIP Service that targets pods with label <code>app=spring-app</code>. Map external port 80 to container port 8080.</p>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Solution</div>
+          <pre class="code-block">apiVersion: v1
+kind: Service
+metadata:
+  name: spring-app-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: spring-app    <span class="cm"># Targets all pods with this label</span>
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80          <span class="cm"># Port the Service listens on (cluster-internal)</span>
+      targetPort: 8080  <span class="cm"># Port on the Pod/container</span></pre>
+          <div class="ans-label key"><i class="bi bi-lightbulb"></i> Service Types</div>
+          <table class="kv-table">
+            <thead><tr><th>Type</th><th>Accessible From</th><th>Use Case</th></tr></thead>
+            <tbody>
+              <tr><td><code>ClusterIP</code></td><td>Inside cluster only</td><td>Internal microservice communication</td></tr>
+              <tr><td><code>NodePort</code></td><td>Node IP + port</td><td>Dev/test external access</td></tr>
+              <tr><td><code>LoadBalancer</code></td><td>External via cloud LB</td><td>Production internet-facing services</td></tr>
+              <tr><td><code>ExternalName</code></td><td>DNS alias</td><td>Route to external services by name</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- KC-04 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#kc04" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">KC-04</span>
+          <span class="diff-easy me-2">Easy</span>
+          kubectl Commands Challenge
+        </button>
+      </h2>
+      <div id="kc04" class="accordion-collapse collapse" data-bs-parent="#k8sAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Write kubectl commands to perform the full deployment workflow: deploy, check, debug, exec.</p>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Solution</div>
+          <pre class="code-block"><span class="cm"># Deploy a YAML file</span>
+kubectl apply -f deployment.yaml
+
+<span class="cm"># Check rollout status</span>
+kubectl rollout status deployment/spring-app
+
+<span class="cm"># Get all pods with wide output (shows node assignment, IP)</span>
+kubectl get pods -o wide
+
+<span class="cm"># Get all resources in a namespace</span>
+kubectl get all -n staging
+
+<span class="cm"># View pod logs</span>
+kubectl logs spring-app-7f8b9c-xyz
+
+<span class="cm"># Follow logs (live)</span>
+kubectl logs -f spring-app-7f8b9c-xyz
+
+<span class="cm"># Exec into a running pod</span>
+kubectl exec -it spring-app-7f8b9c-xyz -- /bin/sh
+
+<span class="cm"># Describe a pod (events, probes, conditions)</span>
+kubectl describe pod spring-app-7f8b9c-xyz
+
+<span class="cm"># Get events sorted by time</span>
+kubectl get events --sort-by='.metadata.creationTimestamp'
+
+<span class="cm"># Port-forward to local machine for testing</span>
+kubectl port-forward pod/spring-app-7f8b9c-xyz 8080:8080
+
+<span class="cm"># Delete a resource</span>
+kubectl delete -f deployment.yaml</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- KC-05 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#kc05" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">KC-05</span>
+          <span class="diff-medium me-2">Medium</span>
+          ConfigMap + Secret Mount Challenge
+        </button>
+      </h2>
+      <div id="kc05" class="accordion-collapse collapse" data-bs-parent="#k8sAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Write a ConfigMap with <code>DB_HOST</code> and <code>LOG_LEVEL</code>. Write a Secret with <code>DB_PASSWORD</code>. Mount both as environment variables in a Deployment.</p>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> ConfigMap</div>
+          <pre class="code-block">apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: default
+data:
+  DB_HOST: "postgres-svc"
+  LOG_LEVEL: "INFO"
+  APP_ENV: "production"</pre>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Secret</div>
+          <pre class="code-block">apiVersion: v1
+kind: Secret
+metadata:
+  name: app-secret
+  namespace: default
+type: Opaque
+stringData:
+  DB_PASSWORD: "S3cur3P@ssword!"   <span class="cm"># stringData auto-encodes to base64</span>
+  API_KEY: "sk-abc123xyz"</pre>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Deployment using both</div>
+          <pre class="code-block">apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: spring-app
+  template:
+    metadata:
+      labels:
+        app: spring-app
+    spec:
+      containers:
+        - name: spring-app
+          image: myapp:1.0
+          envFrom:
+            - configMapRef:
+                name: app-config      <span class="cm"># Injects all keys from ConfigMap</span>
+            - secretRef:
+                name: app-secret      <span class="cm"># Injects all keys from Secret</span>
+          <span class="cm"># OR inject individual keys:</span>
+          env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: DB_HOST
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: DB_PASSWORD</pre>
+          <div class="compare-grid">
+            <div class="compare-card blue">
+              <div class="fw-700 mb-1" style="font-size:.85rem;"><i class="bi bi-file-earmark-code me-1"></i>ConfigMap</div>
+              <div style="font-size:.83rem;">Non-sensitive config: DB host, port, feature flags, log levels. Stored as plaintext.</div>
+            </div>
+            <div class="compare-card amber">
+              <div class="fw-700 mb-1" style="font-size:.85rem;"><i class="bi bi-shield-lock me-1"></i>Secret</div>
+              <div style="font-size:.83rem;">Sensitive data: passwords, API keys, TLS certs. Stored base64-encoded; use external secrets manager in production.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KC-06 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#kc06" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">KC-06</span>
+          <span class="diff-medium me-2">Medium</span>
+          HPA Challenge
+        </button>
+      </h2>
+      <div id="kc06" class="accordion-collapse collapse" data-bs-parent="#k8sAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Write an HPA for deployment <code>api-service</code>. Scale between 2-10 replicas. Scale up when CPU exceeds 60%.</p>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> HPA YAML</div>
+          <pre class="code-block">apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: api-service-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: api-service
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 60
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80</pre>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Test the HPA</div>
+          <pre class="code-block"><span class="cm"># Watch HPA status</span>
+kubectl get hpa api-service-hpa -w
+
+<span class="cm"># Generate load to trigger scale-up</span>
+kubectl run load-gen --image=busybox --restart=Never -- \
+  sh -c "while true; do wget -q -O- http://api-service/; done"
+
+<span class="cm"># Watch pods scale up</span>
+kubectl get pods -w
+
+<span class="cm"># Check current metrics</span>
+kubectl top pods</pre>
+          <div class="info-panel">
+            <div class="ip-title"><i class="bi bi-info-circle me-1"></i>Prerequisite</div>
+            HPA requires the <strong>Metrics Server</strong> to be installed in the cluster (<code>kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml</code>). Also, pods must have CPU <code>requests</code> set — HPA calculates utilization as <em>actual CPU / requested CPU</em>.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KC-07 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#kc07" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">KC-07</span>
+          <span class="diff-medium me-2">Medium</span>
+          Fix a Broken Kubernetes YAML
+        </button>
+      </h2>
+      <div id="kc07" class="accordion-collapse collapse" data-bs-parent="#k8sAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bug me-1"></i>Find and Fix 5 Bugs</div>
+          </div>
+          <pre class="code-block" style="background:#2d1b1b;border:1.5px solid #fca5a5;"><span class="cm"># BROKEN YAML — 5 bugs hidden here</span>
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: broken-app
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: broken-app
+    spec:
+      containers:
+      - name: app
+        image: myapp:latest
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: 256       <span class="cm"># Bug</span>
+            cpu: 250m
+          limits:
+            memory: 512       <span class="cm"># Bug</span></pre>
+          <div class="ans-label tip"><i class="bi bi-exclamation-triangle"></i> Bugs Found</div>
+          <ul class="ans-list red">
+            <li><i class="bi bi-x-circle-fill" style="color:#dc2626;flex-shrink:0;"></i><strong>Missing <code>selector</code> block</strong> — Deployment requires <code>spec.selector.matchLabels</code> to find its pods</li>
+            <li><i class="bi bi-x-circle-fill" style="color:#dc2626;flex-shrink:0;"></i><strong><code>memory: 256</code></strong> — Memory must include unit suffix: <code>256Mi</code></li>
+            <li><i class="bi bi-x-circle-fill" style="color:#dc2626;flex-shrink:0;"></i><strong><code>memory: 512</code></strong> — Same issue in limits: <code>512Mi</code></li>
+            <li><i class="bi bi-x-circle-fill" style="color:#dc2626;flex-shrink:0;"></i><strong>Using <code>:latest</code> tag</strong> — Unpinned tag breaks reproducibility and caching</li>
+            <li><i class="bi bi-x-circle-fill" style="color:#dc2626;flex-shrink:0;"></i><strong>Missing <code>limits.cpu</code></strong> — CPU limit omitted; can starve other pods on the same node</li>
+          </ul>
+          <div class="ans-label key"><i class="bi bi-check-circle"></i> Fixed YAML</div>
+          <pre class="code-block">apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fixed-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: fixed-app         <span class="cm"># Required selector added</span>
+  template:
+    metadata:
+      labels:
+        app: fixed-app
+    spec:
+      containers:
+        - name: app
+          image: myapp:1.2.3  <span class="cm"># Pinned tag</span>
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              memory: "256Mi"  <span class="cm"># Unit added</span>
+              cpu: "250m"
+            limits:
+              memory: "512Mi"  <span class="cm"># Unit added</span>
+              cpu: "500m"      <span class="cm"># CPU limit added</span></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- KC-08 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#kc08" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">KC-08</span>
+          <span class="diff-medium me-2">Medium</span>
+          Ingress Routing Challenge
+        </button>
+      </h2>
+      <div id="kc08" class="accordion-collapse collapse" data-bs-parent="#k8sAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Write an Ingress YAML that routes traffic for <code>api.myapp.com</code>:</p>
+            <ul class="req-list">
+              <li><code>/v1</code> → backend-svc:80</li>
+              <li><code>/v2</code> → backend-v2-svc:80</li>
+            </ul>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Solution</div>
+          <pre class="code-block">apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: api-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: api.myapp.com
+      http:
+        paths:
+          - path: /v1(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-svc
+                port:
+                  number: 80
+          - path: /v2(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-v2-svc
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - api.myapp.com
+      secretName: api-tls-cert</pre>
+          <div class="info-panel">
+            <div class="ip-title"><i class="bi bi-info-circle me-1"></i>Note</div>
+            Ingress requires an <strong>Ingress Controller</strong> installed in the cluster (e.g., <code>nginx-ingress-controller</code>). The <code>ingressClassName</code> field selects which controller handles this resource. The <code>rewrite-target</code> annotation strips the path prefix before forwarding to the backend.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KC-09 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#kc09" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">KC-09</span>
+          <span class="diff-hard me-2">Hard</span>
+          Full App Deployment to Namespace
+        </button>
+      </h2>
+      <div id="kc09" class="accordion-collapse collapse" data-bs-parent="#k8sAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Deploy a Spring Boot app + PostgreSQL to namespace <code>staging</code>. Include Namespace, ConfigMap, Secret, StatefulSet (postgres), Deployment (app), Services, and HPA.</p>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Complete multi-resource YAML</div>
+          <pre class="code-block"><span class="cm"># ── Namespace ────────────────────────────────────────────────</span>
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: staging
+---
+<span class="cm"># ── ConfigMap ────────────────────────────────────────────────</span>
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: staging
+data:
+  DB_HOST: "postgres-svc"
+  DB_PORT: "5432"
+  DB_NAME: "stagingdb"
+  LOG_LEVEL: "DEBUG"
+---
+<span class="cm"># ── Secret ───────────────────────────────────────────────────</span>
+apiVersion: v1
+kind: Secret
+metadata:
+  name: app-secret
+  namespace: staging
+type: Opaque
+stringData:
+  DB_PASSWORD: "staging-secret"
+  POSTGRES_PASSWORD: "staging-secret"
+---
+<span class="cm"># ── StatefulSet (PostgreSQL) ─────────────────────────────────</span>
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+  namespace: staging
+spec:
+  serviceName: postgres-headless
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16-alpine
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: DB_NAME
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: POSTGRES_PASSWORD
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: postgres-storage
+              mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-storage
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi
+---
+<span class="cm"># ── Postgres Services ─────────────────────────────────────────</span>
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-svc
+  namespace: staging
+spec:
+  selector:
+    app: postgres
+  ports:
+    - port: 5432
+      targetPort: 5432
+---
+<span class="cm"># ── Spring Boot Deployment ────────────────────────────────────</span>
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-app
+  namespace: staging
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: spring-app
+  template:
+    metadata:
+      labels:
+        app: spring-app
+    spec:
+      containers:
+        - name: spring-app
+          image: myapp:staging
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: app-config
+            - secretRef:
+                name: app-secret
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+---
+<span class="cm"># ── App Service ───────────────────────────────────────────────</span>
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-app-svc
+  namespace: staging
+spec:
+  selector:
+    app: spring-app
+  ports:
+    - port: 80
+      targetPort: 8080
+---
+<span class="cm"># ── HPA ──────────────────────────────────────────────────────</span>
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: spring-app-hpa
+  namespace: staging
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: spring-app
+  minReplicas: 2
+  maxReplicas: 8
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70</pre>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Deploy command</div>
+          <pre class="code-block">kubectl apply -f staging-full.yaml
+kubectl get all -n staging</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- KC-10 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#kc10" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">KC-10</span>
+          <span class="diff-hard me-2">Hard</span>
+          Liveness + Readiness Probes
+        </button>
+      </h2>
+      <div id="kc10" class="accordion-collapse collapse" data-bs-parent="#k8sAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Add both liveness and readiness probes to a Spring Boot Deployment:</p>
+            <ul class="req-list">
+              <li><strong>Liveness:</strong> HTTP /actuator/health, delay 60s, period 20s</li>
+              <li><strong>Readiness:</strong> HTTP /actuator/health/readiness, delay 30s, period 10s, failureThreshold 3</li>
+            </ul>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Solution</div>
+          <pre class="code-block">spec:
+  containers:
+    - name: spring-app
+      image: myapp:1.0
+      ports:
+        - containerPort: 8080
+      livenessProbe:
+        httpGet:
+          path: /actuator/health/liveness
+          port: 8080
+        initialDelaySeconds: 60   <span class="cm"># Wait for JVM startup</span>
+        periodSeconds: 20          <span class="cm"># Check every 20s</span>
+        timeoutSeconds: 5
+        failureThreshold: 3        <span class="cm"># Restart after 3 failures</span>
+        successThreshold: 1
+      readinessProbe:
+        httpGet:
+          path: /actuator/health/readiness
+          port: 8080
+        initialDelaySeconds: 30   <span class="cm"># Start checking earlier</span>
+        periodSeconds: 10
+        timeoutSeconds: 3
+        failureThreshold: 3        <span class="cm"># Remove from LB after 3 failures</span>
+        successThreshold: 1</pre>
+          <div class="compare-grid">
+            <div class="compare-card blue">
+              <div class="fw-700 mb-1" style="font-size:.85rem;"><i class="bi bi-heart-pulse me-1"></i>Liveness Probe</div>
+              <div style="font-size:.83rem;">Is the container alive? Failure → <strong>restart</strong> the pod. Detects deadlocks, infinite loops.</div>
+            </div>
+            <div class="compare-card green">
+              <div class="fw-700 mb-1" style="font-size:.85rem;"><i class="bi bi-check2-circle me-1"></i>Readiness Probe</div>
+              <div style="font-size:.83rem;">Is the container ready to serve traffic? Failure → <strong>remove from Service endpoints</strong>. Does NOT restart. Detects DB unavailable, still warming up.</div>
+            </div>
+          </div>
+          <div class="info-panel">
+            <div class="ip-title"><i class="bi bi-info-circle me-1"></i>Spring Boot Actuator Setup</div>
+            Add to <code>application.properties</code>: <code>management.health.livenessstate.enabled=true</code> and <code>management.health.readinessstate.enabled=true</code>. Spring Boot 2.3+ exposes separate liveness and readiness endpoints.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KC-11 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#kc11" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">KC-11</span>
+          <span class="diff-medium me-2">Medium</span>
+          Rolling Update and Rollback
+        </button>
+      </h2>
+      <div id="kc11" class="accordion-collapse collapse" data-bs-parent="#k8sAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Update deployment <code>myapp</code> from image <code>v1.0</code> to <code>v2.0</code>. Watch the rollout. Then rollback to <code>v1.0</code>.</p>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Solution</div>
+          <pre class="code-block"><span class="cm"># Update image (triggers rolling update)</span>
+kubectl set image deployment/myapp \
+  myapp=myapp:2.0 \
+  --record
+
+<span class="cm"># Watch rollout in real-time</span>
+kubectl rollout status deployment/myapp
+
+<span class="cm"># View rollout history</span>
+kubectl rollout history deployment/myapp
+
+<span class="cm"># View specific revision details</span>
+kubectl rollout history deployment/myapp --revision=2
+
+<span class="cm"># Rollback to previous version</span>
+kubectl rollout undo deployment/myapp
+
+<span class="cm"># Rollback to a specific revision</span>
+kubectl rollout undo deployment/myapp --to-revision=1
+
+<span class="cm"># Verify rollback succeeded</span>
+kubectl rollout status deployment/myapp
+kubectl get pods -w
+
+<span class="cm"># Check the current image</span>
+kubectl describe deployment/myapp | grep Image</pre>
+          <div class="info-panel">
+            <div class="ip-title"><i class="bi bi-info-circle me-1"></i>--record flag</div>
+            The <code>--record</code> flag stores the command in the rollout history's <code>CHANGE-CAUSE</code> field, making it easier to understand what each revision did. It was deprecated in K8s 1.22 — the alternative is to add annotation <code>kubernetes.io/change-cause</code> manually.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KC-12 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#kc12" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">KC-12</span>
+          <span class="diff-hard me-2">Hard</span>
+          RBAC Setup
+        </button>
+      </h2>
+      <div id="kc12" class="accordion-collapse collapse" data-bs-parent="#k8sAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Create a Role in namespace <code>dev</code> that allows only <code>get</code>, <code>list</code>, <code>watch</code> on pods and deployments. Bind it to user <code>alice@company.com</code>.</p>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Role YAML</div>
+          <pre class="code-block">apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: read-only-role
+  namespace: dev
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "pods/log"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "list", "watch"]</pre>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> RoleBinding YAML</div>
+          <pre class="code-block">apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: read-only-binding
+  namespace: dev
+subjects:
+  - kind: User
+    name: alice@company.com
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: read-only-role
+  apiGroup: rbac.authorization.k8s.io</pre>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Verify</div>
+          <pre class="code-block"><span class="cm"># Check what alice can do</span>
+kubectl auth can-i get pods --namespace=dev --as=alice@company.com
+<span class="cm"># yes</span>
+kubectl auth can-i delete pods --namespace=dev --as=alice@company.com
+<span class="cm"># no</span></pre>
+          <div class="compare-grid">
+            <div class="compare-card blue">
+              <div class="fw-700 mb-1" style="font-size:.85rem;">Role / RoleBinding</div>
+              <div style="font-size:.83rem;">Namespace-scoped. Grants access within one specific namespace only.</div>
+            </div>
+            <div class="compare-card purple">
+              <div class="fw-700 mb-1" style="font-size:.85rem;">ClusterRole / ClusterRoleBinding</div>
+              <div style="font-size:.83rem;">Cluster-wide. Grants access across all namespaces or cluster-level resources (nodes, PVs).</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KC-13 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#kc13" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">KC-13</span>
+          <span class="diff-medium me-2">Medium</span>
+          Resource Requests and Limits
+        </button>
+      </h2>
+      <div id="kc13" class="accordion-collapse collapse" data-bs-parent="#k8sAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Configure a Deployment where each pod requests <code>256Mi / 250m</code> and is limited to <code>512Mi / 500m</code>.</p>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Solution</div>
+          <pre class="code-block">spec:
+  containers:
+    - name: spring-app
+      image: myapp:1.0
+      resources:
+        requests:
+          memory: "256Mi"   <span class="cm"># Minimum guaranteed memory</span>
+          cpu: "250m"        <span class="cm"># 0.25 vCPU guaranteed</span>
+        limits:
+          memory: "512Mi"   <span class="cm"># Hard cap — OOMKilled if exceeded</span>
+          cpu: "500m"        <span class="cm"># Throttled (not killed) if exceeded</span></pre>
+          <div class="ans-label key"><i class="bi bi-lightbulb"></i> Requests vs Limits</div>
+          <table class="kv-table">
+            <thead><tr><th></th><th>Requests</th><th>Limits</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Purpose</strong></td><td>Scheduler uses to find a node with enough capacity</td><td>Hard cap enforced at runtime</td></tr>
+              <tr><td><strong>CPU exceeded</strong></td><td>Pod gets less CPU (throttled)</td><td>CPU throttled, not killed</td></tr>
+              <tr><td><strong>Memory exceeded</strong></td><td>Pod may be evicted under pressure</td><td>Pod is OOMKilled immediately</td></tr>
+              <tr><td><strong>Required for HPA</strong></td><td>Yes — HPA needs requests to calculate %</td><td>No</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- KC-14 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#kc14" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">KC-14</span>
+          <span class="diff-hard me-2">Hard</span>
+          PersistentVolume for Database
+        </button>
+      </h2>
+      <div id="kc14" class="accordion-collapse collapse" data-bs-parent="#k8sAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Write PV (10Gi), PVC (5Gi), and mount the PVC in a StatefulSet for PostgreSQL.</p>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> PersistentVolume</div>
+          <pre class="code-block">apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: postgres-pv
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: manual
+  hostPath:
+    path: /data/postgres   <span class="cm"># Use cloud StorageClass in production</span></pre>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> PersistentVolumeClaim</div>
+          <pre class="code-block">apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: manual
+  resources:
+    requests:
+      storage: 5Gi</pre>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> StatefulSet using the PVC</div>
+          <pre class="code-block">apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+spec:
+  serviceName: postgres
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16-alpine
+          env:
+            - name: POSTGRES_PASSWORD
+              value: "mypassword"
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: postgres-pvc</pre>
+          <div class="info-panel">
+            <div class="ip-title"><i class="bi bi-info-circle me-1"></i>Production Tip</div>
+            In cloud environments (EKS, GKE, AKS), skip manually creating PVs. Instead, use a <strong>StorageClass</strong> (e.g., <code>gp2</code> on AWS) and let the PVC dynamically provision the underlying EBS volume automatically.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KC-15 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#kc15" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">KC-15</span>
+          <span class="diff-hard me-2">Hard</span>
+          Debug a Failing Pod
+        </button>
+      </h2>
+      <div id="kc15" class="accordion-collapse collapse" data-bs-parent="#k8sAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bug me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">The following <code>kubectl describe pod</code> output shows a failing pod. Identify the root cause and provide the fix.</p>
+          </div>
+          <pre class="code-block" style="background:#2d1b1b;border:1.5px solid #fca5a5;">Name:   spring-app-7f8b9c-xyz
+Status: Running
+Containers:
+  spring-app:
+    State:    Waiting
+      Reason: CrashLoopBackOff
+    Last State: Terminated
+      Reason:   OOMKilled
+      Exit Code: 137
+Events:
+  Warning  OOMKilling  container spring-app exceeded memory limit
+  Warning  BackOff     Back-off restarting failed container</pre>
+          <div class="ans-label tip"><i class="bi bi-exclamation-triangle"></i> Root Cause</div>
+          <div class="ans-hero">Exit Code 137 = OOMKilled. The container exceeded its memory limit and was killed by the kernel.</div>
+          <div class="ans-label key"><i class="bi bi-check-circle"></i> Fix — Increase Memory Limits</div>
+          <pre class="code-block"><span class="cm"># Check current limits</span>
+kubectl describe pod spring-app-7f8b9c-xyz | grep -A5 Limits
+
+<span class="cm"># Check actual memory usage</span>
+kubectl top pod spring-app-7f8b9c-xyz
+
+<span class="cm"># Fix in deployment YAML</span>
+resources:
+  requests:
+    memory: "512Mi"   <span class="cm"># Increased from 256Mi</span>
+    cpu: "250m"
+  limits:
+    memory: "1Gi"     <span class="cm"># Increased from 512Mi</span>
+    cpu: "500m"
+
+<span class="cm"># Apply the fix</span>
+kubectl apply -f deployment.yaml
+
+<span class="cm"># Watch pod recover</span>
+kubectl get pods -w</pre>
+          <div class="ans-label key"><i class="bi bi-lightbulb"></i> Debugging Flowchart</div>
+          <ul class="ans-list blue">
+            <li><i class="bi bi-1-circle-fill" style="color:#2563eb;flex-shrink:0;"></i><strong>CrashLoopBackOff</strong> → check <code>kubectl logs &lt;pod&gt;</code> for app error</li>
+            <li><i class="bi bi-2-circle-fill" style="color:#2563eb;flex-shrink:0;"></i><strong>Exit Code 137 / OOMKilled</strong> → increase memory limits</li>
+            <li><i class="bi bi-3-circle-fill" style="color:#2563eb;flex-shrink:0;"></i><strong>Pending</strong> → check node resources with <code>kubectl describe node</code></li>
+            <li><i class="bi bi-4-circle-fill" style="color:#2563eb;flex-shrink:0;"></i><strong>ImagePullBackOff</strong> → wrong image name or missing pull secret</li>
+            <li><i class="bi bi-5-circle-fill" style="color:#2563eb;flex-shrink:0;"></i><strong>CreateContainerConfigError</strong> → missing ConfigMap or Secret referenced</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end k8sAccordion -->
+</div><!-- end k8s-panel -->
+
+<!-- ╔══════════════════════════════════════════════════════════════╗
+     ║                  JENKINS CHALLENGES                         ║
+     ╚══════════════════════════════════════════════════════════════╝ -->
+<div class="tab-pane fade" id="jenkins-panel" role="tabpanel">
+  <div class="section-header-tab"><i class="bi bi-gear me-2" style="color:#ea580c;"></i>Jenkins Coding Challenges</div>
+  <div class="accordion" id="jenkinsAccordion">
+
+    <!-- JC-01 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#jc01" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">JC-01</span>
+          <span class="diff-easy me-2">Easy</span>
+          Basic Declarative Pipeline
+        </button>
+      </h2>
+      <div id="jc01" class="accordion-collapse collapse" data-bs-parent="#jenkinsAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-0" style="font-size:.93rem;">Write a Jenkinsfile with 3 stages: Checkout (git), Build (<code>mvn clean package</code>), Test (<code>mvn test</code>).</p>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Solution</div>
+          <pre class="code-block">pipeline {
+    agent any
+
+    tools {
+        maven 'Maven-3.9'
+        jdk 'JDK-17'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+                echo "Building branch: ${env.BRANCH_NAME}"
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean package -DskipTests -B'
+                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'mvn test -B'
+            }
+            post {
+                always {
+                    junit 'target/surefire-reports/**/*.xml'
+                }
+            }
+        }
+    }
+}</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- JC-02 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#jc02" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">JC-02</span>
+          <span class="diff-easy me-2">Easy</span>
+          Add Post Actions and Slack Notifications
+        </button>
+      </h2>
+      <div id="jc02" class="accordion-collapse collapse" data-bs-parent="#jenkinsAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-0" style="font-size:.93rem;">Extend the basic pipeline: publish JUnit XML results always, send Slack notification on success or failure.</p>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Solution</div>
+          <pre class="code-block">pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                sh 'mvn clean package -DskipTests -B'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'mvn test -B'
+            }
+        }
+    }
+
+    post {
+        always {
+            <span class="cm">// Always publish test results regardless of outcome</span>
+            junit allowEmptyResults: true,
+                  testResults: 'target/surefire-reports/**/*.xml'
+            <span class="cm">// Clean workspace</span>
+            cleanWs()
+        }
+        success {
+            slackSend(
+                channel: '#deployments',
+                color: 'good',
+                message: ":white_check_mark: *SUCCESS* — ${env.JOB_NAME} #${env.BUILD_NUMBER}\nBranch: ${env.BRANCH_NAME}\n${env.BUILD_URL}"
+            )
+        }
+        failure {
+            slackSend(
+                channel: '#deployments',
+                color: 'danger',
+                message: ":x: *FAILED* — ${env.JOB_NAME} #${env.BUILD_NUMBER}\nBranch: ${env.BRANCH_NAME}\n${env.BUILD_URL}"
+            )
+        }
+        unstable {
+            slackSend(
+                channel: '#deployments',
+                color: 'warning',
+                message: ":warning: *UNSTABLE* — ${env.JOB_NAME} #${env.BUILD_NUMBER}"
+            )
+        }
+    }
+}</pre>
+          <div class="info-panel">
+            <div class="ip-title"><i class="bi bi-info-circle me-1"></i>Post Condition Order</div>
+            <code>always</code> runs first, then exactly one of: <code>success</code>, <code>failure</code>, <code>unstable</code>, <code>aborted</code>, or <code>changed</code> (runs when status differs from last build).
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JC-03 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#jc03" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">JC-03</span>
+          <span class="diff-easy me-2">Easy</span>
+          Environment Variables
+        </button>
+      </h2>
+      <div id="jc03" class="accordion-collapse collapse" data-bs-parent="#jenkinsAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-0" style="font-size:.93rem;">Define <code>APP_NAME</code>, <code>VERSION</code>, and <code>DEPLOY_ENV</code> as environment variables and use them in shell steps.</p>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Solution</div>
+          <pre class="code-block">pipeline {
+    agent any
+
+    environment {
+        APP_NAME    = 'spring-app'
+        VERSION     = '2.1.0'
+        DEPLOY_ENV  = 'staging'
+        IMAGE_TAG   = "${APP_NAME}:${VERSION}-${BUILD_NUMBER}"
+        REGISTRY    = 'docker.io/myorg'
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                echo "Building ${APP_NAME} v${VERSION} for ${DEPLOY_ENV}"
+                sh "mvn versions:set -DnewVersion=${VERSION} -B"
+                sh 'mvn clean package -DskipTests -B'
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                sh "docker build -t ${REGISTRY}/${IMAGE_TAG} ."
+                echo "Image: ${REGISTRY}/${IMAGE_TAG}"
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh """
+                    echo "Deploying ${IMAGE_TAG} to ${DEPLOY_ENV}"
+                    kubectl set image deployment/${APP_NAME} \
+                        ${APP_NAME}=${REGISTRY}/${IMAGE_TAG} \
+                        -n ${DEPLOY_ENV}
+                """
+            }
+        }
+    }
+}</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- JC-04 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#jc04" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">JC-04</span>
+          <span class="diff-medium me-2">Medium</span>
+          Parameterized Pipeline
+        </button>
+      </h2>
+      <div id="jc04" class="accordion-collapse collapse" data-bs-parent="#jenkinsAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Add parameters to a pipeline:</p>
+            <ul class="req-list">
+              <li>Choice parameter: deploy target (dev/staging/prod)</li>
+              <li>String parameter: app version</li>
+              <li>Boolean parameter: skip tests flag</li>
+            </ul>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Solution</div>
+          <pre class="code-block">pipeline {
+    agent any
+
+    parameters {
+        choice(
+            name: 'DEPLOY_TARGET',
+            choices: ['dev', 'staging', 'prod'],
+            description: 'Target environment to deploy to'
+        )
+        string(
+            name: 'APP_VERSION',
+            defaultValue: '1.0.0',
+            description: 'Version of the application to deploy'
+        )
+        booleanParam(
+            name: 'SKIP_TESTS',
+            defaultValue: false,
+            description: 'Skip test execution (use for hotfixes only)'
+        )
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    def mvnCmd = params.SKIP_TESTS
+                        ? 'mvn clean package -DskipTests -B'
+                        : 'mvn clean package -B'
+                    sh mvnCmd
+                }
+            }
+        }
+
+        stage('Test') {
+            when {
+                expression { !params.SKIP_TESTS }
+            }
+            steps {
+                sh 'mvn test -B'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo "Deploying version ${params.APP_VERSION} to ${params.DEPLOY_TARGET}"
+                <span class="cm">// Add deployment steps here</span>
+            }
+        }
+    }
+}</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- JC-05 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#jc05" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">JC-05</span>
+          <span class="diff-medium me-2">Medium</span>
+          Build Docker Image and Push to Docker Hub
+        </button>
+      </h2>
+      <div id="jc05" class="accordion-collapse collapse" data-bs-parent="#jenkinsAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Add Docker build and push stages to a Jenkinsfile. Tag image with <code>BUILD_NUMBER</code>. Use Jenkins credentials for Docker Hub login.</p>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Solution</div>
+          <pre class="code-block">pipeline {
+    agent any
+
+    environment {
+        DOCKER_HUB_REPO = 'myorg/spring-app'
+        IMAGE_TAG       = "${DOCKER_HUB_REPO}:${BUILD_NUMBER}"
+        LATEST_TAG      = "${DOCKER_HUB_REPO}:latest"
+    }
+
+    stages {
+        stage('Build JAR') {
+            steps {
+                sh 'mvn clean package -DskipTests -B'
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                sh "docker build -t ${IMAGE_TAG} -t ${LATEST_TAG} ."
+            }
+        }
+
+        stage('Docker Push') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'docker-hub-creds',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    sh """
+                        echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin
+                        docker push ${IMAGE_TAG}
+                        docker push ${LATEST_TAG}
+                        docker rmi ${IMAGE_TAG} ${LATEST_TAG} || true
+                        docker logout
+                    """
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            sh "docker rmi ${IMAGE_TAG} ${LATEST_TAG} || true"
+        }
+    }
+}</pre>
+          <div class="info-panel">
+            <div class="ip-title"><i class="bi bi-shield-lock me-1"></i>Credential Storage</div>
+            Create a <strong>Username with Password</strong> credential in Jenkins (Manage Jenkins → Credentials) with ID <code>docker-hub-creds</code>. The <code>withCredentials</code> block injects them as env vars and automatically masks them in logs.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JC-06 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#jc06" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">JC-06</span>
+          <span class="diff-medium me-2">Medium</span>
+          Parallel Stages
+        </button>
+      </h2>
+      <div id="jc06" class="accordion-collapse collapse" data-bs-parent="#jenkinsAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-0" style="font-size:.93rem;">Refactor a pipeline where unit tests and integration tests run sequentially → run them in parallel to save time.</p>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Solution</div>
+          <pre class="code-block">pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                sh 'mvn clean package -DskipTests -B'
+            }
+        }
+
+        stage('Tests') {
+            parallel {
+                stage('Unit Tests') {
+                    steps {
+                        sh 'mvn test -Dtest="**/*UnitTest" -B'
+                    }
+                    post {
+                        always {
+                            junit 'target/surefire-reports/*UnitTest*.xml'
+                        }
+                    }
+                }
+                stage('Integration Tests') {
+                    steps {
+                        sh 'mvn verify -Dtest="**/*IntegrationTest" -B'
+                    }
+                    post {
+                        always {
+                            junit 'target/failsafe-reports/*.xml'
+                        }
+                    }
+                }
+                stage('Static Analysis') {
+                    steps {
+                        sh 'mvn checkstyle:check -B'
+                    }
+                }
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                sh "docker build -t myapp:${BUILD_NUMBER} ."
+            }
+        }
+    }
+}</pre>
+          <div class="icon-row">
+            <span class="icon-chip red"><i class="bi bi-clock"></i> Sequential: ~8 min</span>
+            <span class="icon-chip green"><i class="bi bi-lightning-charge"></i> Parallel: ~3 min</span>
+            <span class="icon-chip amber"><i class="bi bi-graph-down-arrow"></i> 62% faster</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JC-07 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#jc07" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">JC-07</span>
+          <span class="diff-medium me-2">Medium</span>
+          Deploy to Kubernetes from Jenkins
+        </button>
+      </h2>
+      <div id="jc07" class="accordion-collapse collapse" data-bs-parent="#jenkinsAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Add a Deploy stage that: configures kubeconfig for EKS, runs kubectl set image, waits for rollout status.</p>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Solution</div>
+          <pre class="code-block">stage('Deploy to EKS') {
+    steps {
+        withCredentials([[
+            $class: 'AmazonWebServicesCredentialsBinding',
+            credentialsId: 'aws-eks-creds',
+            accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+            secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+        ]]) {
+            sh """
+                <span class="cm"># Configure kubectl for EKS cluster</span>
+                aws eks update-kubeconfig \
+                    --region us-west-2 \
+                    --name my-eks-cluster
+
+                <span class="cm"># Update the deployment image</span>
+                kubectl set image deployment/spring-app \
+                    spring-app=${ECR_REGISTRY}/spring-app:${BUILD_NUMBER} \
+                    -n production
+
+                <span class="cm"># Wait for rollout to complete (5 min timeout)</span>
+                kubectl rollout status deployment/spring-app \
+                    -n production \
+                    --timeout=300s
+
+                echo "Deployment successful!"
+                kubectl get pods -n production -l app=spring-app
+            """
+        }
+    }
+}</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- JC-08 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#jc08" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">JC-08</span>
+          <span class="diff-hard me-2">Hard</span>
+          Full CI/CD Pipeline
+        </button>
+      </h2>
+      <div id="jc08" class="accordion-collapse collapse" data-bs-parent="#jenkinsAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-0" style="font-size:.93rem;">Write a complete production-grade CI/CD Jenkinsfile: Checkout → Build → Test → SonarQube → Docker Build → Push to ECR → Deploy to EKS → Slack notification.</p>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Complete Jenkinsfile</div>
+          <pre class="code-block">pipeline {
+    agent any
+
+    tools {
+        maven 'Maven-3.9'
+        jdk 'JDK-17'
+    }
+
+    environment {
+        APP_NAME    = 'spring-app'
+        ECR_REGISTRY= '123456789.dkr.ecr.us-west-2.amazonaws.com'
+        IMAGE_TAG   = "${ECR_REGISTRY}/${APP_NAME}:${BUILD_NUMBER}"
+        NAMESPACE   = 'production'
+        SONAR_URL   = 'http://sonarqube:9000'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+                script {
+                    env.GIT_COMMIT_SHORT = sh(
+                        script: 'git rev-parse --short HEAD',
+                        returnStdout: true
+                    ).trim()
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean package -DskipTests -B'
+                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+            }
+        }
+
+        stage('Unit Tests') {
+            steps {
+                sh 'mvn test -B'
+            }
+            post {
+                always {
+                    junit 'target/surefire-reports/**/*.xml'
+                    jacoco execPattern: 'target/jacoco.exec'
+                }
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh """
+                        mvn sonar:sonar \
+                            -Dsonar.projectKey=${APP_NAME} \
+                            -Dsonar.host.url=${SONAR_URL} \
+                            -B
+                    """
+                }
+            }
+        }
+
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 5, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                sh "docker build -t ${IMAGE_TAG} ."
+            }
+        }
+
+        stage('Push to ECR') {
+            steps {
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'aws-creds',
+                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                ]]) {
+                    sh """
+                        aws ecr get-login-password --region us-west-2 \
+                            | docker login --username AWS \
+                              --password-stdin ${ECR_REGISTRY}
+                        docker push ${IMAGE_TAG}
+                        docker rmi ${IMAGE_TAG} || true
+                    """
+                }
+            }
+        }
+
+        stage('Deploy to EKS') {
+            when {
+                branch 'main'
+            }
+            steps {
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'aws-creds',
+                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                ]]) {
+                    sh """
+                        aws eks update-kubeconfig \
+                            --region us-west-2 \
+                            --name production-cluster
+                        kubectl set image deployment/${APP_NAME} \
+                            ${APP_NAME}=${IMAGE_TAG} \
+                            -n ${NAMESPACE}
+                        kubectl rollout status deployment/${APP_NAME} \
+                            -n ${NAMESPACE} \
+                            --timeout=300s
+                    """
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
+        }
+        success {
+            slackSend channel: '#deployments', color: 'good',
+                message: ":rocket: *DEPLOYED* ${APP_NAME}:${BUILD_NUMBER} to ${NAMESPACE}\nCommit: ${GIT_COMMIT_SHORT} | ${BUILD_URL}"
+        }
+        failure {
+            slackSend channel: '#deployments', color: 'danger',
+                message: ":fire: *FAILED* ${APP_NAME} build #${BUILD_NUMBER}\n${BUILD_URL}"
+        }
+    }
+}</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- JC-09 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#jc09" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">JC-09</span>
+          <span class="diff-medium me-2">Medium</span>
+          Conditional Stages with <code>when</code>
+        </button>
+      </h2>
+      <div id="jc09" class="accordion-collapse collapse" data-bs-parent="#jenkinsAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-0" style="font-size:.93rem;">Docker Build and Deploy stages should only run on the <code>main</code> branch. Feature branches run up to tests only.</p>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Solution</div>
+          <pre class="code-block">pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                sh 'mvn clean package -DskipTests -B'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'mvn test -B'
+            }
+        }
+
+        stage('Docker Build') {
+            when {
+                branch 'main'   <span class="cm">// Only runs on main branch</span>
+            }
+            steps {
+                sh "docker build -t myapp:${BUILD_NUMBER} ."
+            }
+        }
+
+        stage('Deploy to Production') {
+            when {
+                allOf {
+                    branch 'main'
+                    not { changeRequest() }  <span class="cm">// Not a PR build</span>
+                }
+            }
+            steps {
+                input message: 'Deploy to production?', ok: 'Deploy'
+                sh 'kubectl apply -f k8s/production/'
+            }
+        }
+
+        stage('Deploy to Dev') {
+            when {
+                not { branch 'main' }  <span class="cm">// All branches except main</span>
+            }
+            steps {
+                echo "Deploying ${env.BRANCH_NAME} to dev environment"
+                sh 'kubectl apply -f k8s/dev/'
+            }
+        }
+    }
+}</pre>
+          <div class="ans-label key"><i class="bi bi-lightbulb"></i> when Conditions</div>
+          <table class="kv-table">
+            <thead><tr><th>Condition</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>branch 'main'</code></td><td>Matches branch name</td></tr>
+              <tr><td><code>tag 'v*'</code></td><td>Matches git tag pattern</td></tr>
+              <tr><td><code>changeRequest()</code></td><td>True if this is a PR build</td></tr>
+              <tr><td><code>expression { ... }</code></td><td>Custom Groovy expression</td></tr>
+              <tr><td><code>allOf { ... }</code></td><td>All conditions must match (AND)</td></tr>
+              <tr><td><code>anyOf { ... }</code></td><td>Any condition matches (OR)</td></tr>
+              <tr><td><code>not { ... }</code></td><td>Negates the condition</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- JC-10 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#jc10" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">JC-10</span>
+          <span class="diff-hard me-2">Hard</span>
+          Shared Library Function
+        </button>
+      </h2>
+      <div id="jc10" class="accordion-collapse collapse" data-bs-parent="#jenkinsAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-0" style="font-size:.93rem;">Write a Jenkins Shared Library function <code>deployToK8s(namespace, deployment, image)</code> that runs <code>kubectl set image</code> and waits for rollout status.</p>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> vars/deployToK8s.groovy</div>
+          <pre class="code-block"><span class="cm">// Jenkins Shared Library — vars/deployToK8s.groovy
+// Usage: deployToK8s('production', 'spring-app', 'myapp:1.0.0')</span>
+
+def call(String namespace, String deployment, String image) {
+    echo "Deploying ${image} to ${deployment} in namespace ${namespace}"
+
+    sh """
+        kubectl set image deployment/${deployment} \
+            ${deployment}=${image} \
+            --namespace=${namespace}
+
+        kubectl rollout status deployment/${deployment} \
+            --namespace=${namespace} \
+            --timeout=300s
+    """
+
+    echo "Deployment complete: ${deployment} is running ${image}"
+}</pre>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Usage in Jenkinsfile</div>
+          <pre class="code-block"><span class="cm">// Jenkinsfile that uses the shared library</span>
+@Library('my-jenkins-shared-lib') _
+
+pipeline {
+    agent any
+
+    environment {
+        IMAGE = "myorg/spring-app:${BUILD_NUMBER}"
+    }
+
+    stages {
+        stage('Build &amp; Push') {
+            steps {
+                sh "docker build -t ${IMAGE} . &amp;&amp; docker push ${IMAGE}"
+            }
+        }
+
+        stage('Deploy Staging') {
+            steps {
+                deployToK8s('staging', 'spring-app', env.IMAGE)
+            }
+        }
+
+        stage('Deploy Production') {
+            when { branch 'main' }
+            steps {
+                deployToK8s('production', 'spring-app', env.IMAGE)
+            }
+        }
+    }
+}</pre>
+          <div class="info-panel">
+            <div class="ip-title"><i class="bi bi-info-circle me-1"></i>Shared Library Setup</div>
+            Store shared libraries in a separate Git repo. Register it in Jenkins: Manage Jenkins → Configure System → Global Pipeline Libraries. The <code>vars/</code> directory contains callable steps; <code>src/</code> contains helper Groovy classes.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JC-11 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#jc11" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">JC-11</span>
+          <span class="diff-medium me-2">Medium</span>
+          Handle Credentials Securely
+        </button>
+      </h2>
+      <div id="jc11" class="accordion-collapse collapse" data-bs-parent="#jenkinsAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Jenkins pipeline needs: GitHub token, Docker Hub username/password, AWS access key/secret. Show the correct <code>withCredentials</code> block for all three types.</p>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Solution</div>
+          <pre class="code-block">pipeline {
+    agent any
+
+    stages {
+        stage('Checkout Private Repo') {
+            steps {
+                <span class="cm">// String (secret text) credential</span>
+                withCredentials([string(
+                    credentialsId: 'github-token',
+                    variable: 'GITHUB_TOKEN'
+                )]) {
+                    sh 'git clone https://${GITHUB_TOKEN}@github.com/myorg/private-repo.git'
+                }
+            }
+        }
+
+        stage('Docker Push') {
+            steps {
+                <span class="cm">// Username + Password credential</span>
+                withCredentials([usernamePassword(
+                    credentialsId: 'docker-hub-creds',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    sh 'echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin'
+                    sh 'docker push myapp:latest'
+                }
+            }
+        }
+
+        stage('Deploy to AWS') {
+            steps {
+                <span class="cm">// AWS credentials binding</span>
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'aws-prod-creds',
+                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                ]]) {
+                    sh 'aws sts get-caller-identity'
+                    sh 'aws eks update-kubeconfig --name prod-cluster --region us-west-2'
+                    sh 'kubectl apply -f k8s/'
+                }
+            }
+        }
+
+        stage('Multiple Creds Together') {
+            steps {
+                withCredentials([
+                    string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN'),
+                    usernamePassword(credentialsId: 'docker-hub-creds',
+                                     usernameVariable: 'DOCKER_USER',
+                                     passwordVariable: 'DOCKER_PASS')
+                ]) {
+                    sh 'echo "Using multiple credentials"'
+                }
+            }
+        }
+    }
+}</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- JC-12 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#jc12" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">JC-12</span>
+          <span class="diff-hard me-2">Hard</span>
+          Blue-Green Deployment Pipeline
+        </button>
+      </h2>
+      <div id="jc12" class="accordion-collapse collapse" data-bs-parent="#jenkinsAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-0" style="font-size:.93rem;">Write a Jenkins pipeline that deploys to the "green" environment, smoke tests it, then switches traffic from "blue" to "green".</p>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Solution</div>
+          <pre class="code-block">pipeline {
+    agent any
+
+    environment {
+        APP      = 'spring-app'
+        GREEN_NS = 'green'
+        BLUE_NS  = 'blue'
+        IMAGE    = "myapp:${BUILD_NUMBER}"
+    }
+
+    stages {
+        stage('Build &amp; Push') {
+            steps {
+                sh 'mvn clean package -DskipTests -B'
+                sh "docker build -t ${IMAGE} ."
+                sh "docker push ${IMAGE}"
+            }
+        }
+
+        stage('Deploy to Green') {
+            steps {
+                sh """
+                    kubectl set image deployment/${APP} \
+                        ${APP}=${IMAGE} \
+                        -n ${GREEN_NS}
+                    kubectl rollout status deployment/${APP} \
+                        -n ${GREEN_NS} \
+                        --timeout=300s
+                """
+            }
+        }
+
+        stage('Smoke Test Green') {
+            steps {
+                script {
+                    def greenUrl = sh(
+                        script: "kubectl get svc ${APP}-green -n ${GREEN_NS} -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'",
+                        returnStdout: true
+                    ).trim()
+
+                    retry(5) {
+                        sleep(10)
+                        sh "curl -f http://${greenUrl}/actuator/health"
+                    }
+                    echo "Green environment is healthy at ${greenUrl}"
+                }
+            }
+        }
+
+        stage('Switch Traffic to Green') {
+            steps {
+                input message: 'Green is healthy. Switch production traffic from Blue to Green?',
+                      ok: 'Switch Now'
+
+                sh """
+                    <span class="cm"># Update main service selector to point to green pods</span>
+                    kubectl patch service ${APP}-production \
+                        -p '{"spec":{"selector":{"slot":"green"}}}' \
+                        -n production
+
+                    echo "Traffic switched to Green successfully"
+                """
+            }
+        }
+
+        stage('Decommission Blue') {
+            steps {
+                sleep(300)  <span class="cm">// Allow in-flight requests to drain (5 min)</span>
+                sh """
+                    kubectl scale deployment/${APP} \
+                        --replicas=0 \
+                        -n ${BLUE_NS}
+                    echo "Blue environment scaled down"
+                """
+            }
+        }
+    }
+
+    post {
+        failure {
+            echo "Pipeline failed — traffic remains on Blue. Green not promoted."
+        }
+    }
+}</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- JC-13 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#jc13" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">JC-13</span>
+          <span class="diff-medium me-2">Medium</span>
+          Matrix Build — Multiple Java Versions
+        </button>
+      </h2>
+      <div id="jc13" class="accordion-collapse collapse" data-bs-parent="#jenkinsAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-0" style="font-size:.93rem;">Run tests on Java 11, 17, and 21 using Jenkins matrix strategy to verify compatibility across JVM versions.</p>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Solution</div>
+          <pre class="code-block">pipeline {
+    agent none
+
+    stages {
+        stage('Matrix Tests') {
+            matrix {
+                axes {
+                    axis {
+                        name 'JAVA_VERSION'
+                        values '11', '17', '21'
+                    }
+                    axis {
+                        name 'OS'
+                        values 'linux', 'windows'
+                    }
+                }
+
+                excludes {
+                    exclude {
+                        axis {
+                            name 'OS'
+                            values 'windows'
+                        }
+                        axis {
+                            name 'JAVA_VERSION'
+                            values '11'  <span class="cm">// Don't test Java 11 on Windows</span>
+                        }
+                    }
+                }
+
+                agent {
+                    docker {
+                        image "eclipse-temurin:${JAVA_VERSION}-jdk"
+                    }
+                }
+
+                stages {
+                    stage('Build') {
+                        steps {
+                            sh 'java -version'
+                            sh 'mvn clean package -DskipTests -B'
+                        }
+                    }
+                    stage('Test') {
+                        steps {
+                            sh 'mvn test -B'
+                        }
+                        post {
+                            always {
+                                junit "target/surefire-reports/**/*.xml"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- JC-14 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#jc14" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">JC-14</span>
+          <span class="diff-hard me-2">Hard</span>
+          Automatic Rollback on Failure
+        </button>
+      </h2>
+      <div id="jc14" class="accordion-collapse collapse" data-bs-parent="#jenkinsAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-0" style="font-size:.93rem;">Add automatic rollback: if the Deploy stage fails, automatically run <code>kubectl rollout undo</code> and notify the team.</p>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Solution</div>
+          <pre class="code-block">pipeline {
+    agent any
+
+    environment {
+        APP_NAME  = 'spring-app'
+        NAMESPACE = 'production'
+        IMAGE     = "myapp:${BUILD_NUMBER}"
+    }
+
+    stages {
+        stage('Build &amp; Push') {
+            steps {
+                sh 'mvn clean package -DskipTests -B'
+                sh "docker build -t ${IMAGE} . &amp;&amp; docker push ${IMAGE}"
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                script {
+                    try {
+                        sh """
+                            kubectl set image deployment/${APP_NAME} \
+                                ${APP_NAME}=${IMAGE} \
+                                -n ${NAMESPACE}
+                            kubectl rollout status deployment/${APP_NAME} \
+                                -n ${NAMESPACE} \
+                                --timeout=180s
+                        """
+                    } catch (Exception e) {
+                        echo "Deploy failed: ${e.message} — triggering rollback"
+                        sh """
+                            kubectl rollout undo deployment/${APP_NAME} \
+                                -n ${NAMESPACE}
+                            kubectl rollout status deployment/${APP_NAME} \
+                                -n ${NAMESPACE} \
+                                --timeout=60s
+                        """
+                        slackSend channel: '#incidents', color: 'danger',
+                            message: ":rotating_light: AUTO-ROLLBACK triggered for ${APP_NAME}\nBuild: #${BUILD_NUMBER}\n${BUILD_URL}"
+                        error("Deploy failed and was rolled back")
+                    }
+                }
+            }
+        }
+
+        stage('Post-Deploy Smoke Test') {
+            steps {
+                retry(3) {
+                    sleep(15)
+                    sh "curl -f http://spring-app-svc/actuator/health"
+                }
+            }
+            post {
+                failure {
+                    sh """
+                        kubectl rollout undo deployment/${APP_NAME} -n ${NAMESPACE}
+                    """
+                    slackSend channel: '#incidents', color: 'danger',
+                        message: ":fire: Smoke test failed — AUTO-ROLLBACK for ${APP_NAME}:${BUILD_NUMBER}"
+                }
+            }
+        }
+    }
+}</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- JC-15 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#jc15" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">JC-15</span>
+          <span class="diff-hard me-2">Hard</span>
+          Build Only Changed Microservices
+        </button>
+      </h2>
+      <div id="jc15" class="accordion-collapse collapse" data-bs-parent="#jenkinsAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-0" style="font-size:.93rem;">Write a Jenkins pipeline that uses <code>git diff</code> to detect which microservices changed and only builds + deploys those — skipping unchanged services.</p>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> Solution</div>
+          <pre class="code-block">pipeline {
+    agent any
+
+    environment {
+        SERVICES = 'user-service order-service inventory-service notification-service'
+    }
+
+    stages {
+        stage('Detect Changes') {
+            steps {
+                script {
+                    <span class="cm">// Get list of changed files since last successful build</span>
+                    def changedFiles = sh(
+                        script: 'git diff --name-only HEAD~1 HEAD',
+                        returnStdout: true
+                    ).trim().split('\n')
+
+                    echo "Changed files: ${changedFiles}"
+
+                    <span class="cm">// Determine which services have changes</span>
+                    env.CHANGED_SERVICES = ''
+                    for (service in env.SERVICES.split(' ')) {
+                        def serviceChanged = changedFiles.any { it.startsWith("${service}/") }
+                        if (serviceChanged) {
+                            env.CHANGED_SERVICES += "${service} "
+                            echo "Service changed: ${service}"
+                        }
+                    }
+
+                    if (env.CHANGED_SERVICES.trim().isEmpty()) {
+                        echo "No service changes detected — skipping build"
+                        currentBuild.result = 'NOT_BUILT'
+                    } else {
+                        echo "Services to build: ${env.CHANGED_SERVICES}"
+                    }
+                }
+            }
+        }
+
+        stage('Build Changed Services') {
+            when {
+                expression { env.CHANGED_SERVICES?.trim() }
+            }
+            steps {
+                script {
+                    def buildJobs = [:]
+
+                    for (svc in env.CHANGED_SERVICES.trim().split(' ')) {
+                        def service = svc  <span class="cm">// Capture for closure</span>
+                        buildJobs[service] = {
+                            dir(service) {
+                                echo "Building ${service}"
+                                sh 'mvn clean package -DskipTests -B'
+                                sh "docker build -t myorg/${service}:${BUILD_NUMBER} ."
+                                sh "docker push myorg/${service}:${BUILD_NUMBER}"
+                            }
+                        }
+                    }
+
+                    <span class="cm">// Build all changed services in parallel</span>
+                    parallel buildJobs
+                }
+            }
+        }
+
+        stage('Deploy Changed Services') {
+            when {
+                allOf {
+                    branch 'main'
+                    expression { env.CHANGED_SERVICES?.trim() }
+                }
+            }
+            steps {
+                script {
+                    for (svc in env.CHANGED_SERVICES.trim().split(' ')) {
+                        sh """
+                            kubectl set image deployment/${svc} \
+                                ${svc}=myorg/${svc}:${BUILD_NUMBER} \
+                                -n production
+                            kubectl rollout status deployment/${svc} \
+                                -n production --timeout=180s
+                        """
+                    }
+                }
+            }
+        }
+    }
+}</pre>
+          <div class="info-panel">
+            <div class="ip-title"><i class="bi bi-speedometer2 me-1"></i>Monorepo Optimization</div>
+            This pattern is essential in monorepos with many microservices. Without change detection, every commit rebuilds all services — wasting 10-20 minutes per build. With change detection, only the 1-2 changed services are built, reducing CI time to under 3 minutes.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end jenkinsAccordion -->
+</div><!-- end jenkins-panel -->
+
+<!-- ╔══════════════════════════════════════════════════════════════╗
+     ║                AWS + SHELL CHALLENGES                       ║
+     ╚══════════════════════════════════════════════════════════════╝ -->
+<div class="tab-pane fade" id="aws-panel" role="tabpanel">
+  <div class="section-header-tab"><i class="bi bi-cloud me-2" style="color:#059669;"></i>AWS + Shell Coding Challenges</div>
+  <div class="accordion" id="awsAccordion">
+
+    <!-- AC-01 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#ac01" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">AC-01</span>
+          <span class="diff-medium me-2">Medium</span>
+          S3 Artifact Upload Script
+        </button>
+      </h2>
+      <div id="ac01" class="accordion-collapse collapse" data-bs-parent="#awsAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Write a bash script that:</p>
+            <ul class="req-list">
+              <li>Builds the JAR via Maven</li>
+              <li>Creates S3 bucket if it does not already exist</li>
+              <li>Uploads the JAR with build number in the S3 path</li>
+              <li>Prints the full S3 URL on success</li>
+            </ul>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> upload-to-s3.sh</div>
+          <pre class="code-block">#!/bin/bash
+set -euo pipefail
+
+<span class="cm"># ── Configuration ────────────────────────────────────────────</span>
+APP_NAME="${APP_NAME:-spring-app}"
+BUILD_NUMBER="${BUILD_NUMBER:-$(date +%Y%m%d%H%M%S)}"
+S3_BUCKET="${S3_BUCKET:?S3_BUCKET env var required}"
+AWS_REGION="${AWS_REGION:-us-west-2}"
+S3_KEY="artifacts/${APP_NAME}/${BUILD_NUMBER}/${APP_NAME}.jar"
+
+<span class="cm"># ── Build JAR ────────────────────────────────────────────────</span>
+echo "==> Building JAR..."
+mvn clean package -DskipTests -B -q
+
+JAR_FILE=$(find target -name "*.jar" -not -name "*sources*" | head -1)
+if [[ -z "${JAR_FILE}" ]]; then
+    echo "ERROR: No JAR file found in target/"
+    exit 1
+fi
+echo "==> JAR built: ${JAR_FILE}"
+
+<span class="cm"># ── Ensure S3 Bucket Exists ───────────────────────────────────</span>
+echo "==> Checking bucket: ${S3_BUCKET}"
+if ! aws s3 ls "s3://${S3_BUCKET}" --region "${AWS_REGION}" &>/dev/null; then
+    echo "==> Creating bucket: ${S3_BUCKET}"
+    aws s3 mb "s3://${S3_BUCKET}" --region "${AWS_REGION}"
+    <span class="cm"># Enable versioning</span>
+    aws s3api put-bucket-versioning \
+        --bucket "${S3_BUCKET}" \
+        --versioning-configuration Status=Enabled \
+        --region "${AWS_REGION}"
+    echo "==> Bucket created and versioning enabled"
+else
+    echo "==> Bucket already exists"
+fi
+
+<span class="cm"># ── Upload JAR ────────────────────────────────────────────────</span>
+echo "==> Uploading ${JAR_FILE} to s3://${S3_BUCKET}/${S3_KEY}"
+aws s3 cp "${JAR_FILE}" "s3://${S3_BUCKET}/${S3_KEY}" \
+    --region "${AWS_REGION}" \
+    --metadata "build-number=${BUILD_NUMBER},app=${APP_NAME}"
+
+S3_URL="https://${S3_BUCKET}.s3.${AWS_REGION}.amazonaws.com/${S3_KEY}"
+echo ""
+echo "==> Upload successful!"
+echo "    S3 URL: ${S3_URL}"</pre>
+          <div class="info-panel">
+            <div class="ip-title"><i class="bi bi-shield-lock me-1"></i>IAM Requirements</div>
+            The script requires IAM permissions: <code>s3:CreateBucket</code>, <code>s3:PutObject</code>, <code>s3:ListBucket</code>, <code>s3:PutBucketVersioning</code>. In CI/CD, inject <code>AWS_ACCESS_KEY_ID</code> and <code>AWS_SECRET_ACCESS_KEY</code> from your secrets store — never hardcode them.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AC-02 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#ac02" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">AC-02</span>
+          <span class="diff-medium me-2">Medium</span>
+          ECR Push Script
+        </button>
+      </h2>
+      <div id="ac02" class="accordion-collapse collapse" data-bs-parent="#awsAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Write a bash script that:</p>
+            <ul class="req-list">
+              <li>Authenticates with Amazon ECR</li>
+              <li>Builds the Docker image</li>
+              <li>Tags with both git SHA and <code>latest</code></li>
+              <li>Pushes both tags</li>
+            </ul>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> ecr-push.sh</div>
+          <pre class="code-block">#!/bin/bash
+set -euo pipefail
+
+<span class="cm"># ── Configuration ────────────────────────────────────────────</span>
+AWS_REGION="${AWS_REGION:-us-west-2}"
+AWS_ACCOUNT_ID="${AWS_ACCOUNT_ID:?AWS_ACCOUNT_ID env var required}"
+ECR_REPO="${ECR_REPO:-spring-app}"
+ECR_REGISTRY="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
+GIT_SHA=$(git rev-parse --short HEAD)
+
+SHA_TAG="${ECR_REGISTRY}/${ECR_REPO}:${GIT_SHA}"
+LATEST_TAG="${ECR_REGISTRY}/${ECR_REPO}:latest"
+
+<span class="cm"># ── ECR Login ─────────────────────────────────────────────────</span>
+echo "==> Logging into ECR: ${ECR_REGISTRY}"
+aws ecr get-login-password --region "${AWS_REGION}" \
+    | docker login \
+        --username AWS \
+        --password-stdin \
+        "${ECR_REGISTRY}"
+
+<span class="cm"># ── Ensure ECR Repository Exists ─────────────────────────────</span>
+echo "==> Ensuring ECR repository exists: ${ECR_REPO}"
+aws ecr describe-repositories \
+    --repository-names "${ECR_REPO}" \
+    --region "${AWS_REGION}" &>/dev/null || \
+aws ecr create-repository \
+    --repository-name "${ECR_REPO}" \
+    --region "${AWS_REGION}" \
+    --image-scanning-configuration scanOnPush=true \
+    --encryption-configuration encryptionType=AES256
+
+<span class="cm"># ── Build Docker Image ────────────────────────────────────────</span>
+echo "==> Building Docker image: ${SHA_TAG}"
+docker build \
+    --build-arg BUILD_DATE="$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+    --build-arg GIT_SHA="${GIT_SHA}" \
+    -t "${SHA_TAG}" \
+    -t "${LATEST_TAG}" \
+    .
+
+<span class="cm"># ── Push Both Tags ────────────────────────────────────────────</span>
+echo "==> Pushing ${SHA_TAG}"
+docker push "${SHA_TAG}"
+
+echo "==> Pushing ${LATEST_TAG}"
+docker push "${LATEST_TAG}"
+
+<span class="cm"># ── Cleanup Local Images ─────────────────────────────────────</span>
+docker rmi "${SHA_TAG}" "${LATEST_TAG}" || true
+
+echo ""
+echo "==> Done! Images available at:"
+echo "    ${SHA_TAG}"
+echo "    ${LATEST_TAG}"</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- AC-03 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#ac03" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">AC-03</span>
+          <span class="diff-hard me-2">Hard</span>
+          Full Deploy Script — ECR + EKS
+        </button>
+      </h2>
+      <div id="ac03" class="accordion-collapse collapse" data-bs-parent="#awsAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Write a complete <code>deploy.sh</code> that orchestrates the full pipeline:</p>
+            <ul class="req-list">
+              <li>Build JAR → Build Docker → Push to ECR → Update EKS deployment</li>
+              <li>Wait for rollout completion</li>
+              <li>Report success or failure with automatic rollback on error</li>
+              <li>Full error handling with <code>set -e</code> and <code>trap</code></li>
+            </ul>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> deploy.sh</div>
+          <pre class="code-block">#!/bin/bash
+set -euo pipefail
+
+<span class="cm"># ── Configuration ────────────────────────────────────────────</span>
+APP_NAME="${APP_NAME:?APP_NAME required}"
+AWS_REGION="${AWS_REGION:-us-west-2}"
+AWS_ACCOUNT_ID="${AWS_ACCOUNT_ID:?AWS_ACCOUNT_ID required}"
+EKS_CLUSTER="${EKS_CLUSTER:?EKS_CLUSTER required}"
+K8S_NAMESPACE="${K8S_NAMESPACE:-production}"
+ECR_REGISTRY="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
+GIT_SHA=$(git rev-parse --short HEAD)
+IMAGE="${ECR_REGISTRY}/${APP_NAME}:${GIT_SHA}"
+
+<span class="cm"># ── Trap for automatic rollback on failure ───────────────────</span>
+rollback() {
+    echo ""
+    echo "!!! DEPLOY FAILED — triggering rollback !!!"
+    kubectl rollout undo "deployment/${APP_NAME}" \
+        --namespace="${K8S_NAMESPACE}" || true
+    kubectl rollout status "deployment/${APP_NAME}" \
+        --namespace="${K8S_NAMESPACE}" \
+        --timeout=60s || true
+    echo "Rollback complete. Previous version restored."
+    exit 1
+}
+trap rollback ERR
+
+<span class="cm"># ── Step 1: Build JAR ────────────────────────────────────────</span>
+echo "[1/6] Building JAR..."
+mvn clean package -DskipTests -B -q
+echo "      JAR built successfully"
+
+<span class="cm"># ── Step 2: ECR Login ─────────────────────────────────────────</span>
+echo "[2/6] Logging into ECR..."
+aws ecr get-login-password --region "${AWS_REGION}" \
+    | docker login --username AWS \
+        --password-stdin "${ECR_REGISTRY}"
+
+<span class="cm"># ── Step 3: Build Docker Image ───────────────────────────────</span>
+echo "[3/6] Building Docker image: ${IMAGE}"
+docker build -t "${IMAGE}" .
+
+<span class="cm"># ── Step 4: Push to ECR ──────────────────────────────────────</span>
+echo "[4/6] Pushing image to ECR..."
+docker push "${IMAGE}"
+docker rmi "${IMAGE}" || true
+
+<span class="cm"># ── Step 5: Update kubeconfig and deploy ─────────────────────</span>
+echo "[5/6] Updating kubeconfig for cluster: ${EKS_CLUSTER}"
+aws eks update-kubeconfig \
+    --name "${EKS_CLUSTER}" \
+    --region "${AWS_REGION}"
+
+echo "      Deploying ${IMAGE} to ${K8S_NAMESPACE}/${APP_NAME}"
+kubectl set image "deployment/${APP_NAME}" \
+    "${APP_NAME}=${IMAGE}" \
+    --namespace="${K8S_NAMESPACE}"
+
+<span class="cm"># ── Step 6: Wait for rollout ─────────────────────────────────</span>
+echo "[6/6] Waiting for rollout (timeout: 5 min)..."
+kubectl rollout status "deployment/${APP_NAME}" \
+    --namespace="${K8S_NAMESPACE}" \
+    --timeout=300s
+
+<span class="cm"># ── Success ──────────────────────────────────────────────────</span>
+echo ""
+echo "=================================================="
+echo " DEPLOY SUCCESSFUL"
+echo " App:       ${APP_NAME}"
+echo " Image:     ${IMAGE}"
+echo " Namespace: ${K8S_NAMESPACE}"
+echo " Cluster:   ${EKS_CLUSTER}"
+echo "=================================================="
+kubectl get pods -n "${K8S_NAMESPACE}" -l "app=${APP_NAME}"</pre>
+          <div class="ans-label key"><i class="bi bi-lightbulb"></i> Error Handling Pattern</div>
+          <ul class="ans-list green">
+            <li><i class="bi bi-check-circle-fill" style="color:#059669;flex-shrink:0;"></i><code>set -e</code> — exit immediately if any command fails</li>
+            <li><i class="bi bi-check-circle-fill" style="color:#059669;flex-shrink:0;"></i><code>set -u</code> — exit if undefined variable is used</li>
+            <li><i class="bi bi-check-circle-fill" style="color:#059669;flex-shrink:0;"></i><code>set -o pipefail</code> — pipe returns the exit code of the first failed command</li>
+            <li><i class="bi bi-check-circle-fill" style="color:#059669;flex-shrink:0;"></i><code>trap rollback ERR</code> — rollback function runs automatically on any error</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- AC-04 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#ac04" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">AC-04</span>
+          <span class="diff-hard me-2">Hard</span>
+          Health Check Monitoring Script
+        </button>
+      </h2>
+      <div id="ac04" class="accordion-collapse collapse" data-bs-parent="#awsAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Write a monitoring script that:</p>
+            <ul class="req-list">
+              <li>Polls the app health endpoint every 30 seconds</li>
+              <li>Logs result with timestamp to a file</li>
+              <li>Sends an alert via webhook if 3 consecutive failures occur</li>
+              <li>Resets the failure counter on success</li>
+            </ul>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> health-monitor.sh</div>
+          <pre class="code-block">#!/bin/bash
+set -euo pipefail
+
+<span class="cm"># ── Configuration ────────────────────────────────────────────</span>
+HEALTH_URL="${HEALTH_URL:?HEALTH_URL env var required}"
+WEBHOOK_URL="${WEBHOOK_URL:-}"          <span class="cm"># Slack/PagerDuty webhook</span>
+APP_NAME="${APP_NAME:-my-app}"
+CHECK_INTERVAL="${CHECK_INTERVAL:-30}"  <span class="cm"># seconds</span>
+FAILURE_THRESHOLD="${FAILURE_THRESHOLD:-3}"
+LOG_FILE="${LOG_FILE:-/var/log/${APP_NAME}-health.log}"
+
+<span class="cm"># ── State ────────────────────────────────────────────────────</span>
+consecutive_failures=0
+
+<span class="cm"># ── Functions ────────────────────────────────────────────────</span>
+log() {
+    local timestamp
+    timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    echo "[${timestamp}] $*" | tee -a "${LOG_FILE}"
+}
+
+send_alert() {
+    local message="$1"
+    log "ALERT: ${message}"
+    if [[ -n "${WEBHOOK_URL}" ]]; then
+        curl -s -X POST "${WEBHOOK_URL}" \
+            -H 'Content-Type: application/json' \
+            -d "{\"text\": \":red_circle: *HEALTH ALERT* — ${APP_NAME}\n${message}\"}" \
+            || log "WARNING: Failed to send webhook alert"
+    fi
+}
+
+check_health() {
+    local http_code
+    http_code=$(curl -s -o /dev/null -w "%{http_code}" \
+        --max-time 10 \
+        "${HEALTH_URL}" 2>/dev/null || echo "000")
+    echo "${http_code}"
+}
+
+<span class="cm"># ── Main monitoring loop ──────────────────────────────────────</span>
+log "Starting health monitor for ${APP_NAME}"
+log "Health URL: ${HEALTH_URL}"
+log "Check interval: ${CHECK_INTERVAL}s | Failure threshold: ${FAILURE_THRESHOLD}"
+
+while true; do
+    http_code=$(check_health)
+
+    if [[ "${http_code}" == "200" ]]; then
+        if [[ ${consecutive_failures} -gt 0 ]]; then
+            log "RECOVERED after ${consecutive_failures} failures (HTTP 200)"
+            send_alert "Service RECOVERED after ${consecutive_failures} consecutive failures"
+        else
+            log "OK (HTTP 200)"
+        fi
+        consecutive_failures=0
+    else
+        consecutive_failures=$((consecutive_failures + 1))
+        log "UNHEALTHY (HTTP ${http_code}) — failure ${consecutive_failures}/${FAILURE_THRESHOLD}"
+
+        if [[ ${consecutive_failures} -ge ${FAILURE_THRESHOLD} ]]; then
+            send_alert "${consecutive_failures} consecutive health check failures!\nURL: ${HEALTH_URL}\nLast HTTP code: ${http_code}"
+        fi
+    fi
+
+    sleep "${CHECK_INTERVAL}"
+done</pre>
+          <div class="info-panel">
+            <div class="ip-title"><i class="bi bi-terminal me-1"></i>Running as a Service</div>
+            Run as a systemd service or Docker container with restart policy <code>always</code>. Pass <code>HEALTH_URL</code>, <code>WEBHOOK_URL</code>, and <code>APP_NAME</code> as environment variables. Log rotation can be handled by <code>logrotate</code> on the host.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AC-05 -->
+    <div class="accordion-item border mb-3" style="border-radius:12px;overflow:hidden;">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed fw-600" type="button" data-bs-toggle="collapse" data-bs-target="#ac05" style="font-family:'Inter',sans-serif;">
+          <span class="challenge-num">AC-05</span>
+          <span class="diff-hard me-2">Hard</span>
+          Database Backup to S3
+        </button>
+      </h2>
+      <div id="ac05" class="accordion-collapse collapse" data-bs-parent="#awsAccordion">
+        <div class="accordion-body">
+          <div class="task-box">
+            <div class="task-title"><i class="bi bi-bullseye me-1"></i>Task</div>
+            <p class="mb-1" style="font-size:.93rem;">Write a backup script that:</p>
+            <ul class="req-list">
+              <li>Dumps PostgreSQL database with <code>pg_dump</code></li>
+              <li>Compresses the dump with gzip</li>
+              <li>Uploads to S3 with date in the filename</li>
+              <li>Deletes the local dump file to save disk space</li>
+              <li>Deletes S3 backups older than 30 days</li>
+              <li>Prints the final S3 path</li>
+            </ul>
+          </div>
+          <div class="ans-label def"><i class="bi bi-code-slash"></i> backup.sh</div>
+          <pre class="code-block">#!/bin/bash
+set -euo pipefail
+
+<span class="cm"># ── Configuration ────────────────────────────────────────────</span>
+PGHOST="${PGHOST:?PGHOST required}"
+PGPORT="${PGPORT:-5432}"
+PGDATABASE="${PGDATABASE:?PGDATABASE required}"
+PGUSER="${PGUSER:?PGUSER required}"
+PGPASSWORD="${PGPASSWORD:?PGPASSWORD required}"
+
+S3_BUCKET="${S3_BUCKET:?S3_BUCKET required}"
+AWS_REGION="${AWS_REGION:-us-west-2}"
+RETENTION_DAYS="${RETENTION_DAYS:-30}"
+
+TIMESTAMP=$(date '+%Y%m%d_%H%M%S')
+DATE=$(date '+%Y/%m/%d')
+DUMP_FILENAME="${PGDATABASE}_${TIMESTAMP}.sql.gz"
+TMP_FILE="/tmp/${DUMP_FILENAME}"
+S3_KEY="backups/${PGDATABASE}/${DATE}/${DUMP_FILENAME}"
+
+export PGPASSWORD
+
+<span class="cm"># ── Trap: always clean up temp file ──────────────────────────</span>
+cleanup() {
+    rm -f "${TMP_FILE}" || true
+}
+trap cleanup EXIT
+
+<span class="cm"># ── Step 1: Dump and compress ────────────────────────────────</span>
+echo "[1/4] Dumping database: ${PGDATABASE}@${PGHOST}:${PGPORT}"
+pg_dump \
+    --host="${PGHOST}" \
+    --port="${PGPORT}" \
+    --username="${PGUSER}" \
+    --dbname="${PGDATABASE}" \
+    --format=plain \
+    --no-password \
+    --verbose \
+    2>/dev/null \
+    | gzip > "${TMP_FILE}"
+
+DUMP_SIZE=$(du -sh "${TMP_FILE}" | cut -f1)
+echo "      Dump complete: ${TMP_FILE} (${DUMP_SIZE})"
+
+<span class="cm"># ── Step 2: Upload to S3 ─────────────────────────────────────</span>
+echo "[2/4] Uploading to s3://${S3_BUCKET}/${S3_KEY}"
+aws s3 cp "${TMP_FILE}" "s3://${S3_BUCKET}/${S3_KEY}" \
+    --region "${AWS_REGION}" \
+    --storage-class STANDARD_IA \
+    --metadata "database=${PGDATABASE},timestamp=${TIMESTAMP}"
+
+<span class="cm"># ── Step 3: Delete local dump (cleanup via trap) ─────────────</span>
+echo "[3/4] Removing local dump file"
+
+<span class="cm"># ── Step 4: Remove old S3 backups ────────────────────────────</span>
+echo "[4/4] Removing S3 backups older than ${RETENTION_DAYS} days"
+CUTOFF_DATE=$(date -d "${RETENTION_DAYS} days ago" '+%Y-%m-%d' 2>/dev/null || \
+              date -v "-${RETENTION_DAYS}d" '+%Y-%m-%d')
+
+aws s3 ls "s3://${S3_BUCKET}/backups/${PGDATABASE}/" \
+    --recursive \
+    --region "${AWS_REGION}" \
+    | awk '{print $4}' \
+    | while read -r key; do
+        file_date=$(echo "${key}" | grep -oP '\d{4}/\d{2}/\d{2}' | tr '/' '-' || true)
+        if [[ -n "${file_date}" &amp;&amp; "${file_date}" < "${CUTOFF_DATE}" ]]; then
+            echo "    Deleting old backup: ${key}"
+            aws s3 rm "s3://${S3_BUCKET}/${key}" --region "${AWS_REGION}"
+        fi
+    done
+
+<span class="cm"># ── Summary ──────────────────────────────────────────────────</span>
+echo ""
+echo "=================================================="
+echo " BACKUP SUCCESSFUL"
+echo " Database:  ${PGDATABASE}"
+echo " Size:      ${DUMP_SIZE}"
+echo " S3 Path:   s3://${S3_BUCKET}/${S3_KEY}"
+echo "=================================================="</pre>
+          <div class="ans-label key"><i class="bi bi-lightbulb"></i> Production Setup</div>
+          <ul class="ans-list green">
+            <li><i class="bi bi-check-circle-fill" style="color:#059669;flex-shrink:0;"></i>Schedule via <strong>cron</strong>: <code>0 2 * * * /opt/scripts/backup.sh</code> (2 AM daily)</li>
+            <li><i class="bi bi-check-circle-fill" style="color:#059669;flex-shrink:0;"></i>Use <strong>S3 Lifecycle rules</strong> as a safety net on top of the script's retention logic</li>
+            <li><i class="bi bi-check-circle-fill" style="color:#059669;flex-shrink:0;"></i>Store <code>PGPASSWORD</code> in AWS Secrets Manager — retrieve at runtime, not in crontab</li>
+            <li><i class="bi bi-check-circle-fill" style="color:#059669;flex-shrink:0;"></i><code>STANDARD_IA</code> storage class for infrequently accessed backups saves ~40% cost vs STANDARD</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end awsAccordion -->
+</div><!-- end aws-panel -->
+
+  </div><!-- end tab-content -->
+</main>
+
+<!-- ═══════════════════════════════════════════════ FOOTER ═══ -->
+<footer style="background:#1e2235;color:#9ca3af;padding:2rem 0;margin-top:3rem;">
+  <div class="container px-4 text-center">
+    <div style="font-family:'Inter',sans-serif;font-size:.85rem;">
+      <strong style="color:#fff;">DevOps Mastery Hub</strong> — Coding Challenges Reference
+    </div>
+    <div style="font-size:.78rem;margin-top:.4rem;">
+      Docker &middot; Kubernetes &middot; Jenkins &middot; AWS &middot; Shell Scripting
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
